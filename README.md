@@ -13,4 +13,4 @@
 
 - Cloner le repository
 - Lancer la commande " composer install " à la racine du projet.
-- Lancez la commande " npm install " à la racine du projet.
+- Lancer la commande " npm install " à la racine du projet.
