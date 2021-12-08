@@ -1,4 +1,8 @@
-home: 'Accueil'
-tricks: 'Figure'
-login: 'Connexion'
-register: 'Inscription'
+nav:
+  home: 'Accueil'
+  tricks: 'Figures'
+  login: 'Connexion'
+  register: 'Inscription'
+
+home:
+  accroche: 'Apprenez sans vous geler !'
