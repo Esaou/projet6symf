@@ -10,6 +10,6 @@ import './styles/app.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // start the Stimulus application
-
-import 'bootstrap/dist/js/bootstrap.min';
-import './js/Test';
+import 'jquery';
+global.$ = global.jQuery = $;
+import 'bootstrap/dist/js/bootstrap.min.js';

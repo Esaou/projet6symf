@@ -1,3 +1,142 @@
-body {
-    background-color: red;
+/* NAV */
+
+.nav {
+    background-color: white;
+    width: 100%;
+}
+
+.title {
+    text-decoration: none;
+    color: rgb(100, 100, 100);
+    font-size: 17px;
+    margin-right: 20px;
+}
+
+.btnsNav {
+    margin-right: 20px;
+}
+
+.subtitle {
+    text-decoration: none;
+    color: rgb(100, 100, 100);
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid rgba(100, 100, 100, 0.4);
+    font-size: 14px;
+    font-family: sans-serif;
+    display: inline-block;
+    transition: color 100ms linear, border 100ms linear;
+    padding: 7px 20px 7px 20px;
+    border-radius: 4px;
+    margin-left: 10px;
+}
+
+.subtitle:hover {
+    color: blue;
+    border: 1px solid rgba(100, 100, 100, 0.6);
+}
+
+.subtitleRdv {
+    text-decoration: none;
+    color: white !important;
+    background-color: rgba(0, 199, 12, 1);
+    font-size: 14px;
+    font-family: sans-serif;
+    display: inline-block;
+    transition: color 200ms linear, box-shadow 200ms linear, background-color 200ms linear;
+    padding: 7px;
+    padding-right: 20px;
+    padding-left: 20px;
+    border-radius: 4px;
+    box-shadow: 0 0 5px rgba(100, 100, 100, 0.3);
+}
+
+.subtitleRdv:hover {
+    background-color: rgba(0, 179, 12, 1);
+    box-shadow: 0 0 5px rgba(100, 100, 100, 0.5);
+}
+
+.navbar-toggler:focus {
+    box-shadow: none !important;
+}
+
+.responsiveNav ul li a,
+.responsiveNav ul li label {
+    padding-left: 10px;
+    padding-right: 10px;
+    transition: color 200ms linear;
+    border-radius: 4px;
+    font-family: sans-serif;
+    color: rgb(100, 100, 100);
+}
+
+.responsiveNav ul li a:hover,
+.responsiveNav ul li label:hover {
+    color: blue;
+}
+
+.responsiveNav {
+    display: none;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(100, 100, 100, 0.5);
+    color: rgb(100, 100, 100);
+}
+
+@media screen and (max-width: 1150px) {
+    .padMain {
+        padding-top: 100px;
+    }
+
+    .nav {
+        display: none !important;
+    }
+
+    .titleNav {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-left: 10px;
+    }
+
+    .responsiveNav {
+        display: block;
+        z-index: 1000 !important;
+    }
+}
+
+/* HOMEPAGE */
+
+.blocImageHome {
+    width: 100%;
+    height: 95vh;
+    position: relative;
+}
+
+.blocImageHome img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.overlay {
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(50,50,50,0.4);
+    z-index: 100;
+}
+
+.arrowHome {
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+    z-index: 150;
+    font-size: 60px;
+    color: white;
+    border-radius: 50%;
+    box-shadow: 0px 0px 15px rgba(50,50,50,0.5);
 }

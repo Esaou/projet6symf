@@ -1,7 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ 'home'|trans }}{% endblock %}
+{% block title %}SnowTricks{% endblock %}
 
 {% block body %}
-    <div class="container bg-white mt-4 border border-secondary" style="height: 200px"></div>
+    <div class="blocImageHome">
+        <img src="{{ asset('images/home.jpg') }}" alt="home">
+        <div class="overlay"></div>
+        <i class="fas fa-arrow-circle-down arrowHome"></i>
+    </div>
 {% endblock %}
