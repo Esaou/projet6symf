@@ -74,11 +74,18 @@ class AppFixtures extends Fixture
                 // Create 2 images for each figure
 
                 for ($i=1;$i <= 2;$i++) {
+
+                    $main = false;
+
+                    if ($i != 1){
+                        $main = true;
+                    }
+
                     $image = new Image();
                     $image
                         ->setFigure($figure)
                         ->setFilename("https://cdn.futura-sciences.com/buildsv6/images/wide1920/c/0/b/c0b199d73b_120515_lexique-snowboard.jpg")
-                        ->setMain(false);
+                        ->setMain($main);
 
                     $manager->persist($image);
                 }
