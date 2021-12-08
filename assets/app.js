@@ -11,7 +11,5 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 // start the Stimulus application
 
-import $ from 'jquery';
-global.$ = global.jQuery = $;
 import 'bootstrap/dist/js/bootstrap.min';
 import './js/Test';
