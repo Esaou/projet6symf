@@ -1,7 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ 'home'|trans }}{% endblock %}
+{% block title %}SnowTricks{% endblock %}
 
 {% block body %}
-    <div class="container bg-white mt-4 border border-secondary" style="height: 200px"></div>
+    <div class="blocImageHome">
+        <img src="{{ asset('images/home.jpg') }}" alt="home">
+        <div class="overlay"></div>
+        <div class="blocAccroche">
+            <p class="accroche">{{ 'home.accroche'|trans }}</p>
+        </div>
+        <a href="#figures"><i class="fas fa-arrow-circle-down arrowHome"></i></a>
+    </div>
+    <div class="container-fluid pt-5 pb-5" id="figures">
+        {% for figure in figures %}
+        <div class="card mb-5">
+            <a href="">
+                <div class="card-image">
+                    <img src="{% for image in figure.images %}{% if image.main == true %}{{ asset(image.filename) }}{% endif %}{% endfor %}" alt="" />
+                    <div class="overlayCard"></div>
+                </div>
+            </a>
+                <div class="card-body">
+                    <div class="card-title">
+                        <h3>{{ figure.name }}</h3>
+                        <div>
+                            <a href="" style="margin-right: 10px"><i class="fas fa-pen text-primary"></i></a>
+                            <a href=""><i class="fas fa-trash text-danger"></i></a>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        {% endfor %}
+    </div>
 {% endblock %}
