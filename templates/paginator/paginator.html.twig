@@ -1,0 +1,23 @@
+{% if routeParameters is not null %}
+    {% for key,value in routeParameters %}
+        {% if nbResults != nbAllResults%}
+                <div class="paginator pb-5 pt-2" id="paginator">
+                    <a href="{{ path(route,{ (key) : value,'nbEntities' : (nbResults + nbAddResults),'_fragment': 'paginator' }) }}" class="btnPaginator">{{ 'paginator.next'|trans }} <small>( {{ nbResults }} {{ 'paginator.results'|trans }} )</small></a>
+                </div>
+        {% else %}
+            <div class="paginator pb-5 pt-2" id="paginator">
+                <a href="{{ path(route,{ (key) : value,'_fragment': 'paginator'}) }}" class="btnPaginator">{{ 'paginator.previous'|trans }} <small>( {{ nbResults }} {{ 'paginator.results'|trans }} )</small></a>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% else %}
+    {% if nbResults != nbAllResults%}
+        <div class="paginator pb-5 pt-2" id="paginator">
+            <a href="{{ path(route,{'nbEntities' : (nbResults + nbAddResults),'_fragment': 'paginator'}) }}" class="btnPaginator">{{ 'paginator.next'|trans }} <small>( {{ nbResults }} {{ 'paginator.results'|trans }} )</small></a>
+        </div>
+    {% else %}
+        <div class="paginator pb-5 pt-2" id="paginator">
+            <a href="{{ path(route,{'_fragment': 'paginator'}) }}" class="btnPaginator">{{ 'paginator.previous'|trans }} <small>( {{ nbResults }} {{ 'paginator.results'|trans }} )</small></a>
+        </div>
+    {% endif %}
+{% endif %}

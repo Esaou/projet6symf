@@ -11,10 +11,10 @@
         </div>
         <a href="#figures"><i class="fas fa-arrow-circle-down arrowHome"></i></a>
     </div>
-    <div class="container-fluid pt-5 pb-5" id="figures">
+    <div class="container-fluid pt-5" id="figures">
         {% for figure in figures %}
         <div class="card mb-5">
-            <a href="">
+            <a href="{{ path('figure',{'slug':figure.slug}) }}">
                 <div class="card-image">
                     <img src="{% for image in figure.images %}{% if image.main == true %}{{ asset(image.filename) }}{% endif %}{% endfor %}" alt="" />
                     <div class="overlayCard"></div>
@@ -32,4 +32,6 @@
         </div>
         {% endfor %}
     </div>
+    {{ paginator|raw }}
+    <a href="#figures"><i class="fas fa-arrow-circle-up arrowPaginator"></i></a>
 {% endblock %}

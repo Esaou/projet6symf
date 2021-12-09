@@ -6,3 +6,15 @@ nav:
 
 home:
   accroche: 'Apprenez sans vous geler !'
+
+paginator:
+  next: 'Afficher plus'
+  previous: 'Afficher moins'
+  results: 'résultats'
+
+showFigure:
+  add: 'Ajoutée le'
+  edit: 'Modifiée le'
+  message: 'Message'
+  sendMessage: 'Laisser mon message'
+  confirmPost: 'Message posté avec succès'
