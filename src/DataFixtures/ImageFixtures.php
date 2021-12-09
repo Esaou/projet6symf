@@ -8,7 +8,6 @@ use App\Repository\FigureRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\HttpKernel\KernelInterface;
 
 class ImageFixtures extends Fixture  implements DependentFixtureInterface
 {
@@ -50,7 +49,7 @@ class ImageFixtures extends Fixture  implements DependentFixtureInterface
 
         // Create 20 images
 
-        $this->generateImages(20);
+        $this->generateImages(40);
 
         $manager->flush();
     }
@@ -59,23 +58,27 @@ class ImageFixtures extends Fixture  implements DependentFixtureInterface
 
         for ($i=0;$i < $number;$i++) {
 
-            /** @var Figure $figure */
-            $figure = $this->getReference("figure".$i);
-
-            $photos = $figure->getImages();
-
             $main = true;
 
-            foreach ($photos as $photo) {
-                if ($photo->getMain() === true) {
-                    $main = false;
-                }
+            if ($i >= 20) {
+                /** @var Figure $figure */
+                $figure = $this->getReference("figure".mt_rand(0,19));
+                $main = false;
+            } else {
+                /** @var Figure $figure */
+                $figure = $this->getReference("figure".$i);
+            }
+
+            if ($i >= 20) {
+                $filename = $this->images[mt_rand(0,19)];
+            } else {
+                $filename = $this->images[$i];
             }
 
             $image = new Image();
             $image
                 ->setFigure($figure)
-                ->setFilename($this->pathToDirectory . $this->images[$i])
+                ->setFilename($this->pathToDirectory . $filename)
                 ->setMain($main);
 
             $this->addReference("image$i",$image);
