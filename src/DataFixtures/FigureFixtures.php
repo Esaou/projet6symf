@@ -15,23 +15,23 @@ class FigureFixtures extends Fixture implements DependentFixtureInterface
 
     private array $figures = [
         [
-          'name' => '180',
+          'name' => 'Rotation 180',
           'description' => 'Effectuer un demi-tour sur soi-même en l\'air',
         ],
         [
-            'name' => '360',
+            'name' => 'Rotation 360',
             'description' => 'Effectuer un tour sur soi-même en l\'air',
         ],
         [
-            'name' => '540',
+            'name' => 'Rotation 540',
             'description' => 'Effectuer un tour et demi sur soi-même en l\'air',
         ],
         [
-            'name' => '720',
+            'name' => 'Rotation 720',
             'description' => 'Effectuer deux tours sur soi-même en l\'air',
         ],
         [
-            'name' => '810',
+            'name' => 'Rotation 810',
             'description' => 'Effectuer deux tours et demi sur soi-même en l\'air',
         ],
         [

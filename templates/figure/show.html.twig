@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SnowTricks{% endblock %}
+
+{% block body %}
+    <div class="overlayShow">
+    </div>
+    <div class="container mt-5 mb-5 blocShow">
+        <div class="imgBlocShow">
+            {% for image in figure.images %}
+                {% if image.main == true %}
+                    <img src="{{ asset(image.filename) }}" alt="{{ figure.name }}" class="imgShow">
+                {% endif %}
+            {% endfor %}
+            <div class="nameShow">
+                <h5>{{ figure.name }}</h5>
+            </div>
+            <div class="btnAdminShow">
+                <a href="" style="margin-right: 15px"><i class="fas fa-pen text-primary"></i></a>
+                <a href=""><i class="fas fa-trash text-danger"></i></a>
+            </div>
+        </div>
+        <div class="imagesList">
+            {% for image in figure.images %}
+                    <img src="{{ asset(image.filename) }}" alt="{{ figure.name }}" class="imgList">
+            {% endfor %}
+            {% for video in figure.videos %}
+            <iframe class="videoList"
+                    src="{{ video.url }}">
+            </iframe>
+            {% endfor %}
+        </div>
+        <div class="p-5 pt-2 descriptionShow">
+            <div>
+                <p>{{ figure.description }}</p>
+            </div>
+            <div class="text-center mt-4">
+                <span class="badgePersoGreen">{{ 'showFigure.add'|trans }} {{ figure.createdAt|date('d/m/Y') }} à {{ figure.createdAt|date('H') }}h{{ figure.createdAt|date('i') }}</span>
+                {% if figure.updatedAt is not null %}
+                <span class="badgePerso">{{ 'showFigure.edit'|trans }} {{ figure.createdAt|date('d/m/Y') }} à {{ figure.createdAt|date('H') }}h{{ figure.createdAt|date('i') }}</span>
+                {% endif %}
+                <span class="badgePersoDanger">{{ figure.category.name }}</span>
+            </div>
+        </div>
+        <div class="p-5" style="padding-bottom: 0px!important;">
+            {{ form(formMessage) }}
+        </div>
+        <div class="p-5" id="messages">
+            {% for message in messages %}
+                <div class="blocShowOneComment mb-3 pt-4">
+                    <div class="pb-3 text-blue">
+                        {% if message.user.username is not null %}
+                            {{ message.user.username }}
+                        {% else %}
+                            Utilisateur anonyme
+                        {% endif %}
+                    </div>
+                    <div class="pb-3">{{ message.content }}</div>
+                    <div class="w-100 blocBtnCreated">
+                        <div>Posté le {{ message.createdAt|date('d/m/Y') }} à {{ message.createdAt|date('H',"Europe/Paris") }}h{{ message.createdAt|date('i',"Europe/Paris") }}</div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {{ paginator|raw }}
+        <a href="#messages"><i class="fas fa-arrow-circle-up arrowPaginator"></i></a>
+    </div>
+{% endblock %}

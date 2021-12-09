@@ -13,3 +13,5 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'jquery';
 global.$ = global.jQuery = $;
 import 'bootstrap/dist/js/bootstrap.min.js';
+import '/assets/js/ScrollTop.js'
+import '/assets/js/FlashTimeout.js'
