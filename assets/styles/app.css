@@ -122,6 +122,7 @@ body {
 }
 
 .responsiveNav {
+    z-index: 200;
     display: none;
     padding-bottom: 10px;
     padding-top: 10px;
@@ -131,9 +132,6 @@ body {
 }
 
 @media screen and (max-width: 1150px) {
-    .padMain {
-        padding-top: 100px;
-    }
 
     .nav {
         display: none !important;
@@ -434,6 +432,7 @@ body {
 }
 
 .badgePersoDanger {
+    display: block;
     padding: 10px;
     border-radius: 8px;
     font-size: 14px;
@@ -442,6 +441,7 @@ body {
 }
 
 .badgePersoGreen {
+    display: block;
     padding: 10px;
     border-radius: 8px;
     font-size: 14px;
@@ -449,7 +449,19 @@ body {
     color: white;
 }
 
+.blocSpan {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.blocSpan span{
+    margin: 10px;
+}
+
 .badgePerso {
+    display: block;
     padding: 10px;
     border-radius: 8px;
     font-size: 14px;
@@ -483,4 +495,27 @@ body {
         align-items: center;
     }
 
+}
+
+@media screen and (max-width: 800px) {
+
+    .accroche {
+        font-size: 18px;
+    }
+
+    .overlayShow {
+        height: 500px;
+        position: absolute;
+        top: 0px;
+        width: 100%;
+        background-image: none;
+        display: none;
+    }
+
+    .blocSpan {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
 }

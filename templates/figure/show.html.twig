@@ -5,7 +5,7 @@
 {% block body %}
     <div class="overlayShow">
     </div>
-    <div class="container mt-5 mb-5 blocShow">
+    <div class="container mt-md-5 mb-md-5 blocShow">
         <div class="imgBlocShow">
             {% for image in figure.images %}
                 {% if image.main == true %}
@@ -34,7 +34,7 @@
             <div>
                 <p>{{ figure.description }}</p>
             </div>
-            <div class="text-center mt-4">
+            <div class="text-center mt-4 blocSpan">
                 <span class="badgePersoGreen">{{ 'showFigure.add'|trans }} {{ figure.createdAt|date('d/m/Y') }} à {{ figure.createdAt|date('H') }}h{{ figure.createdAt|date('i') }}</span>
                 {% if figure.updatedAt is not null %}
                 <span class="badgePerso">{{ 'showFigure.edit'|trans }} {{ figure.createdAt|date('d/m/Y') }} à {{ figure.createdAt|date('H') }}h{{ figure.createdAt|date('i') }}</span>
