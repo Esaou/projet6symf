@@ -19,3 +19,11 @@ showFigure:
   sendMessage: 'Laisser mon message'
   confirmPost: 'Message posté avec succès'
   category: 'Catégorie'
+
+register:
+  username: "Nom d'utilisateur"
+  email: 'Email'
+  password: 'Mot de passe'
+  avatar: 'Avatar'
+  submit: 'Créer un compte'
+  flashSuccess: 'Compte créer avec succès, verifiez vos mails pour valider votre compte !'
