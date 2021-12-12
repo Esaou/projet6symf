@@ -18,3 +18,4 @@ showFigure:
   message: 'Message'
   sendMessage: 'Laisser mon message'
   confirmPost: 'Message posté avec succès'
+  category: 'Catégorie'

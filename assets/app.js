@@ -15,3 +15,4 @@ global.$ = global.jQuery = $;
 import 'bootstrap/dist/js/bootstrap.min.js';
 import '/assets/js/ScrollTop.js'
 import '/assets/js/FlashTimeout.js'
+import '/assets/js/ShowMedia.js'

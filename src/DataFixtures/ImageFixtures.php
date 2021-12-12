@@ -38,7 +38,8 @@ class ImageFixtures extends Fixture  implements DependentFixtureInterface
 
     private string $pathToDirectory;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->pathToDirectory = "images/figures/";
     }
 
@@ -54,23 +55,28 @@ class ImageFixtures extends Fixture  implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function generateImages(int $number) {
+    public function generateImages(int $number)
+    {
 
         for ($i=0;$i < $number;$i++) {
 
             $main = true;
 
             if ($i >= 20) {
-                /** @var Figure $figure */
-                $figure = $this->getReference("figure".mt_rand(0,19));
+                /**
+ * @var Figure $figure 
+*/
+                $figure = $this->getReference("figure".mt_rand(0, 19));
                 $main = false;
             } else {
-                /** @var Figure $figure */
+                /**
+ * @var Figure $figure 
+*/
                 $figure = $this->getReference("figure".$i);
             }
 
             if ($i >= 20) {
-                $filename = $this->images[mt_rand(0,19)];
+                $filename = $this->images[mt_rand(0, 19)];
             } else {
                 $filename = $this->images[$i];
             }
@@ -81,7 +87,7 @@ class ImageFixtures extends Fixture  implements DependentFixtureInterface
                 ->setFilename($this->pathToDirectory . $filename)
                 ->setMain($main);
 
-            $this->addReference("image$i",$image);
+            $this->addReference("image$i", $image);
 
             $this->manager->persist($image);
 

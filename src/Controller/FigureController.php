@@ -31,7 +31,7 @@ class FigureController extends AbstractController
 
         $figure = $figureRepository->findOneBy(['slug'=>$slug]);
 
-        $paginator->paginate($messageRepository,$nbEntities,"figure",2,['figure'=>$figure],['createdAt'=>'desc'],['slug' => $slug]);
+        $paginator->paginate($messageRepository, $nbEntities, "figure", 2, ['figure'=>$figure], ['createdAt'=>'desc'], ['slug' => $slug]);
 
         $form = $this->createForm(MessageType::class);
 
@@ -41,7 +41,9 @@ class FigureController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            /** @var Message $messageEntity */
+            /**
+ * @var Message $messageEntity 
+*/
             $messageEntity = $form->getData();
             $messageEntity->setCreatedAt(new \DateTimeImmutable());
             $messageEntity->setUser($user);
@@ -50,14 +52,16 @@ class FigureController extends AbstractController
             $manager->persist($messageEntity);
             $manager->flush();
 
-            $this->addFlash('success',$this->translator->trans('showFigure.confirmPost'));
+            $this->addFlash('success', $this->translator->trans('showFigure.confirmPost'));
         }
 
-        return $this->render('figure/show.html.twig', [
+        return $this->render(
+            'figure/show.html.twig', [
             'figure' => $figure,
             'messages' => $paginator->getResults(),
             'paginator' => $paginator->getPaginator(),
             'formMessage' => $form->createView()
-        ]);
+            ]
+        );
     }
 }

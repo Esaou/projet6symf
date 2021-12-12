@@ -58,7 +58,8 @@ class UserFixtures extends Fixture
 
     private string $pathToDirectory;
 
-    public function __construct(SluggerInterface $slugger,UserPasswordHasherInterface $passwordHasher) {
+    public function __construct(SluggerInterface $slugger,UserPasswordHasherInterface $passwordHasher)
+    {
         $this->pathToDirectory = "/public/images/figures/";
         $this->slugger = $slugger;
         $this->passwordHasher = $passwordHasher;
@@ -77,14 +78,15 @@ class UserFixtures extends Fixture
         $manager->flush();
     }
 
-    public function generateUsers(int $number) {
+    public function generateUsers(int $number)
+    {
 
         for ($u=0;$u < $number;$u++) {
 
             $user = new User();
 
-            $password = $this->passwordHasher->hashPassword($user,$this->users[$u]['password']);
-            $slug = $this->slugger->slug($this->users[$u]['username'],'_');
+            $password = $this->passwordHasher->hashPassword($user, $this->users[$u]['password']);
+            $slug = $this->slugger->slug($this->users[$u]['username'], '_');
 
             $user
                 ->setUsername($this->users[$u]['username'])
@@ -94,7 +96,7 @@ class UserFixtures extends Fixture
                 ->setSlug($slug)
                 ->setAvatar($this->pathToDirectory . $this->users[$u]['avatar']);
 
-            $this->addReference("user$u",$user);
+            $this->addReference("user$u", $user);
 
             $this->manager->persist($user);
 
