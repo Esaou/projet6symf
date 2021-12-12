@@ -44,24 +44,29 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function generateMessages(int $number) {
+    public function generateMessages(int $number)
+    {
 
         for ($m=0;$m < $number;$m++) {
 
-            /** @var User $user */
-            $user = $this->getReference("user".mt_rand(0,4));
+            /**
+ * @var User $user 
+*/
+            $user = $this->getReference("user".mt_rand(0, 4));
 
-            /** @var Figure $figure */
-            $figure = $this->getReference("figure".mt_rand(0,19));
+            /**
+ * @var Figure $figure 
+*/
+            $figure = $this->getReference("figure".mt_rand(0, 19));
 
             $message = new Message();
             $message
                 ->setFigure($figure)
                 ->setUser($user)
-                ->setContent($this->messages[mt_rand(0,13)])
-                ->setCreatedAt(new \DateTimeImmutable("now + $m day"));
+                ->setContent($this->messages[mt_rand(0, 13)])
+                ->setCreatedAt(new \DateTimeImmutable("now - $m day"));
 
-            $this->addReference("message$m",$message);
+            $this->addReference("message$m", $message);
 
             $this->manager->persist($message);
 

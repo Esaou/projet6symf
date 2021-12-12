@@ -23,23 +23,28 @@ class MessageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('content',TextareaType::class,[
+            ->add(
+                'content', TextareaType::class, [
                 'label' => $this->translator->trans('showFigure.message'),
                 'empty_data'=> 'Votre message ici ...'
-            ])
-            ->add('submit',SubmitType::class,[
+                ]
+            )
+            ->add(
+                'submit', SubmitType::class, [
                 'label' => $this->translator->trans('showFigure.sendMessage'),
                 'attr' => [
                     'class' => 'submit'
                 ],
-            ])
-        ;
+                ]
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(
+            [
             'data_class' => Message::class,
-        ]);
+            ]
+        );
     }
 }
