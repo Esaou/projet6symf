@@ -33,7 +33,27 @@ class ImageFixtures extends Fixture  implements DependentFixtureInterface
         'trick18.jpg',
         'trick19.jpg',
         'trick20.jpg',
-        'truckdriver.jpg'
+        'truckdriver.jpg',
+        '1801.jpg',
+        '3601.jpg',
+        '5401.jpg',
+        '7201.jpg',
+        '8101.jpg',
+        'indy1.jpg',
+        'japanair1.jpg',
+        'mute1.jpg',
+        'nosegrab1.jpg',
+        'sad1.jpg',
+        'seatbelt1.jpg',
+        'stalefish1.jpg',
+        'tailgrab1.jpg',
+        'trick151.jpg',
+        'trick161.jpg',
+        'trick171.jpg',
+        'trick181.jpg',
+        'trick191.jpg',
+        'trick201.jpg',
+        'truckdriver1.jpg'
     ];
 
     private string $pathToDirectory;
@@ -63,15 +83,11 @@ class ImageFixtures extends Fixture  implements DependentFixtureInterface
             $main = true;
 
             if ($i >= 20) {
-                /**
- * @var Figure $figure 
-*/
-                $figure = $this->getReference("figure".mt_rand(0, 19));
                 $main = false;
             } else {
                 /**
- * @var Figure $figure 
-*/
+                 * @var Figure $figure
+                */
                 $figure = $this->getReference("figure".$i);
             }
 

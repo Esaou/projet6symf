@@ -12,6 +12,11 @@
     }
 }
 
+.icons {
+    background-color: unset!important;
+    border: none!important;
+}
+
 body {
     font-family: sans-serif;
 }
@@ -20,7 +25,7 @@ body {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    width: 300px!important;
+    display: block;
     z-index: 2000;
 }
 
@@ -559,6 +564,7 @@ body {
 }
 
 .submitUser {
+    width: 100%;
     padding: 10px;
     font-size: 15px;
     color: white;
@@ -566,6 +572,19 @@ body {
 }
 
 .submitUser:hover {
+    color: white;
+    background-color:rgb(30,185,30);
+}
+
+.submitLogin {
+    width: 100%;
+    padding: 10px;
+    font-size: 15px;
+    color: white;
+    background-color: limegreen;
+}
+
+.submitLogin:hover {
     color: white;
     background-color:rgb(30,185,30);
 }

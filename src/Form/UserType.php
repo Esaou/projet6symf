@@ -35,13 +35,18 @@ class UserType extends AbstractType
             ->add('password',PasswordType::class,[
                 'label'=> $this->translator->trans('register.password')
             ])
+            ->add('confirm',PasswordType::class,[
+                'label' => $this->translator->trans('register.confirm'),
+                'mapped' => false
+            ])
             ->add('avatar',FileType::class,[
                 'label'=> $this->translator->trans('register.avatar')
             ])
             ->add('submit',SubmitType::class,[
                 'label' => $this->translator->trans('register.submit'),
                 'attr' => [
-                    'class' => 'submitUser'
+                    'class' => 'submitUser',
+
                 ]
             ])
         ;
