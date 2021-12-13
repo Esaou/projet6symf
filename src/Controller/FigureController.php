@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Figure;
 use App\Entity\Message;
 use App\Form\MessageType;
 use App\Repository\FigureRepository;
@@ -36,9 +37,6 @@ class FigureController extends AbstractController
         $form = $this->createForm(MessageType::class);
 
         $form->handleRequest($request);
-
-        $user = $userRepository->findOneBy(['id'=>246]);
-
         if ($form->isSubmitted() && $form->isValid()) {
 
             /**
@@ -46,7 +44,7 @@ class FigureController extends AbstractController
 */
             $messageEntity = $form->getData();
             $messageEntity->setCreatedAt(new \DateTimeImmutable());
-            $messageEntity->setUser($user);
+            $messageEntity->setUser($messageEntity->getUser());
             $messageEntity->setFigure($figure);
 
             $manager->persist($messageEntity);
@@ -63,5 +61,26 @@ class FigureController extends AbstractController
             'formMessage' => $form->createView()
             ]
         );
+    }
+
+    /**
+     * @param Figure $figure
+     * @param EntityManagerInterface $manager
+     * @param FigureRepository $figureRepository
+     */
+    #[Route('/{figure}/delete', name: 'delete_figure')]
+    public function deleteFigure(EntityManagerInterface $manager, FigureRepository $figureRepository,Figure $figure = null) {
+        $figure = $figureRepository->findOneBy(['id'=>$figure]);
+
+        if ($figure !== null) {
+            $manager->remove($figure);
+            $manager->flush();
+            $this->addFlash('success',$this->translator->trans('figure.delete'));
+        } else {
+            $this->addFlash('danger',$this->translator->trans('figure.notfound'));
+        }
+
+        return $this->redirectToRoute('home');
+
     }
 }

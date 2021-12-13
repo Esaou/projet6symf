@@ -1,4 +1,6 @@
 nav:
+  logout: 'Déconnexion'
+  addFigure: 'Ajouter une figure'
   home: 'Accueil'
   tricks: 'Figures'
   login: 'Connexion'
@@ -19,3 +21,23 @@ showFigure:
   sendMessage: 'Laisser mon message'
   confirmPost: 'Message posté avec succès'
   category: 'Catégorie'
+
+register:
+  username: "Nom d'utilisateur"
+  email: 'Email'
+  password: 'Mot de passe'
+  avatar: 'Avatar'
+  submit: 'Créer un compte'
+  flashSuccess: 'Compte créée avec succès, verifiez vos mails pour le valider !'
+  flashDanger: "Erreur lors de l'envoi du mail"
+  confirm: 'Confirmation de mot de passe'
+  register: 'Inscription'
+
+login:
+  login: 'Connexion'
+  username: "Nom d'utilisateur"
+  password: 'Mot de passe'
+
+figure:
+  delete: 'Figure supprimée avec succès'
+  notfound: 'Figure introuvable'
