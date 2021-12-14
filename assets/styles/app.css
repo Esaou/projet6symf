@@ -596,3 +596,13 @@ body {
     }
 
 }
+
+/* EDIT FIGURE */
+
+form[name='figure'] > div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}

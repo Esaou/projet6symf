@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'editFigure.title'|trans }}{% if figure.name is not empty %} - {{ figure.name }}{% endif %}{% endblock %}
+
+{% block body %}
+
+    <div class="container pt-5 pb-5">
+        {{ form(form) }}
+    </div>
+
+{% endblock %}

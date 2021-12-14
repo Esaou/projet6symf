@@ -37,7 +37,7 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
 
         $this->manager = $manager;
 
-        // Create 5 categories
+        // Create 70 messages
 
         $this->generateMessages(70);
 

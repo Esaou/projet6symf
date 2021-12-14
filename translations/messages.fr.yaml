@@ -41,3 +41,15 @@ login:
 figure:
   delete: 'Figure supprimée avec succès'
   notfound: 'Figure introuvable'
+
+editFigure:
+  name: 'Nom'
+  description: 'Description'
+  title: 'Edition'
+  add: 'Ajouter la figure'
+  edit: 'Modifier la figure'
+  editFigure:
+  flashUpdate: 'Figure modifiée avec succès'
+  flashSuccess: 'Figure ajoutée avec succès'
+  images: 'Image(s)'
+  videos: 'Vidéo(s)'

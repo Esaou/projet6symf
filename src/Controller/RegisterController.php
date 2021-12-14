@@ -31,14 +31,18 @@ class RegisterController extends AbstractController
     }
 
     /**
-     * @param Mailer $mailer
-     * @param Request $request
-     * @param EntityManagerInterface $manager
+     * @param  Mailer                 $mailer
+     * @param  Request                $request
+     * @param  EntityManagerInterface $manager
      * @return Response
      */
     #[Route('/register', name: 'register')]
     public function register(UserPasswordHasherInterface $passwordHasher,Mailer $mailer,Request $request,EntityManagerInterface $manager): Response
     {
+
+        if ($this->getUser()) {
+            return $this->redirectToRoute('home');
+        }
 
         $form = $this->createForm(UserType::class);
 
@@ -51,7 +55,7 @@ class RegisterController extends AbstractController
             $userEntity = $form->getData();
 
             $slug = $this->slugger->slug($userEntity->getUsername(), '_');
-            $password = $passwordHasher->hashPassword($userEntity,$userEntity->getPassword());
+            $password = $passwordHasher->hashPassword($userEntity, $userEntity->getPassword());
             $token = uniqid();
 
             $userEntity
@@ -66,7 +70,7 @@ class RegisterController extends AbstractController
             $manager->flush();
 
 
-            $result = $mailer->mail('contact@snowtricks.com',$userEntity->getEmail(),'Confirmation de compte','email/confirm.html.twig',['user'=>$userEntity]);
+            $result = $mailer->mail('contact@snowtricks.com', $userEntity->getEmail(), 'Confirmation de compte', 'email/confirm.html.twig', ['user'=>$userEntity]);
 
             if ($result) {
                 $this->addFlash('success', $this->translator->trans('register.flashSuccess'));
@@ -76,14 +80,16 @@ class RegisterController extends AbstractController
 
         }
 
-        return $this->render('register/register.html.twig', [
+        return $this->render(
+            'register/register.html.twig', [
             'form' => $form->createView()
-        ]);
+            ]
+        );
     }
 
     /**
-     * @param string $token
-     * @param UserRepository $userRepository
+     * @param string                 $token
+     * @param UserRepository         $userRepository
      * @param EntityManagerInterface $manager
      */
     #[Route('/user/confirm/{token}', name: 'user_confirm')]
@@ -95,9 +101,9 @@ class RegisterController extends AbstractController
             $user->setIsValid(true);
             $manager->persist($user);
             $manager->flush();
-            $this->addFlash('success','Compte validé avec succès');
+            $this->addFlash('success', 'Compte validé avec succès');
         } else {
-            $this->addFlash('success','Erreur lors de la validation du compte');
+            $this->addFlash('success', 'Erreur lors de la validation du compte');
         }
 
         return $this->redirectToRoute('app_login');
