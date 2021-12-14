@@ -13,11 +13,14 @@ class Mailer
 
     private MailerInterface $mailer;
 
-    public function __construct(MailerInterface $mailer) {
+    public function __construct(MailerInterface $mailer)
+    {
         $this->mailer = $mailer;
     }
 
-    public function mail(string $from,string $to,string $subject,string $template,array $data = null) {
+    public function mail(string $from,string $to,string $subject,string $template,array $data = null)
+    {
+
 
         $mail = new TemplatedEmail();
         $mail
@@ -39,3 +42,4 @@ class Mailer
     }
 
 }
+

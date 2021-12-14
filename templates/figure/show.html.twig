@@ -18,8 +18,8 @@
             </div>
             {% if app.user == figure.user %}
             <div class="btnAdminShow">
-                <a href="" style="margin-right: 15px"><i class="fas fa-pen text-primary"></i></a>
-                <button class="icons" type="button" data-toggle="modal" data-target="#exampleModal">
+                <a href="{{ path('edit_figure',{'slug':figure.slug}) }}" style="margin-right: 15px"><i class="fas fa-pen text-primary"></i></a>
+                <button class="icons" type="button" data-toggle="modal" data-target="#exampleModal" style="cursor: pointer">
                     <i class="fas fa-trash text-danger"></i>
                 </button>
             </div>

@@ -26,36 +26,51 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('username',TextType::class,[
+
+            ->add(
+                'username', TextType::class, [
                 'label' => $this->translator->trans('register.username')
-            ])
-            ->add('email',EmailType::class,[
+                ]
+            )
+            ->add(
+                'email', EmailType::class, [
                 'label'=> $this->translator->trans('register.email')
-            ])
-            ->add('password',PasswordType::class,[
+                ]
+            )
+            ->add(
+                'password', PasswordType::class, [
                 'label'=> $this->translator->trans('register.password')
-            ])
-            ->add('confirm',PasswordType::class,[
+                ]
+            )
+            ->add(
+                'confirm', PasswordType::class, [
                 'label' => $this->translator->trans('register.confirm'),
                 'mapped' => false
-            ])
-            ->add('avatar',FileType::class,[
+                ]
+            )
+            ->add(
+                'avatar', FileType::class, [
                 'label'=> $this->translator->trans('register.avatar')
-            ])
-            ->add('submit',SubmitType::class,[
+                ]
+            )
+            ->add(
+                'submit', SubmitType::class, [
                 'label' => $this->translator->trans('register.submit'),
                 'attr' => [
                     'class' => 'submitUser',
-
                 ]
-            ])
-        ;
+                ]
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
+
+        $resolver->setDefaults(
+            [
             'data_class' => User::class,
-        ]);
+            ]
+        );
+
     }
 }
