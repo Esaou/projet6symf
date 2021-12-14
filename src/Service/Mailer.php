@@ -21,6 +21,7 @@ class Mailer
     public function mail(string $from,string $to,string $subject,string $template,array $data = null)
     {
 
+
         $mail = new TemplatedEmail();
         $mail
             ->from($from)
@@ -41,3 +42,4 @@ class Mailer
     }
 
 }
+

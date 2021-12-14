@@ -26,6 +26,7 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+
             ->add(
                 'username', TextType::class, [
                 'label' => $this->translator->trans('register.username')
@@ -57,7 +58,6 @@ class UserType extends AbstractType
                 'label' => $this->translator->trans('register.submit'),
                 'attr' => [
                     'class' => 'submitUser',
-
                 ]
                 ]
             );
@@ -65,10 +65,12 @@ class UserType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
+
         $resolver->setDefaults(
             [
             'data_class' => User::class,
             ]
         );
+
     }
 }

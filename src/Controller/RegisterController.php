@@ -56,6 +56,7 @@ class RegisterController extends AbstractController
 
             $slug = $this->slugger->slug($userEntity->getUsername(), '_');
             $password = $passwordHasher->hashPassword($userEntity, $userEntity->getPassword());
+
             $token = uniqid();
 
             $userEntity
@@ -68,7 +69,6 @@ class RegisterController extends AbstractController
 
             $manager->persist($userEntity);
             $manager->flush();
-
 
             $result = $mailer->mail('contact@snowtricks.com', $userEntity->getEmail(), 'Confirmation de compte', 'email/confirm.html.twig', ['user'=>$userEntity]);
 
@@ -90,6 +90,7 @@ class RegisterController extends AbstractController
     /**
      * @param string                 $token
      * @param UserRepository         $userRepository
+
      * @param EntityManagerInterface $manager
      */
     #[Route('/user/confirm/{token}', name: 'user_confirm')]

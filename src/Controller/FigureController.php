@@ -77,7 +77,6 @@ class FigureController extends AbstractController
     #[Route('/user/{figure}/delete', name: 'delete_figure')]
     public function deleteFigure(EntityManagerInterface $manager, FigureRepository $figureRepository,Figure $figure = null)
     {
-
         $figure = $figureRepository->findOneBy(['id'=>$figure]);
 
         if ($figure !== null) {
@@ -86,10 +85,10 @@ class FigureController extends AbstractController
             $this->addFlash('success', $this->translator->trans('figure.delete'));
         } else {
             $this->addFlash('danger', $this->translator->trans('figure.notfound'));
+
         }
 
         return $this->redirectToRoute('home');
-
     }
 
     /**
@@ -163,7 +162,6 @@ class FigureController extends AbstractController
                 'form' => $form->createView()
             ]
         );
-
     }
 
 }
