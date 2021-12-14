@@ -33,24 +33,27 @@ class FigureController extends AbstractController
     }
 
     #[Route('/figure/{slug}/{nbEntities}', name: 'figure')]
-    public function show(string $slug,UserRepository $userRepository,Request $request,EntityManagerInterface $manager,FigureRepository $figureRepository,Paginator $paginator,MessageRepository $messageRepository,int $nbEntities = 2): Response
+    public function show(string $slug,UserRepository $userRepository,Request $request,EntityManagerInterface $manager,FigureRepository $figureRepository,Paginator $paginator,MessageRepository $messageRepository,int $nbEntities = 10): Response
     {
 
         $figure = $figureRepository->findOneBy(['slug'=>$slug]);
 
-        $paginator->paginate($messageRepository, $nbEntities, "figure", 2, ['figure'=>$figure], ['createdAt'=>'desc'], ['slug' => $slug]);
+        $paginator->paginate($messageRepository, $nbEntities, "figure", 5, ['figure'=>$figure], ['createdAt'=>'desc'], ['slug' => $slug]);
 
         $form = $this->createForm(MessageType::class);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
+            /** @var User $user */
+            $user = $this->getUser();
+
             /**
  * @var Message $messageEntity 
 */
             $messageEntity = $form->getData();
             $messageEntity->setCreatedAt(new \DateTimeImmutable());
-            $messageEntity->setUser($messageEntity->getUser());
+            $messageEntity->setUser($user);
             $messageEntity->setFigure($figure);
 
             $manager->persist($messageEntity);

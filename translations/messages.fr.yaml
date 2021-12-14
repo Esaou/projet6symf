@@ -32,6 +32,19 @@ register:
   flashDanger: "Erreur lors de l'envoi du mail"
   confirm: 'Confirmation de mot de passe'
   register: 'Inscription'
+  forgottenPassword: 'Mot de passe oublié'
+  sendMail: 'Recevoir un mail'
+
+forgotten:
+  flashSuccess: 'Mail envoyé'
+  flashDanger: "Erreur lors de l'envoi du mail"
+  username: "Renseignez votre nom d'utilisateur"
+  flashSuccessReset: 'Mot de passe réinitiliasé avec succès'
+  flashDangerReset: 'Utilisateur invalide'
+
+reset:
+  confirm.username: "Confirmez votre nom d'utilisateur"
+  send: 'Réinitialiser mon mot de passe'
 
 login:
   login: 'Connexion'

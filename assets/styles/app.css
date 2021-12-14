@@ -29,6 +29,7 @@ body {
     z-index: 2000;
 }
 
+
 .text-blue {
     color: blue !important;
 }
@@ -344,6 +345,15 @@ body {
 
 /* SHOW FIGURE */
 
+.avatar {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+    border: 1px solid rgba(100,100,100,0.5);
+}
+
 .overlayShow {
     height: 500px;
     position: absolute;
@@ -587,6 +597,35 @@ body {
 .submitLogin:hover {
     color: white;
     background-color:rgb(30,185,30);
+}
+
+.forgottenPassword {
+    width: 100%;
+    padding: 10px;
+    font-size: 15px;
+    color: cornflowerblue;
+    border: 1px solid cornflowerblue;
+    background-color: white;
+}
+
+.forgottenPassword:hover {
+    color: white;
+    background-color:cornflowerblue;
+}
+
+.forgottenPasswordPlain {
+    width: 100%;
+    padding: 10px;
+    font-size: 15px;
+    color: white;
+    border: 1px solid white;
+    background-color: cornflowerblue;
+}
+
+.forgottenPasswordPlain:hover {
+    color: cornflowerblue;
+    border: 1px solid cornflowerblue;
+    background-color:white;
 }
 
 @media screen and (max-width: 700px) {

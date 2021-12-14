@@ -50,12 +50,16 @@ class FigureType extends AbstractType
                 'row_attr' => [
                     'class' => 'col-md-12'
                 ],
+                    'attr' => [
+                        'class' => 'tinymce'
+                    ]
                 ]
             )
             ->add(
                 'images', FileType::class, [
                 'label' => $this->translator->trans('editFigure.images'),
                 'mapped' => false,
+                'required'=>false,
                 'attr' => [
                     'multiple' => true
                 ],
@@ -68,6 +72,7 @@ class FigureType extends AbstractType
                 'videos', FileType::class, [
                 'label' => $this->translator->trans('editFigure.videos'),
                 'mapped' => false,
+                    'required'=>false,
                 'attr' => [
                     'multiple' => true
                 ],

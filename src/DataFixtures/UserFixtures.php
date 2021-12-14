@@ -18,35 +18,35 @@ class UserFixtures extends Fixture
             'email' => 'eric.test@test.com',
             'isValid' => true,
             'password' => 'Motdepassergpb1!',
-            'avatar' => '',
+            'avatar' => 'images/avatars/default.png',
         ],
         [
             'username' => 'Melissa38',
             'email' => 'melissa.test@test.com',
             'isValid' => true,
             'password' => 'Motdepassergpb1!',
-            'avatar' => '',
+            'avatar' => 'images/avatars/default.png',
         ],
         [
             'username' => 'JakeHenderson',
             'email' => 'jake.henderson@test.com',
             'isValid' => true,
             'password' => 'Motdepassergpb1!',
-            'avatar' => '',
+            'avatar' => 'images/avatars/default.png',
         ],
         [
             'username' => 'Jacques07',
             'email' => 'jacques07@test.com',
             'isValid' => false,
             'password' => 'Motdepassergpb1!',
-            'avatar' => '',
+            'avatar' => 'images/avatars/default.png',
         ],
         [
             'username' => 'Hello World',
             'email' => 'hello.world@test.com',
             'isValid' => false,
             'password' => 'Motdepassergpb1!',
-            'avatar' => '',
+            'avatar' => 'images/avatars/default.png',
         ]
     ];
 
@@ -93,8 +93,8 @@ class UserFixtures extends Fixture
                 ->setIsValid($this->users[$u]['isValid'])
                 ->setEmail($this->users[$u]['email'])
                 ->setPassword($password)
-                ->setSlug($slug)
-                ->setAvatar($this->pathToDirectory . $this->users[$u]['avatar']);
+                ->setSlug(uniqid())
+                ->setAvatar($this->users[$u]['avatar']);
 
             $this->addReference("user$u", $user);
 
