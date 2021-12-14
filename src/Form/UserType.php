@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserType extends AbstractType
@@ -43,14 +44,21 @@ class UserType extends AbstractType
                 ]
             )
             ->add(
-                'confirm', PasswordType::class, [
-                'label' => $this->translator->trans('register.confirm'),
-                'mapped' => false
-                ]
-            )
-            ->add(
                 'avatar', FileType::class, [
-                'label'=> $this->translator->trans('register.avatar')
+                'label'=> $this->translator->trans('register.avatar'),
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '2M',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/gif',
+                            'image/png'
+                        ],
+                        'mimeTypesMessage' => 'Le fichier peut avoir le format .jpeg, .png, .gif.',
+                    ])
+                ],
                 ]
             )
             ->add(

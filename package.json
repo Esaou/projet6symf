@@ -19,6 +19,7 @@
         "bootstrap": "^4.0.0",
         "bootstrap-css-only": "^4.4.1",
         "jquery": "^3.6.0",
-        "popper.js": "^1.12.3"
+        "popper.js": "^1.12.3",
+        "tinymce": "^5.10.2"
     }
 }

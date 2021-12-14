@@ -5,10 +5,12 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Service\FileUpload;
 use App\Service\Mailer;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,14 +39,19 @@ class RegisterController extends AbstractController
      * @return Response
      */
     #[Route('/register', name: 'register')]
-    public function register(UserPasswordHasherInterface $passwordHasher,Mailer $mailer,Request $request,EntityManagerInterface $manager): Response
+    public function register(FileUpload $fileUpload,UserPasswordHasherInterface $passwordHasher,Mailer $mailer,Request $request,EntityManagerInterface $manager): Response
     {
 
         if ($this->getUser()) {
             return $this->redirectToRoute('home');
         }
 
-        $form = $this->createForm(UserType::class);
+        $form = $this->createForm(UserType::class,null,[
+            'attr' => [
+                'enctype' => 'multipart/form-data',
+                'method' => 'POST'
+            ]
+        ]);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -54,14 +61,18 @@ class RegisterController extends AbstractController
              */
             $userEntity = $form->getData();
 
-            $slug = $this->slugger->slug($userEntity->getUsername(), '_');
             $password = $passwordHasher->hashPassword($userEntity, $userEntity->getPassword());
+
+            /** @var UploadedFile $avatar */
+            $avatar = $form->get('avatar')->getData();
+
+            $path = $fileUpload->upload($avatar,'avatars');
 
             $token = uniqid();
 
             $userEntity
-                ->setSlug($slug)
-                ->setAvatar('hello')
+                ->setSlug(uniqid())
+                ->setAvatar($path)
                 ->setPassword($password)
                 ->setIsValid(false)
                 ->setToken($token);

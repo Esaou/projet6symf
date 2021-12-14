@@ -42,7 +42,7 @@
         </div>
         <div class="p-5 pt-2 descriptionShow">
             <div>
-                <p>{{ figure.description }}</p>
+                <p>{{ figure.description|raw }}</p>
             </div>
             <div class="text-center mt-4 blocSpan">
                 <span class="badgePersoGreen">{{ 'showFigure.add'|trans }} {{ figure.createdAt|date('d/m/Y') }} à {{ figure.createdAt|date('H') }}h{{ figure.createdAt|date('i') }}</span>
@@ -60,12 +60,19 @@
         <div class="p-5" id="messages">
             {% for message in messages %}
                 <div class="blocShowOneComment mb-3 pt-4">
-                    <div class="pb-3 text-blue">
-                        {% if message.user.username is not null %}
-                            {{ message.user.username }}
-                        {% else %}
-                            Utilisateur anonyme
-                        {% endif %}
+                    <div>
+                        <div class="pb-3 text-blue">
+                            {% if message.user.avatar is not null %}
+                                <img src="{{ asset(message.user.avatar) }}" alt="{{ message.user }}" class="avatar">
+                                {% else %}
+                                    <img src="{{ asset('images/avatars/default.png') }}" alt="{{ message.user }}" class="avatar">
+                            {% endif %}
+                            {% if message.user.username is not null %}
+                                {{ message.user.username }}
+                            {% else %}
+                                Utilisateur anonyme
+                            {% endif %}
+                        </div>
                     </div>
                     <div class="pb-3">{{ message.content }}</div>
                     <div class="w-100 blocBtnCreated">
