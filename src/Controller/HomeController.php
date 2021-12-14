@@ -10,10 +10,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
-    #[Route('/{nbEntities}', name: 'home')]
+
+    #[Route('/home/{nbEntities}', name: 'home')]
     public function home(FigureRepository $figureRepository,Paginator $paginator,int $nbEntities = 10): Response
     {
-        $paginator->paginate($figureRepository,$nbEntities,'home',5);
+        $paginator->paginate($figureRepository, $nbEntities, 'home', 5);
 
         return $this->render(
             'home/home.html.twig', [

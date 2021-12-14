@@ -48,20 +48,25 @@ class VideoFixtures extends Fixture  implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function generateVideos(int $number) {
+    public function generateVideos(int $number)
+    {
 
         for ($v=0;$v < $number;$v++) {
 
             if ($v >= 20) {
-                /** @var Figure $figure */
-                $figure = $this->getReference("figure".mt_rand(0,19));
+                /**
+ * @var Figure $figure 
+*/
+                $figure = $this->getReference("figure".mt_rand(0, 19));
             } else {
-                /** @var Figure $figure */
+                /**
+ * @var Figure $figure 
+*/
                 $figure = $this->getReference("figure".$v);
             }
 
             if ($v >= 20) {
-                $url = $this->videos[mt_rand(0,19)];
+                $url = $this->videos[mt_rand(0, 19)];
             } else {
                 $url = $this->videos[$v];
             }
@@ -71,7 +76,7 @@ class VideoFixtures extends Fixture  implements DependentFixtureInterface
                 ->setFigure($figure)
                 ->setUrl($url);
 
-            $this->addReference("video$v",$video);
+            $this->addReference("video$v", $video);
 
             $this->manager->persist($video);
 

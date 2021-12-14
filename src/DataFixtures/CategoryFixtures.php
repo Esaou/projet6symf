@@ -12,18 +12,19 @@ class CategoryFixtures extends Fixture
 {
 
     private array $categories = [
-        'Débutant',
-        'Intermédiaire',
-        'Confirmé',
-        'Expert',
-        'Légende'
+        'Grabs',
+        'Rotation verticale',
+        'Rotation horizontale',
+        'Switch',
+        'Fly style'
     ];
 
     private ObjectManager $manager;
 
     private SluggerInterface $slugger;
 
-    public function __construct(SluggerInterface $slugger) {
+    public function __construct(SluggerInterface $slugger)
+    {
         $this->slugger = $slugger;
     }
 
@@ -39,18 +40,19 @@ class CategoryFixtures extends Fixture
         $manager->flush();
     }
 
-    public function generateCategories(int $number) {
+    public function generateCategories(int $number)
+    {
 
         for ($c=0;$c < $number;$c++) {
 
-            $slug = $this->slugger->slug($this->categories[$c],'_');
+            $slug = $this->slugger->slug($this->categories[$c], '_');
 
             $category = new Category();
             $category
                 ->setName($this->categories[$c])
                 ->setSlug($slug);
 
-            $this->addReference("category$c",$category);
+            $this->addReference("category$c", $category);
 
             $this->manager->persist($category);
 

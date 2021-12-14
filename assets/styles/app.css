@@ -12,6 +12,11 @@
     }
 }
 
+.icons {
+    background-color: unset!important;
+    border: none!important;
+}
+
 body {
     font-family: sans-serif;
 }
@@ -20,7 +25,7 @@ body {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    width: 300px!important;
+    display: block;
     z-index: 2000;
 }
 
@@ -122,11 +127,11 @@ body {
 }
 
 .responsiveNav {
-    z-index: 200;
+    z-index: 1000;
     display: none;
     padding-bottom: 10px;
     padding-top: 10px;
-    background-color: white;
+    background-color: white!important;
     box-shadow: 0 0 10px rgba(100, 100, 100, 0.5);
     color: rgb(100, 100, 100);
 }
@@ -150,8 +155,9 @@ body {
     }
 
     .responsiveNav {
-        display: block;
-        z-index: 1000 !important;
+        display: block!important;
+        z-index: 1000!important;
+        border-bottom: 1px solid rgba(100,100,100,0.3);
     }
 }
 
@@ -333,7 +339,6 @@ body {
     flex-wrap: wrap;
     font-size: 15px;
     border-top: 1px solid rgba(100,100,100,0.3);
-    box-shadow: 0px 0px 5px rgba(100,100,100,0.2);
     background-color: white;
 }
 
@@ -488,6 +493,10 @@ body {
     justify-content: flex-end;
 }
 
+.btnMedias {
+    display: none;
+}
+
 @media screen and (max-width: 1000px) {
 
     .imagesList {
@@ -518,4 +527,72 @@ body {
         align-items: center;
         justify-content: center;
     }
+
+    .btnMedias {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+    }
+
+    .imagesList {
+        display: none;
+    }
+}
+
+/* REGISTER PAGE */
+
+.formRegister {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.formRegister form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.blocFormRegister {
+    width: 400px;
+    color: rgb(100,100,100)!important;
+}
+
+.submitUser {
+    width: 100%;
+    padding: 10px;
+    font-size: 15px;
+    color: white;
+    background-color: limegreen;
+}
+
+.submitUser:hover {
+    color: white;
+    background-color:rgb(30,185,30);
+}
+
+.submitLogin {
+    width: 100%;
+    padding: 10px;
+    font-size: 15px;
+    color: white;
+    background-color: limegreen;
+}
+
+.submitLogin:hover {
+    color: white;
+    background-color:rgb(30,185,30);
+}
+
+@media screen and (max-width: 700px) {
+
+    .blocFormRegister{
+        width: 95%;
+    }
+
 }

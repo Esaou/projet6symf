@@ -45,7 +45,7 @@ class Figure
     private $updatedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="figure")
+     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="figure", orphanRemoval=true)
      */
     private $images;
 

@@ -13,8 +13,13 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                         <li class="centrageMenu"><a href="{{ path('home') }}" class="subtitle">{{ 'nav.home'|trans }}</a></li>
-                        <li class="centrageMenu"><a href="" class="subtitle">{{ 'nav.login'|trans }}</a></li>
-                        <li class="centrageMenu"><a href="" class="subtitle" style="border-right: none;">{{ 'nav.register'|trans }}</a></li>
+                        {% if app.user %}
+                            <li class="centrageMenu"><a href="" class="subtitle">{{ 'nav.addFigure'|trans }}</a></li>
+                            <li class="centrageMenu"><a href="{{ path('app_logout') }}" class="subtitle" style="border-right: none;">{{ 'nav.logout'|trans }}</a></li>
+                        {% else %}
+                            <li class="centrageMenu"><a href="{{ path('app_login') }}" class="subtitle">{{ 'nav.login'|trans }}</a></li>
+                            <li class="centrageMenu"><a href="{{ path('register') }}" class="subtitle" style="border-right: none;">{{ 'nav.register'|trans }}</a></li>
+                        {% endif %}
 
                     </ul>
 
@@ -23,7 +28,7 @@
         </div>
     </nav>
 
-    <div class="responsiveNav" style="width: 100%;">
+    <div class="responsiveNav" style="position:relative;width: 100%;">
 
         <nav class="navbar navbar-light" style="background-color: white;box-shadow: none;">
             <div class="container-fluid">
@@ -40,8 +45,8 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 p-4 pt-0">
 
                     <li class="nav-item"><a href="{{ path('home') }}" class="nav-link">{{ 'nav.home'|trans }}</a></li>
-                    <li class="nav-item"><a href="" class="nav-link">{{ 'nav.login'|trans }}</a></li>
-                    <li class="nav-item"><a href="" class="nav-link">{{ 'nav.register'|trans }}</a></li>
+                    <li class="nav-item"><a href="{{ path('app_login') }}" class="nav-link">{{ 'nav.login'|trans }}</a></li>
+                    <li class="nav-item"><a href="{{ path('register') }}" class="nav-link">{{ 'nav.register'|trans }}</a></li>
 
 
                 </ul>

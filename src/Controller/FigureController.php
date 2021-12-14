@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Figure;
 use App\Entity\Message;
 use App\Form\MessageType;
 use App\Repository\FigureRepository;
@@ -31,33 +32,55 @@ class FigureController extends AbstractController
 
         $figure = $figureRepository->findOneBy(['slug'=>$slug]);
 
-        $paginator->paginate($messageRepository,$nbEntities,"figure",2,['figure'=>$figure],['createdAt'=>'desc'],['slug' => $slug]);
+        $paginator->paginate($messageRepository, $nbEntities, "figure", 2, ['figure'=>$figure], ['createdAt'=>'desc'], ['slug' => $slug]);
 
         $form = $this->createForm(MessageType::class);
 
         $form->handleRequest($request);
-
-        $user = $userRepository->findOneBy(['id'=>246]);
-
         if ($form->isSubmitted() && $form->isValid()) {
 
-            /** @var Message $messageEntity */
+            /**
+ * @var Message $messageEntity 
+*/
             $messageEntity = $form->getData();
             $messageEntity->setCreatedAt(new \DateTimeImmutable());
-            $messageEntity->setUser($user);
+            $messageEntity->setUser($messageEntity->getUser());
             $messageEntity->setFigure($figure);
 
             $manager->persist($messageEntity);
             $manager->flush();
 
-            $this->addFlash('success',$this->translator->trans('showFigure.confirmPost'));
+            $this->addFlash('success', $this->translator->trans('showFigure.confirmPost'));
         }
 
-        return $this->render('figure/show.html.twig', [
+        return $this->render(
+            'figure/show.html.twig', [
             'figure' => $figure,
             'messages' => $paginator->getResults(),
             'paginator' => $paginator->getPaginator(),
             'formMessage' => $form->createView()
-        ]);
+            ]
+        );
+    }
+
+    /**
+     * @param Figure $figure
+     * @param EntityManagerInterface $manager
+     * @param FigureRepository $figureRepository
+     */
+    #[Route('/{figure}/delete', name: 'delete_figure')]
+    public function deleteFigure(EntityManagerInterface $manager, FigureRepository $figureRepository,Figure $figure = null) {
+        $figure = $figureRepository->findOneBy(['id'=>$figure]);
+
+        if ($figure !== null) {
+            $manager->remove($figure);
+            $manager->flush();
+            $this->addFlash('success',$this->translator->trans('figure.delete'));
+        } else {
+            $this->addFlash('danger',$this->translator->trans('figure.notfound'));
+        }
+
+        return $this->redirectToRoute('home');
+
     }
 }
