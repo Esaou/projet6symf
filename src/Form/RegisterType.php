@@ -14,7 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class UserType extends AbstractType
+class RegisterType extends AbstractType
 {
 
     private TranslatorInterface $translator;

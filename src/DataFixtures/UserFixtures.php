@@ -86,14 +86,13 @@ class UserFixtures extends Fixture
             $user = new User();
 
             $password = $this->passwordHasher->hashPassword($user, $this->users[$u]['password']);
-            $slug = $this->slugger->slug($this->users[$u]['username'], '_');
 
             $user
                 ->setUsername($this->users[$u]['username'])
                 ->setIsValid($this->users[$u]['isValid'])
                 ->setEmail($this->users[$u]['email'])
                 ->setPassword($password)
-                ->setSlug(uniqid())
+                ->setSlug(uuid_create(UUID_TYPE_RANDOM))
                 ->setAvatar($this->users[$u]['avatar']);
 
             $this->addReference("user$u", $user);

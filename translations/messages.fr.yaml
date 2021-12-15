@@ -54,6 +54,14 @@ login:
 figure:
   delete: 'Figure supprimée avec succès'
   notfound: 'Figure introuvable'
+  image:
+    delete: 'Image supprimée avec succès'
+    notfound: 'Image introuvable'
+    main:
+      success: 'Photo mise à la une'
+  video:
+    delete: 'Vidéo supprimée avec succès'
+    notfound: 'Vidéo introuvable'
 
 editFigure:
   name: 'Nom'
@@ -66,3 +74,9 @@ editFigure:
   flashSuccess: 'Figure ajoutée avec succès'
   images: 'Image(s)'
   videos: 'Vidéo(s)'
+  delete: 'Supprimer cette figure'
+
+error:
+  500: '500 - La page que vous souhaitez consulter est inaccessible'
+  404: '404 - La page que vous souhaitez consulter est introuvable'
+  403: "403 - Vous n'êtes pas autorisé à accéder à la page que vous souhaites consulter"

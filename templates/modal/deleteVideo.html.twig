@@ -1,4 +1,4 @@
-<div class="modal fade" id="delete{{ figure.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteVideo{{ video.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,11 +8,14 @@
                 </button>
             </div>
             <div class="modal-body">
-                Confirmez la supression de la figure : {{ figure.name }}
+                <p>Confirmez la supression de la vidéo :</p>
+                <iframe class="videoList"
+                        src="{{ video.url }}">
+                </iframe>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Annuler</button>
-                <a href="{{ path('delete_figure',{'figure':figure.id}) }}" class="text-white btn btn-sm btn-danger">Supprimer <i class="fas fa-trash text-white" style="margin-left: 5px;"></i></a>
+                <a href="{{ path('delete_video',{'video':video.id}) }}" class="text-white btn btn-sm btn-danger">Supprimer <i class="fas fa-trash text-white" style="margin-left: 5px;"></i></a>
             </div>
         </div>
     </div>

@@ -345,12 +345,19 @@ body {
 
 /* SHOW FIGURE */
 
+.blocImgName {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
 .avatar {
     width: 65px;
     height: 65px;
     border-radius: 50%;
     object-fit: cover;
-    margin-right: 10px;
+    margin: 10px;
     border: 1px solid rgba(100,100,100,0.5);
 }
 
@@ -387,6 +394,20 @@ body {
     width: 200px;
     height: 200px;
     object-fit: cover;
+    border: 1px solid rgba(100,100,100,0.5);
+}
+
+.imgListShow {
+    width: 200px;
+    height: 200px;
+    margin: 30px;
+    object-fit: cover;
+    border: 1px solid rgba(100,100,100,0.5);
+}
+
+.videoListShow {
+    height: 200px;
+    width: 200px;
     margin: 30px;
     border: 1px solid rgba(100,100,100,0.5);
 }
@@ -394,7 +415,6 @@ body {
 .videoList {
     height: 200px;
     width: 200px;
-    margin: 30px;
     border: 1px solid rgba(100,100,100,0.5);
 }
 
@@ -451,8 +471,17 @@ body {
     padding: 10px;
     border-radius: 8px;
     font-size: 14px;
-    background-color: orangered;
+    background-color: rgb(140,140,140);
     color: white;
+}
+
+.btn-danger {
+    background-color: rgb(255,106,74)!important;
+    border: 1px solid rgb(255,106,74)!important;
+}
+
+.btn-danger:hover {
+    background-color: rgb(235,86,54)!important;
 }
 
 .badgePersoGreen {
@@ -549,6 +578,18 @@ body {
     .imagesList {
         display: none;
     }
+
+    .blocImgName {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    .blocBtnCreated {
+        margin-top: 30px!important;
+    }
+
 }
 
 /* REGISTER PAGE */
@@ -637,10 +678,46 @@ body {
 
 /* EDIT FIGURE */
 
-form[name='figure'] > div{
+form[name='add_figure'] > div{
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
+}
+
+form[name='edit_figure'] > div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.blocBtnImage {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 30px;
+}
+
+.blocBtnImage > div {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.deleteFigure {
+    padding: 10px;
+    font-size: 15px;
+    color: white;
+    background-color: rgb(255,106,74) ;
+}
+
+.deleteFigure:hover {
+    color: white;
+    background-color: rgb(235,86,54);
 }

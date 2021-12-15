@@ -70,7 +70,7 @@ class ImageFixtures extends Fixture  implements DependentFixtureInterface
 
         // Create 20 images
 
-        $this->generateImages(40);
+        $this->generateImages(60);
 
         $manager->flush();
     }
@@ -84,6 +84,10 @@ class ImageFixtures extends Fixture  implements DependentFixtureInterface
 
             if ($i >= 20) {
                 $main = false;
+                /**
+                 * @var Figure $figure
+                 */
+                $figure = $this->getReference("figure".mt_rand(0, 19));
             } else {
                 /**
                  * @var Figure $figure
