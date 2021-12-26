@@ -14,7 +14,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class FigureType extends AbstractType
+class AddFigureType extends AbstractType
 {
 
     private TranslatorInterface $translator;
@@ -31,7 +31,7 @@ class FigureType extends AbstractType
                 'name', TextType::class, [
                 'label' => $this->translator->trans('editFigure.name'),
                 'row_attr' => [
-                    'class' => 'col-6'
+                    'class' => 'col-md-6'
                 ],
                 ]
             )
@@ -59,10 +59,7 @@ class FigureType extends AbstractType
                 'images', FileType::class, [
                 'label' => $this->translator->trans('editFigure.images'),
                 'mapped' => false,
-                'required'=>false,
-                'attr' => [
-                    'multiple' => true
-                ],
+                'multiple' => true,
                 'row_attr' => [
                     'class' => 'col-md-6'
                 ]
@@ -72,10 +69,7 @@ class FigureType extends AbstractType
                 'videos', FileType::class, [
                 'label' => $this->translator->trans('editFigure.videos'),
                 'mapped' => false,
-                    'required'=>false,
-                'attr' => [
-                    'multiple' => true
-                ],
+                'multiple' => true,
                 'row_attr' => [
                     'class' => 'col-md-6'
                 ]
@@ -83,9 +77,9 @@ class FigureType extends AbstractType
             )
             ->add(
                 'submit', SubmitType::class, [
-                'label' => ($options['attr']['type'] === 'add') ? $this->translator->trans('editFigure.add') : $this->translator->trans('editFigure.edit'),
+                'label' => (isset($options['attr']['type'])) ? $this->translator->trans('editFigure.edit') : $this->translator->trans('editFigure.add'),
                 'attr' => [
-                    'class' => 'submitUser',
+                    'class' => 'submitUser mt-3',
 
                 ]
                 ]

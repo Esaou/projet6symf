@@ -3,31 +3,31 @@
 
 namespace App\Service;
 
-
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 class FileUpload
 {
-    private $targetDirectory;
 
-    public function __construct($targetDirectory)
+    private $appKernel;
+
+    public function __construct(KernelInterface $appKernel)
     {
-        $this->targetDirectory = $targetDirectory;
+        $this->appKernel = $appKernel;
     }
 
     public function upload(UploadedFile $file,string $target): string
     {
 
-        $file_name = $file->getClientOriginalName();
+        $pathDirectory = $this->appKernel->getProjectDir() . "/public/images/$target";
 
         $id = md5(uniqid());
 
-        empty($file_name) ? $file_name = $id.'.'.$file->guessExtension() : $file_name = $file->getClientOriginalName();
+        $file_name = $id.'.'.$file->guessExtension();
 
-        empty($file_name) ? $path = 'images/'.$target.'/'.$id.'.'.$file->guessExtension() : $path = 'images/'.$target.'/'.$file->getClientOriginalName();
+        $path = 'images/'.$target.'/'.$id.'.'.$file->guessExtension();
 
-        $file->move($this->targetDirectory, $file_name);
+        $file->move($pathDirectory, $file_name);
 
         return $path;
     }

@@ -3,9 +3,85 @@
 {% block title %}{{ 'editFigure.title'|trans }}{% if figure.name is not empty %} - {{ figure.name }}{% endif %}{% endblock %}
 
 {% block body %}
-
-    <div class="container pt-5 pb-5">
-        {{ form(form) }}
+    <div class="overlayShow">
     </div>
+    <div class="container mt-md-5 mb-md-5 blocShow">
+        <div class="imgBlocShow">
+            {% for image in figure.images %}
+                {% if image.main == true %}
+                    <img src="{{ asset(image.filename) }}" alt="{{ figure.name }}" class="imgShow">
+                    <div class="nameShow">
+                        <h5>{{ figure.name }}</h5>
+                    </div>
+                    {% if app.user == figure.user %}
+                        <div class="btnAdminShow">
+                            <button class="icons" type="button" data-toggle="modal" data-target="#main{{ image.id }}" style="cursor: pointer">
+                                <i class="fas fa-pen text-primary"></i>
+                            </button>
+                            <button class="icons" type="button" data-toggle="modal" data-target="#deleteImage{{ image.id }}" style="cursor: pointer">
+                                <i class="fas fa-trash text-danger"></i>
+                            </button>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="btnMedias">
+            <button type="button" class="btn btn-primary" id="showMedias">
+                Voir les médias
+            </button>
+        </div>
+        <div class="imagesList">
+            {% for image in figure.images %}
+                <div class="blocBtnImage">
+                    <img src="{{ asset(image.filename) }}" alt="{{ figure.name }}" class="imgList">
+                    <div>
+                        <button class="icons" type="button" data-toggle="modal" data-target="#main{{ image.id }}" style="cursor: pointer">
+                            <i class="fas fa-pen text-primary"></i>
+                        </button>
+                        <button class="icons" type="button" data-toggle="modal" data-target="#deleteImage{{ image.id }}" style="cursor: pointer">
+                            <i class="fas fa-trash text-danger"></i>
+                        </button>
+                    </div>
+                </div>
+            {% endfor %}
+            {% for video in figure.videos %}
+            <div class="blocBtnImage">
+                <iframe class="videoList"
+                        src="{{ video.url }}">
+                </iframe>
+                <div>
+                    <button class="icons" type="button" data-toggle="modal" data-target="#deleteVideo{{ video.id }}" style="cursor: pointer">
+                        <i class="fas fa-trash text-danger"></i>
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="p-5 pt-2 descriptionShow">
+            <div>
+                <p>{{ figure.description|raw }}</p>
+            </div>
+            <div class="text-center mt-4 blocSpan">
+                <span class="badgePersoGreen">{{ 'showFigure.add'|trans }} {{ figure.createdAt|date('d/m/Y') }} à {{ figure.createdAt|date('H') }}h{{ figure.createdAt|date('i') }}</span>
+                {% if figure.updatedAt is not null %}
+                    <span class="badgePerso">{{ 'showFigure.edit'|trans }} {{ figure.createdAt|date('d/m/Y') }} à {{ figure.createdAt|date('H') }}h{{ figure.createdAt|date('i') }}</span>
+                {% endif %}
+                <span class="badgePersoDanger">{{ 'showFigure.category'|trans }} : {{ figure.category.name }}</span>
+            </div>
+        </div>
+        <div class="container pt-5 pb-5">
+            {{ form(form) }}
+        </div>
+    </div>
+
+    {% include 'modal/delete.html.twig' %}
+    {% for image in figure.images %}
+        {% include 'modal/deleteImage.html.twig' %}
+        {% include 'modal/main.html.twig' %}
+    {% endfor %}
+    {% for video in figure.videos %}
+        {% include 'modal/deleteVideo.html.twig' %}
+    {% endfor %}
 
 {% endblock %}

@@ -2,24 +2,32 @@
 
 namespace App\Controller;
 
-use App\Repository\FigureRepository;
+use App\Entity\Figure;
 use App\Service\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
 
-    #[Route('/home/{nbEntities}', name: 'home')]
-    public function home(FigureRepository $figureRepository,Paginator $paginator,int $nbEntities = 10): Response
+    #[Route('/home', name: 'home', methods: 'GET')]
+    public function home(Request $request,Paginator $paginator): Response
     {
-        $paginator->paginate($figureRepository, $nbEntities, 'home', 5);
+
+        $page = 0;
+
+        if ($request->query->get('page')) {
+            $page = (int)$request->query->get('page');
+        }
+
+        $paginator->createPaginator($page,Figure::class,[],[], 'home');
 
         return $this->render(
             'home/home.html.twig', [
-                'figures' => $paginator->getResults(),
-                'paginator' => $paginator->getPaginator()
+                'figures' => $paginator->getEntities(),
+                'paginator' => $paginator->getPagination()
             ]
         );
     }

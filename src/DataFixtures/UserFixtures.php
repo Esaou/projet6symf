@@ -9,6 +9,7 @@ use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Uid\Uuid;
 
 class UserFixtures extends Fixture
 {
@@ -86,14 +87,13 @@ class UserFixtures extends Fixture
             $user = new User();
 
             $password = $this->passwordHasher->hashPassword($user, $this->users[$u]['password']);
-            $slug = $this->slugger->slug($this->users[$u]['username'], '_');
 
             $user
                 ->setUsername($this->users[$u]['username'])
                 ->setIsValid($this->users[$u]['isValid'])
                 ->setEmail($this->users[$u]['email'])
                 ->setPassword($password)
-                ->setSlug(uniqid())
+                ->setSlug(Uuid::v6())
                 ->setAvatar($this->users[$u]['avatar']);
 
             $this->addReference("user$u", $user);
