@@ -8,11 +8,26 @@
     </div>
     <div class="container mt-md-5 mb-md-5 blocShow">
         <div class="imgBlocShow">
-            {% for image in figure.images %}
-                {% if image.main == true %}
-                    <img src="{{ asset(image.filename) }}" alt="{{ figure.name }}" class="imgShow">
+                {% set main = false %}
+                {% set isImage = false %}
+                {% for image in figure.images %}
+                    {% if image.main == true and main == false %}
+                        <img src="{{ asset(image.filename) }}" alt="{{ figure.name }}" class="imgShow">
+                        {% set main = true %}
+                        {% set isImage = true %}
+                    {% endif %}
+                {% endfor %}
+                {% if main == false %}
+                    {% for image in figure.images %}
+                        {% if loop.first %}
+                            <img src="{{ asset(image.filename) }}" alt="{{ figure.name }}" class="imgShow">
+                            {% set isImage = true %}
+                        {% endif %}
+                    {% endfor %}
                 {% endif %}
-            {% endfor %}
+                {% if isImage == false %}
+                    <img src="{{ asset('images/defaultFigure.jpg') }}" alt="{{ figure.name }}" class="imgShow">
+                {% endif %}
             <div class="nameShow">
                 <h5>{{ figure.name }}</h5>
             </div>
@@ -32,9 +47,7 @@
         </div>
         <div class="imagesList">
             {% for image in figure.images %}
-                {% if image.main == false %}
                     <img src="{{ asset(image.filename) }}" alt="{{ figure.name }}" class="imgListShow">
-                {% endif %}
             {% endfor %}
             {% for video in figure.videos %}
             <iframe class="videoListShow"
@@ -87,21 +100,7 @@
                 </div>
             {% endfor %}
         </div>
-        <div class="paginator" id="paginator">
-            {% if paginator.getRouteParameters() is not null %}
-                {% for key,value in paginator.getRouteParameters() %}
-                    {% if paginator.getNbResults() != paginator.getNbAllResults() %}
-                        <a href="{{ path(paginator.getRoute(),{ (key) : value,'page' : paginator.getPage() }) }}#paginator" class="btnPaginator mb-5 mt-2">{{ 'paginator.next'|trans }} <small>( {{ (paginator.getNbAllResults() - paginator.getNbResults()) }} {{ 'paginator.results'|trans }} )</small></a>
-                    {% endif %}
-                {% endfor %}
-            {% else %}
-                {% if paginator.getNbResults() != paginator.getNbAllResults() %}
-                    <div class="paginator pb-3 pt-2" id="paginator">
-                        <a href="{{ path(paginator.getRoute(),{'page' : paginator.getPage()}) }}#paginator" class="btnPaginator mb-5 mt-2">{{ 'paginator.next'|trans }} <small>( {{ (paginator.getNbAllResults() - paginator.getNbResults()) }} {{ 'paginator.results'|trans }} )</small></a>
-                    </div>
-                {% endif %}
-            {% endif %}
-        </div>
+        {% include 'paginator/paginator.html.twig' %}
         <a href="#messages"><i class="fas fa-arrow-circle-up arrowPaginator"></i></a>
     </div>
 {% endblock %}

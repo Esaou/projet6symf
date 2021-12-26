@@ -6,12 +6,22 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
+ * @UniqueEntity(
+ *     fields={"email"},
+ *     message="L'email est déjà utilisé."
+ * )
+ * @UniqueEntity(
+ *     fields={"username"},
+ *     message="Le nom d'utilisateur est déjà utilisé."
+ * )
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -35,11 +45,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var                       string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\Regex(
+     *     "/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{8,100})$/",
+     *     message="Le mot de passe doit contenir au moins 1 chiffre, une lettre minuscule, majuscule, un caractère spécial et 8 caractères minimum !"
+     * )
      */
     private $password;
 
     /**
+     * @Assert\Email(
+     *     message = "L'email '{{ value }}' n'est pas valide."
+     * )
      * @ORM\Column(type="string", length=255, unique=true)
+     *
      */
     private $email;
 
