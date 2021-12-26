@@ -12,7 +12,7 @@
         <a href="#figures"><i class="fas fa-arrow-circle-down arrowHome"></i></a>
     </div>
     <div class="container-fluid pt-5" id="figures">
-        {% for figure in figures %}
+        {% for figure in paginator.getResults() %}
         <div class="card mb-5">
             <a href="{{ path('figure',{'slug':figure.slug}) }}">
                 <div class="card-image">
@@ -38,6 +38,20 @@
         </div>
         {% endfor %}
     </div>
-    {{ paginator|raw }}
+    <div class="paginator" id="paginator">
+        {% if paginator.getRouteParameters() is not null %}
+            {% for key,value in paginator.getRouteParameters() %}
+                {% if paginator.getNbResults() != paginator.getNbAllResults() %}
+                    <a href="{{ path(paginator.getRoute(),{ (key) : value,'page' : paginator.getPage() }) }}#paginator" class="btnPaginator mb-5 mt-2">{{ 'paginator.next'|trans }} <small>( {{ (paginator.getNbAllResults() - paginator.getNbResults()) }} {{ 'paginator.results'|trans }} )</small></a>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            {% if paginator.getNbResults() != paginator.getNbAllResults() %}
+                <div class="paginator pb-3 pt-2" id="paginator">
+                    <a href="{{ path(paginator.getRoute(),{'page' : paginator.getPage()}) }}#paginator" class="btnPaginator mb-5 mt-2">{{ 'paginator.next'|trans }} <small>( {{ (paginator.getNbAllResults() - paginator.getNbResults()) }} {{ 'paginator.results'|trans }} )</small></a>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
     <a href="#figures"><i class="fas fa-arrow-circle-up arrowPaginator"></i></a>
 {% endblock %}
