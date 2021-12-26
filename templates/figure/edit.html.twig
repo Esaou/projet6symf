@@ -7,24 +7,29 @@
     </div>
     <div class="container mt-md-5 mb-md-5 blocShow">
         <div class="imgBlocShow">
+            {% set main = false %}
+            {% set isImage = false %}
             {% for image in figure.images %}
-                {% if image.main == true %}
+                {% if image.main == true and main == false %}
                     <img src="{{ asset(image.filename) }}" alt="{{ figure.name }}" class="imgShow">
-                    <div class="nameShow">
-                        <h5>{{ figure.name }}</h5>
-                    </div>
-                    {% if app.user == figure.user %}
-                        <div class="btnAdminShow">
-                            <button class="icons" type="button" data-toggle="modal" data-target="#main{{ image.id }}" style="cursor: pointer">
-                                <i class="fas fa-pen text-primary"></i>
-                            </button>
-                            <button class="icons" type="button" data-toggle="modal" data-target="#deleteImage{{ image.id }}" style="cursor: pointer">
-                                <i class="fas fa-trash text-danger"></i>
-                            </button>
-                        </div>
-                    {% endif %}
+                    {% set main = true %}
+                    {% set isImage = true %}
                 {% endif %}
             {% endfor %}
+            {% if main == false %}
+                {% for image in figure.images %}
+                    {% if loop.first %}
+                        <img src="{{ asset(image.filename) }}" alt="{{ figure.name }}" class="imgShow">
+                        {% set isImage = true %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            {% if isImage == false %}
+                <img src="{{ asset('images/defaultFigure.jpg') }}" alt="{{ figure.name }}" class="imgShow">
+            {% endif %}
+            <div class="nameShow">
+                <h5>{{ figure.name }}</h5>
+            </div>
         </div>
         <div class="btnMedias">
             <button type="button" class="btn btn-primary" id="showMedias">

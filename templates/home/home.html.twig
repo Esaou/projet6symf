@@ -16,7 +16,26 @@
         <div class="card mb-5">
             <a href="{{ path('figure',{'slug':figure.slug}) }}">
                 <div class="card-image">
-                    <img src="{% for image in figure.images %}{% if image.main == true %}{{ asset(image.filename) }}{% endif %}{% endfor %}" alt="" />
+                    <img src="
+                        {% set main = false %}
+                        {% set isImage = false %}
+                        {% for image in figure.images %}
+                            {% if image.main == true and main == false %}{{ asset(image.filename) }}
+                                {% set main = true %}
+                                {% set isImage = true %}
+                            {% endif %}
+                        {% endfor %}
+                        {% if main == false %}
+                            {% for image in figure.images %}
+                                {% if loop.first %}{{ asset(image.filename) }}
+                                    {% set isImage = true %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% if isImage == false %}
+                          {{ asset(('images/defaultFigure.jpg')) }}
+                        {% endif %}
+                    " alt="" />
                     <div class="overlayCard"></div>
                 </div>
             </a>
@@ -25,7 +44,6 @@
                         <h3>{{ figure.name }}</h3>
                         {% if app.user %}
                         <div>
-
                             <a href="{{ path('edit_figure',{'slug':figure.slug}) }}" style="margin-right: 10px"><i class="fas fa-pen text-primary"></i></a>
                             <button class="icons" type="button" data-toggle="modal" data-target="#delete{{ figure.id }}" style="cursor: pointer">
                                 <i class="fas fa-trash text-danger"></i>
@@ -38,20 +56,6 @@
         </div>
         {% endfor %}
     </div>
-    <div class="paginator" id="paginator">
-        {% if paginator.getRouteParameters() is not null %}
-            {% for key,value in paginator.getRouteParameters() %}
-                {% if paginator.getNbResults() != paginator.getNbAllResults() %}
-                    <a href="{{ path(paginator.getRoute(),{ (key) : value,'page' : paginator.getPage() }) }}#paginator" class="btnPaginator mb-5 mt-2">{{ 'paginator.next'|trans }} <small>( {{ (paginator.getNbAllResults() - paginator.getNbResults()) }} {{ 'paginator.results'|trans }} )</small></a>
-                {% endif %}
-            {% endfor %}
-        {% else %}
-            {% if paginator.getNbResults() != paginator.getNbAllResults() %}
-                <div class="paginator pb-3 pt-2" id="paginator">
-                    <a href="{{ path(paginator.getRoute(),{'page' : paginator.getPage()}) }}#paginator" class="btnPaginator mb-5 mt-2">{{ 'paginator.next'|trans }} <small>( {{ (paginator.getNbAllResults() - paginator.getNbResults()) }} {{ 'paginator.results'|trans }} )</small></a>
-                </div>
-            {% endif %}
-        {% endif %}
-    </div>
+    {% include 'paginator/paginator.html.twig' %}
     <a href="#figures"><i class="fas fa-arrow-circle-up arrowPaginator"></i></a>
 {% endblock %}

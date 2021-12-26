@@ -1,15 +1,15 @@
 <div class="paginator" id="paginator">
-{% if routeParameters is not null %}
-    {% for key,value in routeParameters %}
-        {% if nbResults != nbAllResults%}
-            <a href="{{ path(route,{ (key) : value,'page' : page }) }}#paginator" class="btnPaginator mb-5 mt-2">{{ 'paginator.next'|trans }} <small>( {{ (nbAllResults - nbResults) }} {{ 'paginator.results'|trans }} )</small></a>
+    {% if paginator.getRouteParameters() is not null %}
+        {% for key,value in paginator.getRouteParameters() %}
+            {% if paginator.getNbResults() != paginator.getNbAllResults() %}
+                <a href="{{ path(paginator.getRoute(),{ (key) : value,'page' : paginator.getPage() }) }}#paginator" class="btnPaginator mb-5 mt-2">{{ 'paginator.next'|trans }} <small>( {{ (paginator.getNbAllResults() - paginator.getNbResults()) }} {{ 'paginator.results'|trans }} )</small></a>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        {% if paginator.getNbResults() != paginator.getNbAllResults() %}
+            <div class="paginator pb-3 pt-2" id="paginator">
+                <a href="{{ path(paginator.getRoute(),{'page' : paginator.getPage()}) }}#paginator" class="btnPaginator mb-5 mt-2">{{ 'paginator.next'|trans }} <small>( {{ (paginator.getNbAllResults() - paginator.getNbResults()) }} {{ 'paginator.results'|trans }} )</small></a>
+            </div>
         {% endif %}
-    {% endfor %}
-{% else %}
-    {% if nbResults != nbAllResults%}
-        <div class="paginator pb-5 pt-2" id="paginator">
-            <a href="{{ path(route,{'page' : page}) }}#paginator" class="btnPaginator mb-5 mt-2">{{ 'paginator.next'|trans }} <small>( {{ (nbAllResults - nbResults) }} {{ 'paginator.results'|trans }} )</small></a>
-        </div>
     {% endif %}
-{% endif %}
 </div>

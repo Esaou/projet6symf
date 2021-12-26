@@ -69,7 +69,11 @@ class RegisterController extends AbstractController
             /** @var UploadedFile $avatar */
             $avatar = $form->get('avatar')->getData();
 
-            $path = $fileUpload->upload($avatar,'avatars');
+            $path = null;
+
+            if ($avatar !== null) {
+                $path = $fileUpload->upload($avatar,'avatars');
+            }
 
             $token = uniqid();
 
