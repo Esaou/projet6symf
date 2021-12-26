@@ -12,8 +12,6 @@ use App\Form\EditFigureType;
 use App\Form\MessageType;
 use App\Repository\FigureRepository;
 use App\Repository\ImageRepository;
-use App\Repository\MessageRepository;
-use App\Repository\UserRepository;
 use App\Service\FileUpload;
 use App\Service\Paginator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -37,13 +35,19 @@ class FigureController extends AbstractController
         $this->translator = $translator;
     }
 
-    #[Route('/figure/{slug}/{nbEntities}', name: 'figure')]
-    public function show(string $slug,UserRepository $userRepository,Request $request,EntityManagerInterface $manager,FigureRepository $figureRepository,Paginator $paginator,MessageRepository $messageRepository,int $nbEntities = 10): Response
+    #[Route('/figure/{slug}', name: 'figure')]
+    public function show(string $slug,Request $request,EntityManagerInterface $manager,FigureRepository $figureRepository,Paginator $paginator): Response
     {
 
         $figure = $figureRepository->findOneBy(['slug'=>$slug]);
 
-        $paginator->paginate($messageRepository, $nbEntities, "figure", 5, ['figure'=>$figure], ['createdAt'=>'desc'], ['slug' => $slug]);
+        $page = 0;
+
+        if ($request->query->get('page')) {
+            $page = (int)$request->query->get('page');
+        }
+
+        $paginator->createPaginator($page,new Message(), ['figure'=>$figure], ['createdAt'=>'desc'],'figure', ['slug' => $slug],10);
 
         $form = $this->createForm(MessageType::class);
 
@@ -70,8 +74,8 @@ class FigureController extends AbstractController
         return $this->render(
             'figure/show.html.twig', [
             'figure' => $figure,
-            'messages' => $paginator->getResults(),
-            'paginator' => $paginator->getPaginator(),
+            'messages' => $paginator->getEntities(),
+            'paginator' => $paginator->getPagination(),
             'formMessage' => $form->createView()
             ]
         );

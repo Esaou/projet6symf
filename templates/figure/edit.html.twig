@@ -33,7 +33,6 @@
         </div>
         <div class="imagesList">
             {% for image in figure.images %}
-                {% if image.main == false %}
                 <div class="blocBtnImage">
                     <img src="{{ asset(image.filename) }}" alt="{{ figure.name }}" class="imgList">
                     <div>
@@ -45,7 +44,6 @@
                         </button>
                     </div>
                 </div>
-                {% endif %}
             {% endfor %}
             {% for video in figure.videos %}
             <div class="blocBtnImage">

@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RegisterController extends AbstractController
@@ -73,7 +74,7 @@ class RegisterController extends AbstractController
             $token = uniqid();
 
             $userEntity
-                ->setSlug(uuid_create(UUID_TYPE_RANDOM))
+                ->setSlug(Uuid::v6())
                 ->setAvatar($path)
                 ->setPassword($password)
                 ->setIsValid(false)

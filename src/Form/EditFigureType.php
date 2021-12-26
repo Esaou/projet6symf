@@ -67,6 +67,7 @@ class EditFigureType extends AbstractType
                     'label' => $this->translator->trans('editFigure.images'),
                     'mapped' => false,
                     'multiple' => true,
+                    'required' => false,
                     'row_attr' => [
                         'class' => 'col-md-6'
                     ]
@@ -77,6 +78,7 @@ class EditFigureType extends AbstractType
                     'label' => $this->translator->trans('editFigure.videos'),
                     'mapped' => false,
                     'multiple' => true,
+                    'required' => false,
                     'row_attr' => [
                         'class' => 'col-md-6'
                     ]
