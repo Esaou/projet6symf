@@ -4,28 +4,30 @@
 namespace App\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Twig\Environment;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class Paginator
 {
 
     private int $nbAdd;
     private array $results;
-
-    private string $paginator;
+    private int $nbResults;
+    private int $nbAllResults;
+    private int $page;
+    private string $route;
+    private array|null $routeParamaters;
 
     public EntityManagerInterface $manager;
-    private Environment $twig;
+    private RequestStack $request;
 
-    public function __construct(private int $nbDisplay, int $nbAdd,EntityManagerInterface $manager,Environment $twig)
+    public function __construct(private int $nbDisplay, int $nbAdd,EntityManagerInterface $manager,RequestStack $request)
     {
         $this->manager = $manager;
         $this->nbAdd = $nbAdd;
-        $this->twig = $twig;
+        $this->request = $request;
     }
 
     public function createPaginator(
-        int $page,
         string $class,
         array $searchCriteria,
         array $orderBy,
@@ -34,9 +36,19 @@ class Paginator
         int $nbParPage = null
     ): void {
 
+        $request = $this->request->getCurrentRequest();
+
+        $this->route = $route;
+        $this->routeParamaters = $routeParameters;
+        $this->page = 0;
+
+        if ($request->query->get('page')) {
+            $this->page = (int)$request->query->get('page');
+        }
+
         $repository = $this->manager->getRepository($class);
 
-        $nbAdd = $this->nbAdd * $page;
+        $nbAdd = $this->nbAdd * $this->page;
 
         if ($nbParPage !== null) {
             $this->nbDisplay = $nbParPage;
@@ -44,32 +56,37 @@ class Paginator
 
         $this->nbDisplay = $this->nbDisplay + $nbAdd;
 
-        $page++;
+        $this->page++;
 
         $this->results = $repository->findBy($searchCriteria,$orderBy,$this->nbDisplay);
 
-        $nbResults = count($this->results);
+        $this->nbResults = count($this->results);
 
-        $nbAllResults = $repository->count($searchCriteria);
-
-        $this->paginator = $this->twig->render(
-            'paginator/paginator.html.twig', [
-            'nbResults' => $nbResults,
-            'nbAllResults' => $nbAllResults,
-            'route' => $route,
-            'page' => $page,
-            'routeParameters' => ($routeParameters !== null) ? $routeParameters : null
-            ]
-        );
+        $this->nbAllResults = $repository->count($searchCriteria);
 
     }
 
-    public function getPagination() {
-        return $this->paginator;
-    }
-
-    public function getEntities() {
+    public function getResults() {
         return $this->results;
     }
 
+    public function getPage() {
+        return $this->page;
+    }
+
+    public function getNbResults() {
+        return $this->nbResults;
+    }
+
+    public function getNbAllResults() {
+        return $this->nbAllResults;
+    }
+
+    public function getRoute() {
+        return $this->route;
+    }
+
+    public function getRouteParameters() {
+        return $this->routeParamaters;
+    }
 }

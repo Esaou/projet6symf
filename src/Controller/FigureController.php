@@ -41,13 +41,7 @@ class FigureController extends AbstractController
 
         $figure = $figureRepository->findOneBy(['slug'=>$slug]);
 
-        $page = 0;
-
-        if ($request->query->get('page')) {
-            $page = (int)$request->query->get('page');
-        }
-
-        $paginator->createPaginator($page,new Message(), ['figure'=>$figure], ['createdAt'=>'desc'],'figure', ['slug' => $slug],10);
+        $paginator->createPaginator(Message::class, ['figure'=>$figure], ['createdAt'=>'desc'],'figure', ['slug' => $slug],10);
 
         $form = $this->createForm(MessageType::class);
 
@@ -74,8 +68,7 @@ class FigureController extends AbstractController
         return $this->render(
             'figure/show.html.twig', [
             'figure' => $figure,
-            'messages' => $paginator->getEntities(),
-            'paginator' => $paginator->getPagination(),
+            'paginator' => $paginator,
             'formMessage' => $form->createView()
             ]
         );

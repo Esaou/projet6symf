@@ -60,7 +60,7 @@
         </div>
         {% endif %}
         <div class="p-5" id="messages">
-            {% for message in messages %}
+            {% for message in paginator.getResults() %}
                 <div class="blocShowOneComment mb-3 pt-4">
                     <div>
                         <div class="pb-3 text-blue blocImgName">
@@ -87,7 +87,21 @@
                 </div>
             {% endfor %}
         </div>
-        {{ paginator|raw }}
+        <div class="paginator" id="paginator">
+            {% if paginator.getRouteParameters() is not null %}
+                {% for key,value in paginator.getRouteParameters() %}
+                    {% if paginator.getNbResults() != paginator.getNbAllResults() %}
+                        <a href="{{ path(paginator.getRoute(),{ (key) : value,'page' : paginator.getPage() }) }}#paginator" class="btnPaginator mb-5 mt-2">{{ 'paginator.next'|trans }} <small>( {{ (paginator.getNbAllResults() - paginator.getNbResults()) }} {{ 'paginator.results'|trans }} )</small></a>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                {% if paginator.getNbResults() != paginator.getNbAllResults() %}
+                    <div class="paginator pb-3 pt-2" id="paginator">
+                        <a href="{{ path(paginator.getRoute(),{'page' : paginator.getPage()}) }}#paginator" class="btnPaginator mb-5 mt-2">{{ 'paginator.next'|trans }} <small>( {{ (paginator.getNbAllResults() - paginator.getNbResults()) }} {{ 'paginator.results'|trans }} )</small></a>
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
         <a href="#messages"><i class="fas fa-arrow-circle-up arrowPaginator"></i></a>
     </div>
 {% endblock %}
