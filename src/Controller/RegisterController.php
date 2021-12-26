@@ -159,7 +159,7 @@ class RegisterController extends AbstractController
     }
 
     #[Route('/reset/{slug}', name: 'reset_password')]
-    public function resetPassword(EntityManagerInterface $manager,UserPasswordHasherInterface $passwordHasher,Mailer $mailer,UserRepository $userRepository,Request $request,string $slug) {
+    public function resetPassword(EntityManagerInterface $manager,UserPasswordHasherInterface $passwordHasher,UserRepository $userRepository,Request $request,string $slug) {
 
         $user = $userRepository->findOneBy(['slug'=>$slug]);
 
@@ -186,6 +186,8 @@ class RegisterController extends AbstractController
             }
 
             $manager->flush();
+
+            return $this->redirectToRoute('home');
         }
 
         return $this->render(

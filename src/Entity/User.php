@@ -34,6 +34,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Regex(
+     *     "/^[A-Za-z][A-Za-z0-9]{1,35}$/",
+     *     message="Le nom d'utilisateur doit commencer par une lettre, contenir de 2 à 35 caractères, uniquement des chiffres et des lettres sans accents."
+     * )
      */
     private $username;
 

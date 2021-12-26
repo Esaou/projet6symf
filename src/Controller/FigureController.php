@@ -41,9 +41,11 @@ class FigureController extends AbstractController
 
         $figure = $figureRepository->findOneBy(['slug'=>$slug]);
 
-        $paginator->createPaginator(Message::class, ['figure'=>$figure], ['createdAt'=>'desc'],'figure', ['slug' => $slug],10);
-
-        $form = $this->createForm(MessageType::class);
+        $form = $this->createForm(MessageType::class,null,[
+            'attr' => [
+                'action' => $this->generateUrl('figure',['slug'=>$slug,'_fragment'=>'messages'])
+            ]
+        ]);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -64,6 +66,8 @@ class FigureController extends AbstractController
 
             $this->addFlash('success', $this->translator->trans('showFigure.confirmPost'));
         }
+
+        $paginator->createPaginator(Message::class, ['figure'=>$figure], ['createdAt'=>'desc'],'figure', ['slug' => $slug],10);
 
         return $this->render(
             'figure/show.html.twig', [
@@ -132,24 +136,26 @@ class FigureController extends AbstractController
             $manager->persist($figureEntity);
             $manager->flush();
 
-            foreach ($form->get('images')->getData() as $image) {
+            if (!empty($form->get('images')->getData())) {
+                foreach ($form->get('images')->getData() as $image) {
 
-                $path = $fileUpload->upload($image,'figures');
+                    $path = $fileUpload->upload($image,'figures');
 
-                $image = new Image();
-                $image
-                    ->setFilename($path)
-                    ->setMain(false)
-                    ->setFigure($figureEntity);
+                    $image = new Image();
+                    $image
+                        ->setFilename($path)
+                        ->setMain(false)
+                        ->setFigure($figureEntity);
 
-                $manager->persist($image);
+                    $manager->persist($image);
+                    $manager->flush();
+                }
+
+                $main = current($imageRepository->findBy(['figure'=>$figureEntity]));
+                $main->setMain(true);
+                $manager->persist($main);
                 $manager->flush();
             }
-
-            $main = current($imageRepository->findBy(['figure'=>$figureEntity]));
-            $main->setMain(true);
-            $manager->persist($main);
-            $manager->flush();
 
             $this->addFlash('success', $this->translator->trans('editFigure.flashSuccess'));
 
@@ -171,7 +177,7 @@ class FigureController extends AbstractController
      * @return Response
      */
     #[Route('/user/figure/{slug}/edit', name: 'edit_figure')]
-    public function edit_figure(Request $request,EntityManagerInterface $manager, FigureRepository $figureRepository,string $slug = null)
+    public function edit_figure(Request $request,EntityManagerInterface $manager,FileUpload $fileUpload, FigureRepository $figureRepository,string $slug = null)
     {
 
         $figure = $figureRepository->findOneBy(['slug'=>$slug]);
@@ -206,10 +212,22 @@ class FigureController extends AbstractController
             $figureEntity
                 ->setCreatedAt(new \DateTimeImmutable())
                 ->setUser($user)
-                ->setSlug($slug);
+                ->setSlug($slug)
+                ->setUpdatedAt(new \DateTimeImmutable());
 
-            if ($type === 'update') {
-                $figureEntity->setUpdatedAt(new \DateTimeImmutable());
+
+            foreach ($form->get('images')->getData() as $image) {
+
+                $path = $fileUpload->upload($image,'figures');
+
+                $image = new Image();
+                $image
+                    ->setFilename($path)
+                    ->setMain(false)
+                    ->setFigure($figureEntity);
+
+                $manager->persist($image);
+                $manager->flush();
             }
 
             $manager->persist($figureEntity);

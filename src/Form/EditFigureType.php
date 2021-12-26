@@ -44,7 +44,7 @@ class EditFigureType extends AbstractType
             )
             ->add(
                 'category', EntityType::class, [
-                    'label' => $this->translator->trans('editFigure.description'),
+                    'label' => $this->translator->trans('editFigure.category'),
                     'class' => Category::class,
                     'row_attr' => [
                         'class' => 'col-md-6'

@@ -64,6 +64,7 @@ figure:
     notfound: 'Vidéo introuvable'
 
 editFigure:
+  category: 'Catégorie'
   name: 'Nom'
   description: 'Description'
   title: 'Edition'

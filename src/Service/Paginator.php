@@ -9,21 +9,19 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class Paginator
 {
 
-    private int $nbAdd;
     private array $results;
     private int $nbResults;
     private int $nbAllResults;
     private int $page;
     private string $route;
-    private array|null $routeParamaters;
+    private array|null $routeParameters;
 
-    public EntityManagerInterface $manager;
+    private EntityManagerInterface $manager;
     private RequestStack $request;
 
-    public function __construct(private int $nbDisplay, int $nbAdd,EntityManagerInterface $manager,RequestStack $request)
+    public function __construct(private int $nbDisplay,private int $nbAdd,EntityManagerInterface $manager,RequestStack $request)
     {
         $this->manager = $manager;
-        $this->nbAdd = $nbAdd;
         $this->request = $request;
     }
 
@@ -39,7 +37,7 @@ class Paginator
         $request = $this->request->getCurrentRequest();
 
         $this->route = $route;
-        $this->routeParamaters = $routeParameters;
+        $this->routeParameters = $routeParameters;
         $this->page = 0;
 
         if ($request->query->get('page')) {
@@ -87,6 +85,6 @@ class Paginator
     }
 
     public function getRouteParameters() {
-        return $this->routeParamaters;
+        return $this->routeParameters;
     }
 }

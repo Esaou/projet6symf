@@ -37,7 +37,8 @@ class AddFigureType extends AbstractType
             )
             ->add(
                 'category', EntityType::class, [
-                'label' => $this->translator->trans('editFigure.description'),
+                'label' => $this->translator->trans('editFigure.category'),
+                    'placeholder' => 'Sélectionnez une catégorie',
                 'class' => Category::class,
                 'row_attr' => [
                     'class' => 'col-md-6'
@@ -59,6 +60,7 @@ class AddFigureType extends AbstractType
                 'images', FileType::class, [
                 'label' => $this->translator->trans('editFigure.images'),
                 'mapped' => false,
+                'required' => false,
                 'multiple' => true,
                 'row_attr' => [
                     'class' => 'col-md-6'
@@ -69,6 +71,7 @@ class AddFigureType extends AbstractType
                 'videos', FileType::class, [
                 'label' => $this->translator->trans('editFigure.videos'),
                 'mapped' => false,
+                'required' => false,
                 'multiple' => true,
                 'row_attr' => [
                     'class' => 'col-md-6'

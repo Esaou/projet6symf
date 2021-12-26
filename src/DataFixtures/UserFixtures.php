@@ -43,7 +43,7 @@ class UserFixtures extends Fixture
             'avatar' => 'images/avatars/default.png',
         ],
         [
-            'username' => 'Hello World',
+            'username' => 'HelloWorld',
             'email' => 'hello.world@test.com',
             'isValid' => false,
             'password' => 'Motdepassergpb1!',

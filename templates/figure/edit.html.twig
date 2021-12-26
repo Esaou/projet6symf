@@ -31,6 +31,7 @@
                 <h5>{{ figure.name }}</h5>
             </div>
         </div>
+        {% if figure.images is not empty or figure.videos is not empty %}
         <div class="btnMedias">
             <button type="button" class="btn btn-primary" id="showMedias">
                 Voir les médias
@@ -63,6 +64,7 @@
             </div>
             {% endfor %}
         </div>
+        {% endif %}
         <div class="p-5 pt-2 descriptionShow">
             <div>
                 <p>{{ figure.description|raw }}</p>
