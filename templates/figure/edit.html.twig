@@ -11,7 +11,7 @@
             {% set isImage = false %}
             {% for image in figure.images %}
                 {% if image.main == true and main == false %}
-                    <img src="{{ asset(image.filename) }}" alt="{{ figure.name }}" class="imgShow">
+                    <img src="{{ asset(figuresPath ~ image.filename) }}" alt="{{ figure.name }}" class="imgShow">
                     {% set main = true %}
                     {% set isImage = true %}
                 {% endif %}
@@ -19,13 +19,13 @@
             {% if main == false %}
                 {% for image in figure.images %}
                     {% if loop.first %}
-                        <img src="{{ asset(image.filename) }}" alt="{{ figure.name }}" class="imgShow">
+                        <img src="{{ asset(figuresPath ~ image.filename) }}" alt="{{ figure.name }}" class="imgShow">
                         {% set isImage = true %}
                     {% endif %}
                 {% endfor %}
             {% endif %}
             {% if isImage == false %}
-                <img src="{{ asset('images/defaultFigure.jpg') }}" alt="{{ figure.name }}" class="imgShow">
+                <img src="{{ asset(figureDefault) }}" alt="{{ figure.name }}" class="imgShow">
             {% endif %}
             <div class="nameShow">
                 <h5>{{ figure.name }}</h5>
@@ -40,7 +40,7 @@
         <div class="imagesList">
             {% for image in figure.images %}
                 <div class="blocBtnImage">
-                    <img src="{{ asset(image.filename) }}" alt="{{ figure.name }}" class="imgList">
+                    <img src="{{ asset(figuresPath ~ image.filename) }}" alt="{{ figure.name }}" class="imgList">
                     <div>
                         <button class="icons" type="button" data-toggle="modal" data-target="#main{{ image.id }}" style="cursor: pointer">
                             <i class="fas fa-pen text-primary"></i>
@@ -70,9 +70,9 @@
                 <p>{{ figure.description|raw }}</p>
             </div>
             <div class="text-center mt-4 blocSpan">
-                <span class="badgePersoGreen">{{ 'showFigure.add'|trans }} {{ figure.createdAt|date('d/m/Y', "Europe/Paris") }} à {{ figure.createdAt|date('H', "Europe/Paris") }}h{{ figure.createdAt|date('i', "Europe/Paris") }}</span>
+                <span class="badgePersoGreen">{{ 'showFigure.add'|trans }} {{ figure.createdAt|date('d/m/Y', "Europe/Paris") }} à {{ figure.createdAt|date('H', "Europe/Paris") }}h {{ figure.createdAt|date('i', "Europe/Paris") }}min {{ figure.createdAt|date('s', "Europe/Paris") }}s</span>
                 {% if figure.updatedAt is not null %}
-                    <span class="badgePerso">{{ 'showFigure.edit'|trans }} {{ figure.updatedAt|date('d/m/Y', "Europe/Paris") }} à {{ figure.updatedAt|date('H', "Europe/Paris") }}h{{ figure.updatedAt|date('i', "Europe/Paris") }}</span>
+                    <span class="badgePerso">{{ 'showFigure.edit'|trans }} {{ figure.updatedAt|date('d/m/Y', "Europe/Paris") }} à {{ figure.updatedAt|date('H', "Europe/Paris") }}h {{ figure.updatedAt|date('i', "Europe/Paris") }}min {{ figure.updatedAt|date('s', "Europe/Paris") }}s</span>
                 {% endif %}
                 <span class="badgePersoDanger">{{ 'showFigure.category'|trans }} : {{ figure.category.name }}</span>
             </div>
@@ -82,13 +82,13 @@
         </div>
     </div>
 
-    {% include 'modal/delete.html.twig' %}
+    {% include '_partial/_modal/_deleteFigure.html.twig' %}
     {% for image in figure.images %}
-        {% include 'modal/deleteImage.html.twig' %}
-        {% include 'modal/main.html.twig' %}
+        {% include '_partial/_modal/_deleteImage.html.twig' %}
+        {% include '_partial/_modal/_setMain.html.twig' %}
     {% endfor %}
     {% for video in figure.videos %}
-        {% include 'modal/deleteVideo.html.twig' %}
+        {% include '_partial/_modal/_deleteVideo.html.twig' %}
     {% endfor %}
 
 {% endblock %}

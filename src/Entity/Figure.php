@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass=FigureRepository::class)
  * @UniqueEntity(
  *     fields={"name"},
- *     message="Cette catégorie exite déjà."
+ *     message="Cette figure exite déjà."
  * )
  */
 class Figure

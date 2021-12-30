@@ -20,20 +20,20 @@
                         {% set main = false %}
                         {% set isImage = false %}
                         {% for image in figure.images %}
-                            {% if image.main == true and main == false %}{{ asset(image.filename) }}
+                            {% if image.main == true and main == false %}{{ asset(figuresPath ~ image.filename) }}
                                 {% set main = true %}
                                 {% set isImage = true %}
                             {% endif %}
                         {% endfor %}
                         {% if main == false %}
                             {% for image in figure.images %}
-                                {% if loop.first %}{{ asset(image.filename) }}
+                                {% if loop.first %}{{ asset(figuresPath ~ image.filename) }}
                                     {% set isImage = true %}
                                 {% endif %}
                             {% endfor %}
                         {% endif %}
                         {% if isImage == false %}
-                          {{ asset(('images/defaultFigure.jpg')) }}
+                          {{ asset((figureDefault)) }}
                         {% endif %}
                     " alt="" />
                     <div class="overlayCard"></div>
@@ -48,14 +48,14 @@
                                 <i class="fas fa-trash text-danger"></i>
                             </button>
                         </div>
+                            {% include '_partial/_modal/_deleteFigure.html.twig' %}
                         {% endif %}
                     </div>
                 </div>
             </a>
         </div>
-            {% include 'modal/delete.html.twig' %}
         {% endfor %}
     </div>
-    {% include 'paginator/paginator.html.twig' %}
+    {% include '_partial/_paginator/_paginator.html.twig' %}
     <a href="#figures"><i class="fas fa-arrow-circle-up arrowPaginator"></i></a>
 {% endblock %}

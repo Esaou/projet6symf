@@ -56,13 +56,6 @@ class ImageFixtures extends Fixture  implements DependentFixtureInterface
         'truckdriver1.jpg'
     ];
 
-    private string $pathToDirectory;
-
-    public function __construct()
-    {
-        $this->pathToDirectory = "images/figures/";
-    }
-
     public function load(ObjectManager $manager): void
     {
 
@@ -104,7 +97,7 @@ class ImageFixtures extends Fixture  implements DependentFixtureInterface
             $image = new Image();
             $image
                 ->setFigure($figure)
-                ->setFilename($this->pathToDirectory . $filename)
+                ->setFilename($filename)
                 ->setMain($main);
 
             $this->addReference("image$i", $image);
