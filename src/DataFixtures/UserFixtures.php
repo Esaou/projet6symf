@@ -88,13 +88,21 @@ class UserFixtures extends Fixture
 
             $password = $this->passwordHasher->hashPassword($user, $this->users[$u]['password']);
 
+            $token = null;
+
+            if ($this->users[$u]['isValid'] === false) {
+                $token = Uuid::v6();
+            }
+
             $user
                 ->setUsername($this->users[$u]['username'])
                 ->setIsValid($this->users[$u]['isValid'])
                 ->setEmail($this->users[$u]['email'])
                 ->setPassword($password)
                 ->setSlug(Uuid::v6())
-                ->setAvatar($this->users[$u]['avatar']);
+                ->setToken($token)
+                ->setAvatar($this->users[$u]['avatar'])
+            ;
 
             $this->addReference("user$u", $user);
 

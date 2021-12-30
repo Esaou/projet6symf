@@ -15,18 +15,18 @@ class Video
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $url;
+    private string $url;
 
     /**
      * @ORM\ManyToOne(targetEntity=Figure::class, inversedBy="videos")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $figure;
+    private Figure $figure;
 
     public function getId(): ?int
     {
@@ -45,12 +45,12 @@ class Video
         return $this;
     }
 
-    public function getFigure(): ?Figure
+    public function getFigure(): Figure
     {
         return $this->figure;
     }
 
-    public function setFigure(?Figure $figure): self
+    public function setFigure(Figure $figure): self
     {
         $this->figure = $figure;
 

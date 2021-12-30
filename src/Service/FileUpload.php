@@ -9,7 +9,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 class FileUpload
 {
 
-    private $appKernel;
+    private KernelInterface $appKernel;
 
     public function __construct(KernelInterface $appKernel)
     {

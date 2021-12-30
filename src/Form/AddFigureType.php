@@ -80,7 +80,7 @@ class AddFigureType extends AbstractType
             )
             ->add(
                 'submit', SubmitType::class, [
-                'label' => (isset($options['attr']['type'])) ? $this->translator->trans('editFigure.edit') : $this->translator->trans('editFigure.add'),
+                'label' => $this->translator->trans('editFigure.add'),
                 'attr' => [
                     'class' => 'submitUser mt-3',
 

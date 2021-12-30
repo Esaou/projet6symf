@@ -106,23 +106,30 @@ class RegisterController extends AbstractController
     }
 
     /**
-     * @param string                 $token
-     * @param UserRepository         $userRepository
-
+     * @param string|null $token
+     * @param UserRepository $userRepository
      * @param EntityManagerInterface $manager
+     * @return RedirectResponse
      */
-    #[Route('/user/confirm/{token}', name: 'user_confirm')]
-    public function confirmUser(string $token, UserRepository $userRepository, EntityManagerInterface $manager): RedirectResponse
+    #[Route('/confirm/{token}', name: 'user_confirm')]
+    public function confirmUser(string|null $token, UserRepository $userRepository, EntityManagerInterface $manager): RedirectResponse
     {
+
+        if ($token === null) {
+            $this->addFlash('danger', 'Token de validation invalide');
+            return $this->redirectToRoute('app_login');
+        }
+
         $user = $userRepository->findOneBy(['token'=>$token]);
 
         if ($user !== null) {
+            $user->setToken(null);
             $user->setIsValid(true);
             $manager->persist($user);
             $manager->flush();
             $this->addFlash('success', 'Compte validé avec succès');
         } else {
-            $this->addFlash('success', 'Erreur lors de la validation du compte');
+            $this->addFlash('danger', 'Token de validation invalide');
         }
 
         return $this->redirectToRoute('app_login');
@@ -140,6 +147,11 @@ class RegisterController extends AbstractController
             $username = $form->get('username')->getData();
 
             $userEntity = $userRepository->findOneBy(['username'=>$username]);
+
+            if ($userEntity === null) {
+                $this->addFlash('danger',$this->translator->trans('forgotten.flashNotFound'));
+                return $this->redirectToRoute('forgotten_password');
+            }
 
             $result = $mailer->mail('contact@snowtricks.com', $userEntity->getEmail(), 'Reinitialisation de mot de passe', 'email/reset.html.twig', ['user'=>$userEntity]);
 
@@ -183,6 +195,7 @@ class RegisterController extends AbstractController
                 $this->addFlash('success', $this->translator->trans('forgotten.flashSuccessReset'));
             } else {
                 $this->addFlash('danger', $this->translator->trans('forgotten.flashDangerReset'));
+                return $this->redirectToRoute('reset_password',['slug'=>$slug]);
             }
 
             $manager->flush();

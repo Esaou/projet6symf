@@ -107,7 +107,7 @@ class FigureController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     #[Route('/user/figure/add', name: 'add_figure')]
-    public function add_figure(ImageRepository $imageRepository,FileUpload $fileUpload,Request $request,EntityManagerInterface $manager)
+    public function addFigure(FileUpload $fileUpload,Request $request,EntityManagerInterface $manager)
     {
 
         $form = $this->createForm(AddFigureType::class);
@@ -134,7 +134,6 @@ class FigureController extends AbstractController
                 ->setSlug($slug);
 
             $manager->persist($figureEntity);
-            $manager->flush();
 
             if (!empty($form->get('images')->getData())) {
                 foreach ($form->get('images')->getData() as $image) {
@@ -148,12 +147,8 @@ class FigureController extends AbstractController
                         ->setFigure($figureEntity);
 
                     $manager->persist($image);
-                    $manager->flush();
                 }
 
-                $main = current($imageRepository->findBy(['figure'=>$figureEntity]));
-                $main->setMain(true);
-                $manager->persist($main);
                 $manager->flush();
             }
 
@@ -177,7 +172,7 @@ class FigureController extends AbstractController
      * @return Response
      */
     #[Route('/user/figure/{slug}/edit', name: 'edit_figure')]
-    public function edit_figure(Request $request,EntityManagerInterface $manager,FileUpload $fileUpload, FigureRepository $figureRepository,string $slug = null)
+    public function editFigure(Request $request,EntityManagerInterface $manager,FileUpload $fileUpload, FigureRepository $figureRepository,string $slug = null)
     {
 
         $figure = $figureRepository->findOneBy(['slug'=>$slug]);
@@ -210,7 +205,6 @@ class FigureController extends AbstractController
             $figureEntity = $form->getData();
             $slug = $this->slugger->slug($figureEntity->getName(), '_');
             $figureEntity
-                ->setCreatedAt(new \DateTimeImmutable())
                 ->setUser($user)
                 ->setSlug($slug)
                 ->setUpdatedAt(new \DateTimeImmutable());

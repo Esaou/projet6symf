@@ -62,9 +62,9 @@
                 <p>{{ figure.description|raw }}</p>
             </div>
             <div class="text-center mt-4 blocSpan">
-                <span class="badgePersoGreen">{{ 'showFigure.add'|trans }} {{ figure.createdAt|date('d/m/Y') }} à {{ figure.createdAt|date('H') }}h{{ figure.createdAt|date('i') }}</span>
+                <span class="badgePersoGreen">{{ 'showFigure.add'|trans }} {{ figure.createdAt|date('d/m/Y', "Europe/Paris") }} à {{ figure.createdAt|date('H', "Europe/Paris") }}h{{ figure.createdAt|date('i', "Europe/Paris") }}</span>
                 {% if figure.updatedAt is not null %}
-                <span class="badgePerso">{{ 'showFigure.edit'|trans }} {{ figure.createdAt|date('d/m/Y') }} à {{ figure.createdAt|date('H') }}h{{ figure.createdAt|date('i') }}</span>
+                <span class="badgePerso">{{ 'showFigure.edit'|trans }} {{ figure.updatedAt|date('d/m/Y', "Europe/Paris") }} à {{ figure.updatedAt|date('H', "Europe/Paris") }}h{{ figure.updatedAt|date('i', "Europe/Paris") }}</span>
                 {% endif %}
                 <span class="badgePersoDanger">{{ 'showFigure.category'|trans }} : {{ figure.category.name }}</span>
             </div>

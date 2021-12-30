@@ -30,7 +30,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
@@ -39,12 +39,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *     message="Le nom d'utilisateur doit commencer par une lettre, contenir de 2 à 35 caractères, uniquement des chiffres et des lettres sans accents."
      * )
      */
-    private $username;
+    private string $username;
 
     /**
      * @ORM\Column(type="json")
+     * @var array<string>
      */
-    private $roles = [];
+    private array $roles = [];
 
     /**
      * @var                       string The hashed password
@@ -54,7 +55,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *     message="Le mot de passe doit contenir au moins 1 chiffre, une lettre minuscule, majuscule, un caractère spécial et 8 caractères minimum !"
      * )
      */
-    private $password;
+    private string $password;
 
     /**
      * @Assert\Email(
@@ -63,37 +64,37 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=255, unique=true)
      *
      */
-    private $email;
+    private string $email;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isValid;
+    private bool $isValid;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $slug;
+    private string $slug;
 
     /**
      * @ORM\OneToMany(targetEntity=Message::class, mappedBy="user")
      */
-    private $messages;
+    private ?Collection $messages;
 
     /**
      * @ORM\OneToMany(targetEntity=Figure::class, mappedBy="user")
      */
-    private $figures;
+    private ?Collection $figures;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $token;
+    private ?string $token;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $avatar;
+    private ?string $avatar;
 
     public function __construct()
     {
@@ -140,6 +141,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
+    /**
+     * @param array<string> $roles
+     * @return $this
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -165,7 +170,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
@@ -210,7 +215,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection|Message[]
      */
-    public function getMessages(): Collection
+    public function getMessages(): ?Collection
     {
         return $this->messages;
     }
@@ -240,7 +245,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection|Figure[]
      */
-    public function getFigures(): Collection
+    public function getFigures(): ?Collection
     {
         return $this->figures;
     }

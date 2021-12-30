@@ -275,6 +275,10 @@ body {
     font-size: 22px!important;
 }
 
+.card-title h3:hover {
+    text-decoration: none!important;
+}
+
 #figures {
     display: flex;
     flex-direction: row;
