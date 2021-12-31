@@ -3,6 +3,7 @@
 {% block title %}SnowTricks{% endblock %}
 
 {% block body %}
+
     <div class="blocImageHome">
         <img src="{{ asset('images/home.jpg') }}" alt="home">
         <div class="overlay"></div>
@@ -16,26 +17,8 @@
         <div class="card mb-5">
             <a href="{{ path('figure',{'slug':figure.slug}) }}" style="text-decoration: none;z-index: 500;">
                 <div class="card-image">
-                    <img src="
-                        {% set main = false %}
-                        {% set isImage = false %}
-                        {% for image in figure.images %}
-                            {% if image.main == true and main == false %}{{ asset(figuresPath ~ image.filename) }}
-                                {% set main = true %}
-                                {% set isImage = true %}
-                            {% endif %}
-                        {% endfor %}
-                        {% if main == false %}
-                            {% for image in figure.images %}
-                                {% if loop.first %}{{ asset(figuresPath ~ image.filename) }}
-                                    {% set isImage = true %}
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                        {% if isImage == false %}
-                          {{ asset((figureDefault)) }}
-                        {% endif %}
-                    " alt="" />
+                    {% set imageDisplay = include('_partial/_imageDisplay/_imageDisplay.html.twig') %}
+                    <img src="{{ imageDisplay }}" />
                     <div class="overlayCard"></div>
                 </div>
                 <div class="card-body">

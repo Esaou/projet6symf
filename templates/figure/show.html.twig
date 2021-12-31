@@ -8,26 +8,8 @@
     </div>
     <div class="container mt-md-5 mb-md-5 blocShow">
         <div class="imgBlocShow">
-                {% set main = false %}
-                {% set isImage = false %}
-                {% for image in figure.images %}
-                    {% if image.main == true and main == false %}
-                        <img src="{{ asset(figuresPath ~ image.filename) }}" alt="{{ figure.name }}" class="imgShow">
-                        {% set main = true %}
-                        {% set isImage = true %}
-                    {% endif %}
-                {% endfor %}
-                {% if main == false %}
-                    {% for image in figure.images %}
-                        {% if loop.first %}
-                            <img src="{{ asset(figuresPath ~ image.filename) }}" alt="{{ figure.name }}" class="imgShow">
-                            {% set isImage = true %}
-                        {% endif %}
-                    {% endfor %}
-                {% endif %}
-                {% if isImage == false %}
-                    <img src="{{ asset(figureDefault) }}" alt="{{ figure.name }}" class="imgShow">
-                {% endif %}
+            {% set imageDisplay = include('_partial/_imageDisplay/_imageDisplay.html.twig') %}
+            <img src="{{ imageDisplay }}" alt="{{ figure.name }}" class="imgShow">
             <div class="nameShow">
                 <h5>{{ figure.name }}</h5>
             </div>
