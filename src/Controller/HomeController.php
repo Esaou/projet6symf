@@ -15,11 +15,9 @@ class HomeController extends AbstractController
     public function home(Paginator $paginator): Response
     {
 
-        $paginator->createPaginator(Figure::class,[],['createdAt'=>'desc'], 'home');
-
         return $this->render(
             'home/home.html.twig', [
-                'paginator' => $paginator
+                'paginator' => $paginator->createPaginator(Figure::class,[],['createdAt'=>'desc'], 'home')
             ]
         );
     }

@@ -275,6 +275,10 @@ body {
     font-size: 22px!important;
 }
 
+.card-title h3:hover {
+    text-decoration: none!important;
+}
+
 #figures {
     display: flex;
     flex-direction: row;
@@ -381,7 +385,7 @@ body {
 .imgBlocShow{
     width: 100%;
     position: relative;
-    border-bottom: 1px solid rgba(100,100,100,0.5);
+    border-bottom: 1px solid rgba(200,200,200,1);
 }
 
 .imgShow {
@@ -425,9 +429,8 @@ body {
 
 .nameShow h5 {
     background-color: rgba(50,50,50,0.9);
-    border-bottom: 1px solid rgba(100,100,100,0.5);
-    border-top: 1px solid rgba(100,100,100,0.5);
-    border-right: 1px solid rgba(100,100,100,0.5);
+    border-bottom: 1px solid rgba(150,150,150,1);
+    border-right: 1px solid rgba(150,150,150,1);
     color: white;
     padding: 30px;
     margin: 0px;
@@ -439,9 +442,8 @@ body {
     top: 0px;
     right: 0px;
     background-color: rgba(50,50,50,0.9);
-    border-bottom: 1px solid rgba(100,100,100,0.5);
-    border-top: 1px solid rgba(100,100,100,0.5);
-    border-left: 1px solid rgba(100,100,100,0.5);
+    border-bottom: 1px solid rgba(150,150,150,1);
+    border-left: 1px solid rgba(150,150,150,1);
     color: rgb(100,100,100);
     padding: 10px;
     margin: 0px;

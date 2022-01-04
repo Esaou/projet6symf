@@ -1,0 +1,18 @@
+{% if figure.images|length == 0 %}
+    {{ asset(figureDefault) }}
+{% else %}
+    {% set isMain = false %}
+    {% for image in figure.images %}
+        {% if image.main == true and isMain == false %}
+            {{ asset(figuresPath ~ image.filename) }}
+            {% set isMain = true %}
+        {% endif %}
+    {% endfor %}
+    {% if isMain == false %}
+        {% for image in figure.images %}
+            {% if loop.first %}
+                {{ asset(figuresPath ~ image.filename) }}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endif %}

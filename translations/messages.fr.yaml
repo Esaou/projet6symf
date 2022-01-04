@@ -36,6 +36,7 @@ register:
   sendMail: 'Recevoir un mail'
 
 forgotten:
+  flashNotFound: "L'utilisateur n'existe pas"
   flashSuccess: 'Mail envoyé'
   flashDanger: "Erreur lors de l'envoi du mail"
   username: "Renseignez votre nom d'utilisateur"
@@ -43,6 +44,8 @@ forgotten:
   flashDangerReset: 'Utilisateur invalide'
 
 reset:
+  password: 'Nouveau mot de passe'
+  confirm.password: 'Confirmez le nouveau mot de passe'
   confirm.username: "Confirmez votre nom d'utilisateur"
   send: 'Réinitialiser mon mot de passe'
 
@@ -50,6 +53,7 @@ login:
   login: 'Connexion'
   username: "Nom d'utilisateur"
   password: 'Mot de passe'
+  email: 'Email'
 
 figure:
   delete: 'Figure supprimée avec succès'
@@ -64,6 +68,7 @@ figure:
     notfound: 'Vidéo introuvable'
 
 editFigure:
+  category: 'Catégorie'
   name: 'Nom'
   description: 'Description'
   title: 'Edition'

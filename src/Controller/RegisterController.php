@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -36,10 +37,13 @@ class RegisterController extends AbstractController
     }
 
     /**
-     * @param  Mailer                 $mailer
-     * @param  Request                $request
-     * @param  EntityManagerInterface $manager
+     * @param FileUpload $fileUpload
+     * @param UserPasswordHasherInterface $passwordHasher
+     * @param Mailer $mailer
+     * @param Request $request
+     * @param EntityManagerInterface $manager
      * @return Response
+     * @throws TransportExceptionInterface
      */
     #[Route('/register', name: 'register')]
     public function register(FileUpload $fileUpload,UserPasswordHasherInterface $passwordHasher,Mailer $mailer,Request $request,EntityManagerInterface $manager): Response
@@ -81,6 +85,7 @@ class RegisterController extends AbstractController
                 ->setSlug(Uuid::v6())
                 ->setAvatar($path)
                 ->setPassword($password)
+                ->setCreatedAt(new \DateTimeImmutable())
                 ->setIsValid(false)
                 ->setToken($token);
 
@@ -106,30 +111,39 @@ class RegisterController extends AbstractController
     }
 
     /**
-     * @param string                 $token
-     * @param UserRepository         $userRepository
-
+     * @param string|null $token
      * @param EntityManagerInterface $manager
+     * @return RedirectResponse
      */
-    #[Route('/user/confirm/{token}', name: 'user_confirm')]
-    public function confirmUser(string $token, UserRepository $userRepository, EntityManagerInterface $manager): RedirectResponse
+    #[Route('/confirm/{token}', name: 'user_confirm')]
+    public function confirmUser(string|null $token, EntityManagerInterface $manager): RedirectResponse
     {
+
+        $userRepository = $manager->getRepository(User::class);
+
+        if ($token === null) {
+            $this->addFlash('danger', 'Token de validation invalide');
+            return $this->redirectToRoute('app_login');
+        }
+
         $user = $userRepository->findOneBy(['token'=>$token]);
 
         if ($user !== null) {
+            $user->setToken(null);
             $user->setIsValid(true);
             $manager->persist($user);
             $manager->flush();
             $this->addFlash('success', 'Compte validé avec succès');
         } else {
-            $this->addFlash('success', 'Erreur lors de la validation du compte');
+            $this->addFlash('danger', 'Token de validation invalide');
         }
 
         return $this->redirectToRoute('app_login');
     }
 
     #[Route('/password/forgotten', name: 'forgotten_password')]
-    public function forgottenPassword(Request $request,UserRepository $userRepository,Mailer $mailer) {
+    public function forgottenPassword(Request $request,UserRepository $userRepository,Mailer $mailer): RedirectResponse|Response
+    {
 
         $form = $this->createForm(ForgottenPasswordType::class);
 
@@ -140,6 +154,11 @@ class RegisterController extends AbstractController
             $username = $form->get('username')->getData();
 
             $userEntity = $userRepository->findOneBy(['username'=>$username]);
+
+            if ($userEntity === null) {
+                $this->addFlash('danger',$this->translator->trans('forgotten.flashNotFound'));
+                return $this->redirectToRoute('forgotten_password');
+            }
 
             $result = $mailer->mail('contact@snowtricks.com', $userEntity->getEmail(), 'Reinitialisation de mot de passe', 'email/reset.html.twig', ['user'=>$userEntity]);
 
@@ -159,7 +178,10 @@ class RegisterController extends AbstractController
     }
 
     #[Route('/reset/{slug}', name: 'reset_password')]
-    public function resetPassword(EntityManagerInterface $manager,UserPasswordHasherInterface $passwordHasher,Mailer $mailer,UserRepository $userRepository,Request $request,string $slug) {
+    public function resetPassword(EntityManagerInterface $manager,UserPasswordHasherInterface $passwordHasher, Request $request,string $slug): RedirectResponse|Response
+    {
+
+        $userRepository = $manager->getRepository(User::class);
 
         $user = $userRepository->findOneBy(['slug'=>$slug]);
 
@@ -183,9 +205,12 @@ class RegisterController extends AbstractController
                 $this->addFlash('success', $this->translator->trans('forgotten.flashSuccessReset'));
             } else {
                 $this->addFlash('danger', $this->translator->trans('forgotten.flashDangerReset'));
+                return $this->redirectToRoute('reset_password',['slug'=>$slug]);
             }
 
             $manager->flush();
+
+            return $this->redirectToRoute('home');
         }
 
         return $this->render(

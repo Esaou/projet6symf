@@ -44,7 +44,7 @@ class EditFigureType extends AbstractType
             )
             ->add(
                 'category', EntityType::class, [
-                    'label' => $this->translator->trans('editFigure.description'),
+                    'label' => $this->translator->trans('editFigure.category'),
                     'class' => Category::class,
                     'row_attr' => [
                         'class' => 'col-md-6'
@@ -86,7 +86,7 @@ class EditFigureType extends AbstractType
             )
             ->add(
                 'submit', SubmitType::class, [
-                    'label' => (isset($options['attr']['type'])) ? $this->translator->trans('editFigure.edit') : $this->translator->trans('editFigure.add'),
+                    'label' => $this->translator->trans('editFigure.edit'),
                     'attr' => [
                         'class' => 'submitUser mt-3',
 

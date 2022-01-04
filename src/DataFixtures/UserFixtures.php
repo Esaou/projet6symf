@@ -19,35 +19,35 @@ class UserFixtures extends Fixture
             'email' => 'eric.test@test.com',
             'isValid' => true,
             'password' => 'Motdepassergpb1!',
-            'avatar' => 'images/avatars/default.png',
+            'avatar' => null,
         ],
         [
             'username' => 'Melissa38',
             'email' => 'melissa.test@test.com',
             'isValid' => true,
             'password' => 'Motdepassergpb1!',
-            'avatar' => 'images/avatars/default.png',
+            'avatar' => 'default.png',
         ],
         [
             'username' => 'JakeHenderson',
             'email' => 'jake.henderson@test.com',
             'isValid' => true,
             'password' => 'Motdepassergpb1!',
-            'avatar' => 'images/avatars/default.png',
+            'avatar' => null,
         ],
         [
             'username' => 'Jacques07',
             'email' => 'jacques07@test.com',
             'isValid' => false,
             'password' => 'Motdepassergpb1!',
-            'avatar' => 'images/avatars/default.png',
+            'avatar' => null,
         ],
         [
-            'username' => 'Hello World',
+            'username' => 'HelloWorld',
             'email' => 'hello.world@test.com',
             'isValid' => false,
             'password' => 'Motdepassergpb1!',
-            'avatar' => 'images/avatars/default.png',
+            'avatar' => null,
         ]
     ];
 
@@ -88,13 +88,22 @@ class UserFixtures extends Fixture
 
             $password = $this->passwordHasher->hashPassword($user, $this->users[$u]['password']);
 
+            $token = null;
+
+            if ($this->users[$u]['isValid'] === false) {
+                $token = Uuid::v6();
+            }
+
             $user
                 ->setUsername($this->users[$u]['username'])
                 ->setIsValid($this->users[$u]['isValid'])
                 ->setEmail($this->users[$u]['email'])
                 ->setPassword($password)
                 ->setSlug(Uuid::v6())
-                ->setAvatar($this->users[$u]['avatar']);
+                ->setToken($token)
+                ->setCreatedAt(new \DateTimeImmutable())
+                ->setAvatar($this->users[$u]['avatar'])
+            ;
 
             $this->addReference("user$u", $user);
 
