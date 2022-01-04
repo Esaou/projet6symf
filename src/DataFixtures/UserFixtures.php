@@ -101,6 +101,7 @@ class UserFixtures extends Fixture
                 ->setPassword($password)
                 ->setSlug(Uuid::v6())
                 ->setToken($token)
+                ->setCreatedAt(new \DateTimeImmutable())
                 ->setAvatar($this->users[$u]['avatar'])
             ;
 

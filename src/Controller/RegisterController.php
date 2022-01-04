@@ -81,6 +81,7 @@ class RegisterController extends AbstractController
                 ->setSlug(Uuid::v6())
                 ->setAvatar($path)
                 ->setPassword($password)
+                ->setCreatedAt(new \DateTimeImmutable())
                 ->setIsValid(false)
                 ->setToken($token);
 
@@ -115,22 +116,23 @@ class RegisterController extends AbstractController
     public function confirmUser(string|null $token, UserRepository $userRepository, EntityManagerInterface $manager): RedirectResponse
     {
 
-        if ($token === null) {
+        $user = $userRepository->findOneBy(['token'=>$token]);
+
+        if($user === null || $token === null) {
             $this->addFlash('danger', 'Token de validation invalide');
             return $this->redirectToRoute('app_login');
         }
 
-        $user = $userRepository->findOneBy(['token'=>$token]);
-
-        if ($user !== null) {
-            $user->setToken(null);
-            $user->setIsValid(true);
-            $manager->persist($user);
-            $manager->flush();
-            $this->addFlash('success', 'Compte validé avec succès');
-        } else {
-            $this->addFlash('danger', 'Token de validation invalide');
+        if (new \DateTimeImmutable('now') > $user->getCreatedAt()->modify('+2 day')) {
+            $this->addFlash('danger', 'Token de validation périmé');
+            return $this->redirectToRoute('app_login');
         }
+
+        $user->setToken(null);
+        $user->setIsValid(true);
+        $manager->persist($user);
+        $manager->flush();
+        $this->addFlash('success', 'Compte validé avec succès');
 
         return $this->redirectToRoute('app_login');
     }
