@@ -6,6 +6,7 @@ namespace App\Service;
 
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\Exception\TransportException;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 
 class Mailer
@@ -25,7 +26,7 @@ class Mailer
      * @param string $template
      * @param array<mixed>|null $data
      * @return bool
-     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
+     * @throws TransportExceptionInterface
      */
     public function mail(string $from, string $to, string $subject, string $template, array $data = null): bool
     {

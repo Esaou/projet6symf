@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body">
                 <p>Confirmez la supression de l'image :</p>
-                <img src="{{ asset(image.filename) }}" alt="{{ figure.name }}" class="imgList">
+                <img src="{{ asset(figuresPath ~ image.filename) }}" alt="{{ figure.name }}" class="imgList">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Annuler</button>

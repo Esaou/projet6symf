@@ -16,6 +16,7 @@ use App\Service\FileUpload;
 use App\Service\Paginator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -36,9 +37,12 @@ class FigureController extends AbstractController
     }
 
     #[Route('/figure/{slug}', name: 'figure')]
-    public function show(string $slug,Request $request,EntityManagerInterface $manager,FigureRepository $figureRepository,Paginator $paginator): Response
+    public function show(string $slug,Request $request,EntityManagerInterface $manager,Paginator $paginator): Response
     {
 
+        $figureRepository = $manager->getRepository(Figure::class);
+
+        /** @var Figure $figure */
         $figure = $figureRepository->findOneBy(['slug'=>$slug]);
 
         $form = $this->createForm(MessageType::class,null,[
@@ -67,25 +71,27 @@ class FigureController extends AbstractController
             $this->addFlash('success', $this->translator->trans('showFigure.confirmPost'));
         }
 
-        $paginator->createPaginator(Message::class, ['figure'=>$figure], ['createdAt'=>'desc'],'figure', ['slug' => $slug],10);
-
         return $this->render(
             'figure/show.html.twig', [
             'figure' => $figure,
-            'paginator' => $paginator,
+            'paginator' => $paginator->createPaginator(Message::class, ['figure'=>$figure], ['createdAt'=>'desc'],'figure', ['slug' => $slug],10),
             'formMessage' => $form->createView()
             ]
         );
     }
 
+
     /**
-     * @param Figure                 $figure
      * @param EntityManagerInterface $manager
-     * @param FigureRepository       $figureRepository
+     * @param Figure|null $figure
+     * @return RedirectResponse
      */
     #[Route('/user/{figure}/delete', name: 'delete_figure')]
-    public function deleteFigure(EntityManagerInterface $manager, FigureRepository $figureRepository,Figure $figure = null)
+    public function deleteFigure(EntityManagerInterface $manager,Figure $figure = null): RedirectResponse
     {
+
+        $figureRepository = $manager->getRepository(Figure::class);
+
         $figure = $figureRepository->findOneBy(['id'=>$figure]);
 
         if ($figure !== null) {
@@ -102,6 +108,7 @@ class FigureController extends AbstractController
 
 
     /**
+     * @param FileUpload $fileUpload
      * @param Request $request
      * @param EntityManagerInterface $manager
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
@@ -148,9 +155,9 @@ class FigureController extends AbstractController
 
                     $manager->persist($image);
                 }
-
-                $manager->flush();
             }
+
+            $manager->flush();
 
             $this->addFlash('success', $this->translator->trans('editFigure.flashSuccess'));
 
@@ -165,15 +172,17 @@ class FigureController extends AbstractController
     }
 
     /**
-     * @param  Request                $request
-     * @param  EntityManagerInterface $manager
-     * @param  FigureRepository       $figureRepository
-     * @param  string|null            $slug
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @param FileUpload $fileUpload
+     * @param string|null $slug
      * @return Response
      */
     #[Route('/user/figure/{slug}/edit', name: 'edit_figure')]
-    public function editFigure(Request $request,EntityManagerInterface $manager,FileUpload $fileUpload, FigureRepository $figureRepository,string $slug = null)
+    public function editFigure(Request $request,EntityManagerInterface $manager, FileUpload $fileUpload, string $slug = null): Response
     {
+
+        $figureRepository = $manager->getRepository(Figure::class);
 
         $figure = $figureRepository->findOneBy(['slug'=>$slug]);
 
@@ -221,7 +230,6 @@ class FigureController extends AbstractController
                     ->setFigure($figureEntity);
 
                 $manager->persist($image);
-                $manager->flush();
             }
 
             $manager->persist($figureEntity);
@@ -241,7 +249,10 @@ class FigureController extends AbstractController
     }
 
     #[Route('/user/image/{image}/delete', name: 'delete_image')]
-    public function deleteImage(ImageRepository $imageRepository,EntityManagerInterface $manager,Image $image) {
+    public function deleteImage(EntityManagerInterface $manager,Image $image): RedirectResponse
+    {
+
+        $imageRepository = $manager->getRepository(Image::class);
 
         $param = $image->getFigure()->getSlug();
         $figure = $image->getFigure();
@@ -249,15 +260,15 @@ class FigureController extends AbstractController
         if ($image !== null) {
 
             $manager->remove($image);
-            $manager->flush();
             $this->addFlash('danger', $this->translator->trans('figure.image.delete'));
 
             if ($image->getMain() === true) {
                 $newMain = current($imageRepository->findBy(['figure'=>$figure]));
                 $newMain->setMain(true);
                 $manager->persist($newMain);
-                $manager->flush();
             }
+
+            $manager->flush();
 
         } else {
             $this->addFlash('danger', $this->translator->trans('figure.image.notfound'));
@@ -269,7 +280,8 @@ class FigureController extends AbstractController
     }
 
     #[Route('/user/video/{video}/delete', name: 'delete_video')]
-    public function deleteVideo(EntityManagerInterface $manager,Video $video) {
+    public function deleteVideo(EntityManagerInterface $manager,Video $video): RedirectResponse
+    {
 
         $param = $video->getFigure()->getSlug();
 
@@ -287,7 +299,9 @@ class FigureController extends AbstractController
     }
 
     #[Route('/user/image/{image}/main', name: 'main_image')]
-    public function setMain(ImageRepository $imageRepository,EntityManagerInterface $manager,Image $image) {
+    public function setMain(EntityManagerInterface $manager,Image $image): RedirectResponse
+    {
+        $imageRepository = $manager->getRepository(Image::class);
 
         $param = $image->getFigure()->getSlug();
 
@@ -300,7 +314,6 @@ class FigureController extends AbstractController
                 foreach ($images as $object) {
                     $object->setMain(false);
                     $manager->persist($object);
-                    $manager->flush();
                 }
             }
 

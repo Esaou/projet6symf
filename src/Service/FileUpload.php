@@ -8,7 +8,6 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 class FileUpload
 {
-
     private KernelInterface $appKernel;
 
     public function __construct(KernelInterface $appKernel)
@@ -25,10 +24,10 @@ class FileUpload
 
         $file_name = $id.'.'.$file->guessExtension();
 
-        $path = 'images/'.$target.'/'.$id.'.'.$file->guessExtension();
+        $image = $id.'.'.$file->guessExtension();
 
         $file->move($pathDirectory, $file_name);
 
-        return $path;
+        return $image;
     }
 }

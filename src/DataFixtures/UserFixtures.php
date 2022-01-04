@@ -19,35 +19,35 @@ class UserFixtures extends Fixture
             'email' => 'eric.test@test.com',
             'isValid' => true,
             'password' => 'Motdepassergpb1!',
-            'avatar' => 'images/avatars/default.png',
+            'avatar' => null,
         ],
         [
             'username' => 'Melissa38',
             'email' => 'melissa.test@test.com',
             'isValid' => true,
             'password' => 'Motdepassergpb1!',
-            'avatar' => 'images/avatars/default.png',
+            'avatar' => 'default.png',
         ],
         [
             'username' => 'JakeHenderson',
             'email' => 'jake.henderson@test.com',
             'isValid' => true,
             'password' => 'Motdepassergpb1!',
-            'avatar' => 'images/avatars/default.png',
+            'avatar' => null,
         ],
         [
             'username' => 'Jacques07',
             'email' => 'jacques07@test.com',
             'isValid' => false,
             'password' => 'Motdepassergpb1!',
-            'avatar' => 'images/avatars/default.png',
+            'avatar' => null,
         ],
         [
             'username' => 'HelloWorld',
             'email' => 'hello.world@test.com',
             'isValid' => false,
             'password' => 'Motdepassergpb1!',
-            'avatar' => 'images/avatars/default.png',
+            'avatar' => null,
         ]
     ];
 

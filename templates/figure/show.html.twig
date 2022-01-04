@@ -3,31 +3,13 @@
 {% block title %}{{ figure.name }}{% endblock %}
 
 {% block body %}
-    {% include 'modal/delete.html.twig' %}
+    {% include '_partial/_modal/_deleteFigure.html.twig' %}
     <div class="overlayShow">
     </div>
     <div class="container mt-md-5 mb-md-5 blocShow">
         <div class="imgBlocShow">
-                {% set main = false %}
-                {% set isImage = false %}
-                {% for image in figure.images %}
-                    {% if image.main == true and main == false %}
-                        <img src="{{ asset(image.filename) }}" alt="{{ figure.name }}" class="imgShow">
-                        {% set main = true %}
-                        {% set isImage = true %}
-                    {% endif %}
-                {% endfor %}
-                {% if main == false %}
-                    {% for image in figure.images %}
-                        {% if loop.first %}
-                            <img src="{{ asset(image.filename) }}" alt="{{ figure.name }}" class="imgShow">
-                            {% set isImage = true %}
-                        {% endif %}
-                    {% endfor %}
-                {% endif %}
-                {% if isImage == false %}
-                    <img src="{{ asset('images/defaultFigure.jpg') }}" alt="{{ figure.name }}" class="imgShow">
-                {% endif %}
+            {% set imageDisplay = include('_partial/_imageDisplay/_imageDisplay.html.twig') %}
+            <img src="{{ imageDisplay }}" alt="{{ figure.name }}" class="imgShow">
             <div class="nameShow">
                 <h5>{{ figure.name }}</h5>
             </div>
@@ -48,7 +30,7 @@
         </div>
         <div class="imagesList">
             {% for image in figure.images %}
-                    <img src="{{ asset(image.filename) }}" alt="{{ figure.name }}" class="imgListShow">
+                    <img src="{{ asset(figuresPath ~ image.filename) }}" alt="{{ figure.name }}" class="imgListShow">
             {% endfor %}
             {% for video in figure.videos %}
             <iframe class="videoListShow"
@@ -62,9 +44,9 @@
                 <p>{{ figure.description|raw }}</p>
             </div>
             <div class="text-center mt-4 blocSpan">
-                <span class="badgePersoGreen">{{ 'showFigure.add'|trans }} {{ figure.createdAt|date('d/m/Y', "Europe/Paris") }} à {{ figure.createdAt|date('H', "Europe/Paris") }}h{{ figure.createdAt|date('i', "Europe/Paris") }}</span>
+                <span class="badgePersoGreen">{{ 'showFigure.add'|trans }} {{ figure.createdAt|date('d/m/Y', "Europe/Paris") }} à {{ figure.createdAt|date('H', "Europe/Paris") }}h {{ figure.createdAt|date('i', "Europe/Paris") }}min {{ figure.createdAt|date('s', "Europe/Paris") }}s</span>
                 {% if figure.updatedAt is not null %}
-                <span class="badgePerso">{{ 'showFigure.edit'|trans }} {{ figure.updatedAt|date('d/m/Y', "Europe/Paris") }} à {{ figure.updatedAt|date('H', "Europe/Paris") }}h{{ figure.updatedAt|date('i', "Europe/Paris") }}</span>
+                <span class="badgePerso">{{ 'showFigure.edit'|trans }} {{ figure.updatedAt|date('d/m/Y', "Europe/Paris") }} à {{ figure.updatedAt|date('H', "Europe/Paris") }}h {{ figure.updatedAt|date('i', "Europe/Paris") }}min {{ figure.updatedAt|date('s', "Europe/Paris") }}s</span>
                 {% endif %}
                 <span class="badgePersoDanger">{{ 'showFigure.category'|trans }} : {{ figure.category.name }}</span>
             </div>
@@ -80,9 +62,9 @@
                     <div>
                         <div class="pb-3 text-blue blocImgName">
                             {% if message.user.avatar is not null %}
-                                <img src="{{ asset(message.user.avatar) }}" alt="{{ message.user }}" class="avatar">
+                                <img src="{{ asset(avatarsPath ~ message.user.avatar) }}" alt="{{ message.user }}" class="avatar">
                                 {% else %}
-                                    <img src="{{ asset('images/avatars/default.png') }}" alt="{{ message.user }}" class="avatar">
+                                    <img src="{{ asset(avatarDefault) }}" alt="{{ message.user }}" class="avatar">
                             {% endif %}
                             {% if message.user.username is not null %}
                                 <p>
@@ -102,7 +84,7 @@
                 </div>
             {% endfor %}
         </div>
-        {% include 'paginator/paginator.html.twig' %}
+        {% include '_partial/_paginator/_paginator.html.twig' %}
         <a href="#messages"><i class="fas fa-arrow-circle-up arrowPaginator"></i></a>
     </div>
 {% endblock %}

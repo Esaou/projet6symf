@@ -3,6 +3,7 @@
 {% block title %}SnowTricks{% endblock %}
 
 {% block body %}
+
     <div class="blocImageHome">
         <img src="{{ asset('images/home.jpg') }}" alt="home">
         <div class="overlay"></div>
@@ -16,26 +17,8 @@
         <div class="card mb-5">
             <a href="{{ path('figure',{'slug':figure.slug}) }}" style="text-decoration: none;z-index: 500;">
                 <div class="card-image">
-                    <img src="
-                        {% set main = false %}
-                        {% set isImage = false %}
-                        {% for image in figure.images %}
-                            {% if image.main == true and main == false %}{{ asset(image.filename) }}
-                                {% set main = true %}
-                                {% set isImage = true %}
-                            {% endif %}
-                        {% endfor %}
-                        {% if main == false %}
-                            {% for image in figure.images %}
-                                {% if loop.first %}{{ asset(image.filename) }}
-                                    {% set isImage = true %}
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                        {% if isImage == false %}
-                          {{ asset(('images/defaultFigure.jpg')) }}
-                        {% endif %}
-                    " alt="" />
+                    {% set imageDisplay = include('_partial/_imageDisplay/_imageDisplay.html.twig') %}
+                    <img src="{{ imageDisplay }}" />
                     <div class="overlayCard"></div>
                 </div>
                 <div class="card-body">
@@ -48,14 +31,14 @@
                                 <i class="fas fa-trash text-danger"></i>
                             </button>
                         </div>
+                            {% include '_partial/_modal/_deleteFigure.html.twig' %}
                         {% endif %}
                     </div>
                 </div>
             </a>
         </div>
-            {% include 'modal/delete.html.twig' %}
         {% endfor %}
     </div>
-    {% include 'paginator/paginator.html.twig' %}
+    {% include '_partial/_paginator/_paginator.html.twig' %}
     <a href="#figures"><i class="fas fa-arrow-circle-up arrowPaginator"></i></a>
 {% endblock %}
