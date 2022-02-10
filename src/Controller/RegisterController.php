@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\ForgottenPasswordType;
 use App\Form\RegisterType;
 use App\Form\ResetPasswordType;
+use App\Form\SendConfirmationMailType;
 use App\Repository\UserRepository;
 use App\Service\FileUpload;
 use App\Service\Mailer;
@@ -26,14 +27,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class RegisterController extends AbstractController
 {
 
-    private TranslatorInterface $translator;
-
     private SluggerInterface $slugger;
 
-    public function __construct(TranslatorInterface $translator,SluggerInterface $slugger)
+    private TranslatorInterface $translator;
+
+    public function __construct(TranslatorInterface $translator, SluggerInterface $slugger)
     {
-        $this->translator = $translator;
         $this->slugger = $slugger;
+        $this->translator = $translator;
     }
 
     /**
@@ -89,7 +90,6 @@ class RegisterController extends AbstractController
                 ->setIsValid(false)
                 ->setToken($token);
 
-
             $manager->persist($userEntity);
             $manager->flush();
 
@@ -97,15 +97,64 @@ class RegisterController extends AbstractController
 
             if ($result) {
                 $this->addFlash('success', $this->translator->trans('register.flashSuccess'));
+                return $this->redirectToRoute('home');
             } else {
-                $this->addFlash('danger', $this->translator->trans('register.flashDanger'));
+                $this->addFlash('danger',$this->translator->trans('register.flashDanger'));
             }
-
         }
 
         return $this->render(
             'register/register.html.twig', [
             'form' => $form->createView()
+            ]
+        );
+    }
+
+
+    #[Route('/sendConfirmationMail', name: 'send_confirmation_mail')]
+    public function sendConfirmationMail(Request $request,EntityManagerInterface $manager,Mailer $mailer,UserRepository $userRepository): Response
+    {
+
+        if ($this->getUser()) {
+            return $this->redirectToRoute('home');
+        }
+
+        $form = $this->createForm(SendConfirmationMailType::class,null,[
+            'attr' => [
+                'method' => 'POST'
+            ]
+        ]);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $email = $form->get('email')->getData();
+
+            /** @var User $userEntity */
+            $userEntity = $userRepository->findOneBy(['email'=>$email]);
+
+            if (null !== $userEntity) {
+                $token = uniqid();
+
+                $userEntity->setToken($token);
+                $manager->persist($userEntity);
+                $manager->flush();
+
+                $result = $mailer->mail('contact@snowtricks.com', $userEntity->getEmail(), 'Confirmation de compte', 'email/confirm.html.twig', ['user'=>$userEntity]);
+
+                if ($result) {
+                    $this->addFlash('success', $this->translator->trans('register.mailSendSuccess'));
+                } else {
+                    $this->addFlash('danger',$this->translator->trans('register.flashDanger'));
+                }
+            } else {
+                $this->addFlash('danger', $this->translator->trans('register.mailSendError'));
+            }
+        }
+
+        return $this->render(
+            'security/confirmationMail.html.twig', [
+                'form' => $form->createView()
             ]
         );
     }
@@ -122,23 +171,28 @@ class RegisterController extends AbstractController
         $userRepository = $manager->getRepository(User::class);
 
         if ($token === null) {
-            $this->addFlash('danger', 'Token de validation invalide');
-            return $this->redirectToRoute('app_login');
+            $this->addFlash('danger', $this->translator->trans('register.token.invalid'));
+            return $this->redirectToRoute('home');
         }
 
+        /** @var User $user */
         $user = $userRepository->findOneBy(['token'=>$token]);
 
         if ($user !== null) {
+
+            if ($user->getCreatedAt()->modify('+ '.$this->getParameter('timerValidationLink').' day') < new \DateTimeImmutable('now')) {
+                $this->addFlash('danger', $this->translator->trans('register.token.perim'));
+                return $this->redirectToRoute('home',['perim'=>true]);
+            }
+
             $user->setToken(null);
             $user->setIsValid(true);
             $manager->persist($user);
             $manager->flush();
-            $this->addFlash('success', 'Compte validé avec succès');
-        } else {
-            $this->addFlash('danger', 'Token de validation invalide');
+            $this->addFlash('success',$this->translator->trans('register.valid.account'));
         }
 
-        return $this->redirectToRoute('app_login');
+        return $this->redirectToRoute('home');
     }
 
     #[Route('/password/forgotten', name: 'forgotten_password')]
@@ -165,7 +219,7 @@ class RegisterController extends AbstractController
             if ($result) {
                 $this->addFlash('success', $this->translator->trans('forgotten.flashSuccess'));
             } else {
-                $this->addFlash('danger', $this->translator->trans('forgotten.flashDanger'));
+                $this->addFlash('danger',$this->translator->trans('forgotten.flashDanger'));
             }
 
         }
@@ -202,7 +256,7 @@ class RegisterController extends AbstractController
                 $password = $passwordHasher->hashPassword($userEntity, $userEntity->getPassword());
                 $user->setPassword($password);
                 $manager->persist($user);
-                $this->addFlash('success', $this->translator->trans('forgotten.flashSuccessReset'));
+                $this->addFlash('success',$this->translator->trans('forgotten.flashSuccessReset'));
             } else {
                 $this->addFlash('danger', $this->translator->trans('forgotten.flashDangerReset'));
                 return $this->redirectToRoute('reset_password',['slug'=>$slug]);

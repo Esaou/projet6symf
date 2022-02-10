@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator as FigureAssert;
 
 /**
  * @ORM\Entity(repositoryClass=FigureRepository::class)
@@ -14,6 +16,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *     fields={"name"},
  *     message="Cette figure exite déjà."
  * )
+ * @FigureAssert\SlugUnicityClass(mode="strict")
  */
 class Figure
 {
@@ -26,16 +29,31 @@ class Figure
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\NotBlank(message="Ce champ ne peut pas être vide.")
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 200,
+     *      minMessage = "Le nom de la figure doit contenir au moins {{ limit }} caractères.",
+     *      maxMessage = "Le nom de la figure doit contenir au maximum {{ limit }} caractères."
+     * )
      */
     private $name;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank(message="Ce champ ne peut pas être vide.")
+     * @Assert\Length(
+     *      min = 20,
+     *      max = 5000,
+     *      minMessage = "La description de la figure doit contenir au moins {{ limit }} caractères.",
+     *      maxMessage = "La description de la figure doit contenir au maximum {{ limit }} caractères."
+     * )
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255,unique=true)
+     *
      */
     private $slug;
 
@@ -51,6 +69,7 @@ class Figure
 
     /**
      * @ORM\OneToMany(targetEntity=Image::class, mappedBy="figure", orphanRemoval=true)
+     *
      */
     private $images;
 
@@ -73,6 +92,7 @@ class Figure
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="figures")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank(message="Séléctionnez une catégorie.")
      */
     private $category;
 

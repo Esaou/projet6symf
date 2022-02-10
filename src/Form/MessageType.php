@@ -13,25 +13,18 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class MessageType extends AbstractType
 {
 
-    private TranslatorInterface $translator;
-
-    public function __construct(TranslatorInterface $translator)
-    {
-        $this->translator = $translator;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add(
                 'content', TextareaType::class, [
-                'label' => $this->translator->trans('showFigure.message'),
+                'label' => 'showFigure.message',
                 'empty_data'=> 'Votre message ici ...'
                 ]
             )
             ->add(
                 'submit', SubmitType::class, [
-                'label' => $this->translator->trans('showFigure.sendMessage'),
+                'label' => 'showFigure.sendMessage',
                 'attr' => [
                     'class' => 'submit'
                 ],

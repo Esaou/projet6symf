@@ -39,6 +39,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *     "/^[A-Za-z][A-Za-z0-9]{1,35}$/",
      *     message="Le nom d'utilisateur doit commencer par une lettre, contenir de 2 à 35 caractères, uniquement des chiffres et des lettres sans accents."
      * )
+     * @Assert\NotBlank
      */
     private string $username;
 
@@ -55,6 +56,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *     "/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{8,100})$/",
      *     message="Le mot de passe doit contenir au moins 1 chiffre, une lettre minuscule, majuscule, un caractère spécial et 8 caractères minimum !"
      * )
+     * @Assert\NotBlank
+     * @Assert\NotCompromisedPassword()
      */
     private string $password;
 
@@ -63,7 +66,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *     message = "L'email '{{ value }}' n'est pas valide."
      * )
      * @ORM\Column(type="string", length=255, unique=true)
-     *
+     * @Assert\NotBlank
      */
     private string $email;
 

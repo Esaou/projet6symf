@@ -2,13 +2,13 @@
     {% if paginator.getRouteParameters() is not null %}
         {% for key,value in paginator.getRouteParameters() %}
             {% if paginator.getNbResults() != paginator.getNbAllResults() %}
-                <a href="{{ path(paginator.getRoute(),{ (key) : value,'page' : paginator.getPage() }) }}#paginator" class="btnPaginator mb-5 mt-2">{{ 'paginator.next'|trans }} <small>( {{ (paginator.getNbAllResults() - paginator.getNbResults()) }} {{ 'paginator.results'|trans }} )</small></a>
+                <a href="{{ path(paginator.getRoute(),{ (key) : value,'page' : paginator.getPage() }) }}#paginator" class="btnPaginator mb-5 mt-2">{{ 'paginator.next'|trans({},'messages') }} <small>( {{ (paginator.getNbAllResults() - paginator.getNbResults()) }} {{ 'paginator.results'|trans({},'messages') }} )</small></a>
             {% endif %}
         {% endfor %}
     {% else %}
         {% if paginator.getNbResults() != paginator.getNbAllResults() %}
             <div class="paginator pb-3 pt-2" id="paginator">
-                <a href="{{ path(paginator.getRoute(),{'page' : paginator.getPage()}) }}#paginator" class="btnPaginator mb-5 mt-2">{{ 'paginator.next'|trans }} <small>( {{ (paginator.getNbAllResults() - paginator.getNbResults()) }} {{ 'paginator.results'|trans }} )</small></a>
+                <a href="{{ path(paginator.getRoute(),{'page' : paginator.getPage()}) }}#paginator" class="btnPaginator mb-5 mt-2">{{ 'paginator.next'|trans({},'messages') }} <small>( {{ (paginator.getNbAllResults() - paginator.getNbResults()) }} {{ 'paginator.results'|trans({},'messages') }} )</small></a>
             </div>
         {% endif %}
     {% endif %}

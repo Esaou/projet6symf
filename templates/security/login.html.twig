@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ 'login.login'|trans }}{% endblock %}
+{% block title %}{{ 'login.login'|trans({},'messages') }}{% endblock %}
 
 {% block body %}
     <div class="container-fluid pt-5 pb-5 blocFormRegister">
-        <h5 class="text-center pb-4">{{ 'login.login'|trans }}</h5>
+        <h5 class="text-center pb-4">{{ 'login.login'|trans({},'messages') }}</h5>
         <div class="form-group formRegister">
             <form method="post">
                 {% if error %}
@@ -18,11 +18,11 @@
                 {% endif %}
 
                 <div class="form-group w-100">
-                    <label for="inputUsername">{{ 'login.email'|trans }}</label>
+                    <label for="inputUsername">{{ 'login.email'|trans({},'messages') }}</label>
                     <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
                 </div>
                 <div class="form-group w-100">
-                    <label for="inputPassword">{{ 'login.password'|trans }}</label>
+                    <label for="inputPassword">{{ 'login.password'|trans({},'messages') }}</label>
                     <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
                 </div>
 
@@ -30,21 +30,20 @@
                        value="{{ csrf_token('authenticate') }}"
                 >
 
-                {#
-                Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-                See https://symfony.com/doc/current/security/remember_me.html
-
                 <div class="checkbox mb-3">
                     <label>
                         <input type="checkbox" name="_remember_me"> Remember me
                     </label>
                 </div>
-                #}
+
 
                 <button class="btn submitLogin" type="submit">
-                    {{ 'login.login'|trans }}
+                    {{ 'login.login'|trans({},'messages') }}
                 </button>
                 <a href="{{ path('forgotten_password') }}" class="mt-2 btn forgottenPassword">Mot de passe oublié</a>
+                {% if perim == true %}
+                <a href="{{ path('send_confirmation_mail') }}" class="mt-2 btn sendMail">Recevoir un nouveau mail de confirmation</a>
+                {% endif %}
             </form>
         </div>
     </div>

@@ -1,14 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ 'editFigure.title'|trans }}{% if figure.name is not empty %} - {{ figure.name }}{% endif %}{% endblock %}
+{% block title %}{{ 'editFigure.title'|trans({},'messages') }}{% if figure.name is not empty %} - {{ figure.name }}{% endif %}{% endblock %}
 
 {% block body %}
     <div class="overlayShow">
     </div>
     <div class="container mt-md-5 mb-md-5 blocShow">
         <div class="imgBlocShow">
-            {% set imageDisplay = include('_partial/_imageDisplay/_imageDisplay.html.twig') %}
-            <img src="{{ imageDisplay }}" alt="{{ figure.name }}" class="imgShow">
+            {% include '_partial/_imageDisplay/_imageDisplay.html.twig' with {'item':figure} %}
             <div class="nameShow">
                 <h5>{{ figure.name }}</h5>
             </div>
@@ -16,7 +15,7 @@
         {% if figure.images is not empty or figure.videos is not empty %}
         <div class="btnMedias">
             <button type="button" class="btn btn-primary" id="showMedias">
-                Voir les médias
+                {{ 'medias'|trans({},'messages') }}
             </button>
         </div>
         <div class="imagesList">
@@ -24,9 +23,16 @@
                 <div class="blocBtnImage">
                     <img src="{{ asset(figuresPath ~ image.filename) }}" alt="{{ figure.name }}" class="imgList">
                     <div>
-                        <button class="icons" type="button" data-toggle="modal" data-target="#main{{ image.id }}" style="cursor: pointer">
-                            <i class="fas fa-pen text-primary"></i>
-                        </button>
+                        {% if image.main == false %}
+                            <button class="icons" type="button" data-toggle="modal" data-target="#main{{ image.id }}" style="cursor: pointer">
+                                <i class="fas fa-pen text-primary"></i>
+                            </button>
+                        {% endif %}
+                        {% if image.main == true %}
+                            <button class="icons" disabled>
+                                <i class="fas fa-eye text-primary"></i>
+                            </button>
+                        {% endif %}
                         <button class="icons" type="button" data-toggle="modal" data-target="#deleteImage{{ image.id }}" style="cursor: pointer">
                             <i class="fas fa-trash text-danger"></i>
                         </button>
@@ -35,9 +41,7 @@
             {% endfor %}
             {% for video in figure.videos %}
             <div class="blocBtnImage">
-                <iframe class="videoList"
-                        src="{{ video.url }}">
-                </iframe>
+                {{ video.url|raw }}
                 <div>
                     <button class="icons" type="button" data-toggle="modal" data-target="#deleteVideo{{ video.id }}" style="cursor: pointer">
                         <i class="fas fa-trash text-danger"></i>
@@ -52,11 +56,11 @@
                 <p>{{ figure.description|raw }}</p>
             </div>
             <div class="text-center mt-4 blocSpan">
-                <span class="badgePersoGreen">{{ 'showFigure.add'|trans }} {{ figure.createdAt|date('d/m/Y', "Europe/Paris") }} à {{ figure.createdAt|date('H', "Europe/Paris") }}h {{ figure.createdAt|date('i', "Europe/Paris") }}min {{ figure.createdAt|date('s', "Europe/Paris") }}s</span>
+                <span class="badgePersoGreen">{{ 'showFigure.add'|trans({'%date%':figure.createdAt|date('d/m/Y', "Europe/Paris"),'%heure%':figure.createdAt|date('H', "Europe/Paris"),'%minutes%':figure.createdAt|date('i', "Europe/Paris"),'%seconde%':figure.createdAt|date('s', "Europe/Paris")},'messages') }}</span>
                 {% if figure.updatedAt is not null %}
-                    <span class="badgePerso">{{ 'showFigure.edit'|trans }} {{ figure.updatedAt|date('d/m/Y', "Europe/Paris") }} à {{ figure.updatedAt|date('H', "Europe/Paris") }}h {{ figure.updatedAt|date('i', "Europe/Paris") }}min {{ figure.updatedAt|date('s', "Europe/Paris") }}s</span>
+                    <span class="badgePerso">{{ 'showFigure.edit'|trans({'%date%':figure.updatedAt|date('d/m/Y', "Europe/Paris"),'%heure%':figure.updatedAt|date('H', "Europe/Paris"),'%minutes%':figure.updatedAt|date('i', "Europe/Paris"),'%seconde%':figure.updatedAt|date('s', "Europe/Paris")},'messages') }}</span>
                 {% endif %}
-                <span class="badgePersoDanger">{{ 'showFigure.category'|trans }} : {{ figure.category.name }}</span>
+                <span class="badgePersoDanger">{{ 'showFigure.category'|trans({},'messages') }} : {{ figure.category.name }}</span>
             </div>
         </div>
         <div class="container pt-5 pb-5">

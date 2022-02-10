@@ -2,18 +2,18 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-exclamation-circle" style="margin-right: 7px"></i> Modification</h5>
+                <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-exclamation-circle" style="margin-right: 7px"></i> {{ 'main.update'|trans({},'messages') }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p>Voulez-vous passer cette image à la une ?</p>
-                <img src="{{ asset(image.filename) }}" alt="{{ figure.name }}" class="imgList">
+                <p>{{ 'main.confirm'|trans({},'messages') }}</p>
+                <img src="{{ asset(figuresPath ~ image.filename) }}" alt="{{ figure.name }}" class="imgList">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Non</button>
-                <a href="{{ path('main_image',{'image':image.id}) }}" class="text-white btn btn-sm btn-primary">Oui <i class="fas fa-eye" style="margin-left: 5px;"></i></a>
+                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">{{ 'buttons.no'|trans({},'messages') }}</button>
+                <a href="{{ path('main_image',{'image':image.id}) }}" class="text-white btn btn-sm btn-primary">{{ 'buttons.yes'|trans({},'messages') }} <i class="fas fa-eye" style="margin-left: 5px;"></i></a>
             </div>
         </div>
     </div>

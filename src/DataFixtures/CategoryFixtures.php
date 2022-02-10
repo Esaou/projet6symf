@@ -4,7 +4,6 @@ namespace App\DataFixtures;
 
 use App\Entity\Category;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
@@ -45,7 +44,7 @@ class CategoryFixtures extends Fixture
 
         for ($c=0;$c < $number;$c++) {
 
-            $slug = $this->slugger->slug($this->categories[$c], '_');
+            $slug = $this->slugger->slug($this->categories[$c]);
 
             $category = new Category();
             $category

@@ -17,7 +17,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RegisterType extends AbstractType
 {
-
     private TranslatorInterface $translator;
 
     public function __construct(TranslatorInterface $translator)
@@ -31,17 +30,17 @@ class RegisterType extends AbstractType
 
             ->add(
                 'username', TextType::class, [
-                'label' => $this->translator->trans('register.username')
+                'label' => 'register.username'
                 ]
             )
             ->add(
                 'email', EmailType::class, [
-                'label'=> $this->translator->trans('register.email')
+                'label'=> 'register.email'
                 ]
             )
             ->add(
                 'avatar', FileType::class, [
-                    'label'=> $this->translator->trans('register.avatar'),
+                    'label'=> 'register.avatar',
                     'mapped' => false,
                     'required' => false,
                     'constraints' => [
@@ -59,20 +58,20 @@ class RegisterType extends AbstractType
             )
             ->add(
                 'password', PasswordType::class, [
-                'label'=> $this->translator->trans('register.password')
+                'label'=>'register.password'
                 ]
             )
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'invalid_message' => 'Les mots de passe doivent être identiques.',
+                'invalid_message' => $this->translator->trans( 'validator.confirm.password',[],'validators'),
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => true,
-                'first_options'  => ['label' => $this->translator->trans('register.password')],
-                'second_options' => ['label' => $this->translator->trans('register.confirm')],
+                'first_options'  => ['label' =>$this->translator->trans( 'validator.password',[],'validators')],
+                'second_options' => ['label' => $this->translator->trans( 'validator.repeat',[],'validators')],
             ])
             ->add(
                 'submit', SubmitType::class, [
-                'label' => $this->translator->trans('register.submit'),
+                'label' => 'register.submit',
                 'attr' => [
                     'class' => 'submitUser',
                 ]

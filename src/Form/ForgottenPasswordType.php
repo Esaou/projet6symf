@@ -12,22 +12,15 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class ForgottenPasswordType extends AbstractType
 {
 
-    private TranslatorInterface $translator;
-
-    public function __construct(TranslatorInterface $translator)
-    {
-        $this->translator = $translator;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('username',TextType::class,[
-                'label' => $this->translator->trans('forgotten.username')
+                'label' =>'forgotten.username'
             ])
             ->add(
                 'submit', SubmitType::class, [
-                    'label' => $this->translator->trans('register.sendMail'),
+                    'label' => 'register.sendMail',
                     'attr' => [
                         'class' => 'forgottenPasswordPlain',
                     ]

@@ -1,18 +1,18 @@
-{% if figure.images|length == 0 %}
-    {{ asset(figureDefault) }}
-{% else %}
+{# Si pas d'images #}
+{% if item.images|length == 0 %}
+    <img src="{{ asset(figureDefault) }}" alt="{{ item.name }}" class="imgShow">
+{% elseif item.images|length == 1 %}
+    <img src="{{ asset(figuresPath ~ item.images.first.filename) }}" alt="{{ item.name }}" class="imgShow">
+{% elseif item.images|length > 1 %}
     {% set isMain = false %}
-    {% for image in figure.images %}
+    {% for key,image in item.images %}
+        {# Si une image avec main == true #}
         {% if image.main == true and isMain == false %}
-            {{ asset(figuresPath ~ image.filename) }}
+            <img src="{{ asset(figuresPath ~ image.filename) }}" alt="{{ item.name }}" class="imgShow">
             {% set isMain = true %}
         {% endif %}
     {% endfor %}
     {% if isMain == false %}
-        {% for image in figure.images %}
-            {% if loop.first %}
-                {{ asset(figuresPath ~ image.filename) }}
-            {% endif %}
-        {% endfor %}
+    <img src="{{ asset(figuresPath ~ item.images.first.filename) }}" alt="{{ item.name }}" class="imgShow">
     {% endif %}
 {% endif %}

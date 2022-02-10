@@ -15,14 +15,18 @@ paginator:
   results: 'résultats'
 
 showFigure:
-  add: 'Ajoutée le'
-  edit: 'Modifiée le'
+  add: 'Ajoutée le %date% à %heure%h %minutes%min %seconde%s'
+  edit: 'Modifiée le %date% à %heure%h %minutes%min %seconde%s'
   message: 'Message'
   sendMessage: 'Laisser mon message'
   confirmPost: 'Message posté avec succès'
   category: 'Catégorie'
+  media: 'Voir les médias'
 
 register:
+  valid.account: 'Compte validé avec succès'
+  token.invalid: 'Token de validation invalide'
+  token.perim: 'Token de validation périmé'
   username: "Nom d'utilisateur"
   email: 'Email'
   password: 'Mot de passe'
@@ -34,6 +38,10 @@ register:
   register: 'Inscription'
   forgottenPassword: 'Mot de passe oublié'
   sendMail: 'Recevoir un mail'
+  sendMail.email: 'Renseignez votre email'
+  confirmationMail: 'Recevoir un nouveau mail de confirmation'
+  mailSendSuccess: 'Mail envoyé avec succès'
+  mailSendError: "Le mail renseigné n'est associé à aucun compte"
 
 forgotten:
   flashNotFound: "L'utilisateur n'existe pas"
@@ -56,6 +64,8 @@ login:
   email: 'Email'
 
 figure:
+  delete.confirm.title: 'Confirmation de supression'
+  delete.confirm: 'Confirmez la supression de la figure'
   delete: 'Figure supprimée avec succès'
   notfound: 'Figure introuvable'
   image:
@@ -85,3 +95,35 @@ error:
   500: '500 - La page que vous souhaitez consulter est inaccessible'
   404: '404 - La page que vous souhaitez consulter est introuvable'
   403: "403 - Vous n'êtes pas autorisé à accéder à la page que vous souhaites consulter"
+
+buttons:
+  delete: 'Supprimer'
+  annule: 'Annuler'
+  yes: 'Oui'
+  no: 'Non'
+
+image:
+  delete.confirm.title: 'Confirmation de supression'
+  delete.confirm: "Confirmez la supression de l'image"
+
+video:
+  delete.confirm.title: 'Confirmation de supression'
+  delete.confirm: "Confirmez la supression de la vidéo"
+
+main:
+  update: 'Modification'
+  confirm: 'Voulez-vous passer cette image à la une ?'
+
+email:
+  confirm:
+    text: "Merci d'avoir rejoint ma communauté, pour valider votre compte cliquez sur le"
+    link: 'lien'
+    under: 'ci-dessous'
+    hello: 'Bonjour'
+    clic: 'Cliquez ici'
+  reset:
+    text: "Pour réinitialiser votre mot de passe, cliquez sur le"
+    link: 'lien'
+    under: 'ci-dessous'
+    hello: 'Bonjour'
+    clic: 'Cliquez ici'
