@@ -20,4 +20,23 @@ class FigureRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Figure::class);
     }
+
+    public function getFigureBySlug(Figure $figure)
+    {
+         $query = $this->createQueryBuilder('figure')
+            ->where('figure.slug in (:slug)')
+            ->setParameter('slug', $figure->getSlug());
+
+         if (null !== $figure->getId()) {
+             $query = $query
+                 ->andWhere('figure.id in (:id)')
+                 ->setParameter('id', $figure->getId());
+         }
+
+         $query = $query
+             ->getQuery()
+             ->getSingleResult();
+
+         return $query;
+    }
 }

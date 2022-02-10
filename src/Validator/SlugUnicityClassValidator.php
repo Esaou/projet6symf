@@ -39,18 +39,21 @@ class SlugUnicityClassValidator extends ConstraintValidator
             // ...
         }
 
-        if (null === $value->getId()) {
+        /** @var Figure $value */
+        $figureExist = $this->figureRepository->getFigureBySlug($value);
 
-            /** @var Figure $value */
-            $figure = $this->figureRepository->findOneBy(['slug'=> $this->slugger->slug($value->getName())]);
+        dd($figureExist,$value);
 
-            if (null !== $figure) {
-                // the argument must be a string or an object implementing __toString()
+        if ($figureExist->getId() === $value->getId()) {
+
+        }
+
+        if (null !== $figureExist) {
+
                 $this->context->buildViolation($constraint->message)
                     ->setParameter('{{ string }}', $value)
                     ->atPath('name')
                     ->addViolation();
-            }
 
         }
     }

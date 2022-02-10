@@ -24,6 +24,7 @@ showFigure:
   media: 'Voir les médias'
 
 register:
+  url.invalid: 'Url de validation de compte invalide'
   valid.account: 'Compte validé avec succès'
   token.invalid: 'Token de validation invalide'
   token.perim: 'Token de validation périmé'

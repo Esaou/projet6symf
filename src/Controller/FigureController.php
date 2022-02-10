@@ -29,7 +29,7 @@ class FigureController extends AbstractController
 
     private SluggerInterface $slugger;
 
-    public function __construct(TranslatorInterface $translator,SluggerInterface $slugger)
+    public function __construct(TranslatorInterface $translator, SluggerInterface $slugger)
     {
         $this->slugger = $slugger;
         $this->translator = $translator;

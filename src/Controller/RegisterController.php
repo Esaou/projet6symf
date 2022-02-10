@@ -17,9 +17,11 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\UriSigner;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -31,10 +33,13 @@ class RegisterController extends AbstractController
 
     private TranslatorInterface $translator;
 
-    public function __construct(TranslatorInterface $translator, SluggerInterface $slugger)
+    private UriSigner $signer;
+
+    public function __construct(TranslatorInterface $translator, SluggerInterface $slugger, UriSigner $signer)
     {
         $this->slugger = $slugger;
         $this->translator = $translator;
+        $this->signer = $signer;
     }
 
     /**
@@ -93,7 +98,11 @@ class RegisterController extends AbstractController
             $manager->persist($userEntity);
             $manager->flush();
 
-            $result = $mailer->mail('contact@snowtricks.com', $userEntity->getEmail(), 'Confirmation de compte', 'email/confirm.html.twig', ['user'=>$userEntity]);
+            $url = $this->generateUrl('user_confirm',['token'=>$userEntity->getToken()],UrlGeneratorInterface::ABSOLUTE_URL);
+
+            $url = $this->signer->sign($url);
+
+            $result = $mailer->mail('contact@snowtricks.com', $userEntity->getEmail(), 'Confirmation de compte', 'email/confirm.html.twig', ['user'=>$userEntity,'url'=>$url]);
 
             if ($result) {
                 $this->addFlash('success', $this->translator->trans('register.flashSuccess'));
@@ -165,8 +174,13 @@ class RegisterController extends AbstractController
      * @return RedirectResponse
      */
     #[Route('/confirm/{token}', name: 'user_confirm')]
-    public function confirmUser(string|null $token, EntityManagerInterface $manager): RedirectResponse
+    public function confirmUser(string|null $token, EntityManagerInterface $manager, Request $request): RedirectResponse
     {
+
+        if (!$this->signer->checkRequest($request)) {
+            $this->addFlash('danger', $this->translator->trans('register.url.invalid'));
+            return $this->redirectToRoute('home');
+        }
 
         $userRepository = $manager->getRepository(User::class);
 
@@ -214,7 +228,11 @@ class RegisterController extends AbstractController
                 return $this->redirectToRoute('forgotten_password');
             }
 
-            $result = $mailer->mail('contact@snowtricks.com', $userEntity->getEmail(), 'Reinitialisation de mot de passe', 'email/reset.html.twig', ['user'=>$userEntity]);
+            $url = $this->generateUrl('reset_password',['token'=>$userEntity->getSlug()],UrlGeneratorInterface::ABSOLUTE_URL);
+
+            $url = $this->signer->sign($url);
+
+            $result = $mailer->mail('contact@snowtricks.com', $userEntity->getEmail(), 'Reinitialisation de mot de passe', 'email/reset.html.twig', ['user'=>$userEntity,'url'=>$url]);
 
             if ($result) {
                 $this->addFlash('success', $this->translator->trans('forgotten.flashSuccess'));
@@ -234,6 +252,11 @@ class RegisterController extends AbstractController
     #[Route('/reset/{slug}', name: 'reset_password')]
     public function resetPassword(EntityManagerInterface $manager,UserPasswordHasherInterface $passwordHasher, Request $request,string $slug): RedirectResponse|Response
     {
+
+        if (!$this->signer->checkRequest($request)) {
+            $this->addFlash('danger', $this->translator->trans('register.url.invalid'));
+            return $this->redirectToRoute('home');
+        }
 
         $userRepository = $manager->getRepository(User::class);
 
