@@ -68,6 +68,8 @@ class FigureController extends AbstractController
             $manager->flush();
 
             $this->addFlash('success', $this->translator->trans('showFigure.confirmPost'));
+
+            return $this->redirectToRoute('figure', ['slug' => $slug, '_fragment'=>'messages']);
         }
 
         return $this->render(

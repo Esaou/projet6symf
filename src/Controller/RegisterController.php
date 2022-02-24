@@ -240,6 +240,8 @@ class RegisterController extends AbstractController
                 $this->addFlash('danger',$this->translator->trans('forgotten.flashDanger'));
             }
 
+            return $this->redirectToRoute('home');
+
         }
 
         return $this->render(
@@ -252,42 +254,40 @@ class RegisterController extends AbstractController
     #[Route('/reset/{slug}', name: 'reset_password')]
     public function resetPassword(EntityManagerInterface $manager,UserPasswordHasherInterface $passwordHasher, Request $request,string $slug): RedirectResponse|Response
     {
-
         if (!$this->signer->checkRequest($request)) {
-            $this->addFlash('danger', $this->translator->trans('register.url.invalid'));
+            $this->addFlash('danger', $this->translator->trans('register.url.invalid.reset'));
             return $this->redirectToRoute('home');
         }
 
         $userRepository = $manager->getRepository(User::class);
 
+        /** @var User $user */
         $user = $userRepository->findOneBy(['slug'=>$slug]);
 
         if ($user === null) {
             return $this->redirectToRoute('home');
         }
 
-        $form = $this->createForm(ResetPasswordType::class);
+        $form = $this->createForm(ResetPasswordType::class, null, [
+            'attr' => [
+                'method' => 'POST'
+            ]
+        ]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            /** @var User $userEntity */
-            $userEntity = $form->getData();
-
             if ($user->getUsername() === $form->get('username')->getData()) {
-                $password = $passwordHasher->hashPassword($userEntity, $userEntity->getPassword());
+                $password = $passwordHasher->hashPassword($user, $form->get('password')->getData());
                 $user->setPassword($password);
                 $manager->persist($user);
+                $manager->flush();
                 $this->addFlash('success',$this->translator->trans('forgotten.flashSuccessReset'));
+                return $this->redirectToRoute('home');
             } else {
                 $this->addFlash('danger', $this->translator->trans('forgotten.flashDangerReset'));
-                return $this->redirectToRoute('reset_password',['slug'=>$slug]);
             }
-
-            $manager->flush();
-
-            return $this->redirectToRoute('home');
         }
 
         return $this->render(

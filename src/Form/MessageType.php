@@ -18,7 +18,8 @@ class MessageType extends AbstractType
         $builder
             ->add(
                 'content', TextareaType::class, [
-                'label' => 'showFigure.message',
+                    'label' => 'showFigure.message',
+                    'data' => '',
                 ]
             )
             ->add(
@@ -35,7 +36,7 @@ class MessageType extends AbstractType
     {
         $resolver->setDefaults(
             [
-            'data_class' => Message::class,
+                'data_class' => Message::class,
             ]
         );
     }

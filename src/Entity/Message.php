@@ -21,6 +21,12 @@ class Message
     /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 5000,
+     *      minMessage = "Le message doit contenir au moins {{ limit }} caractères.",
+     *      maxMessage = "Le message doit contenir au maximum {{ limit }} caractères."
+     * )
      */
     private $content;
 

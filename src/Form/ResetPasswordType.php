@@ -10,6 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ResetPasswordType extends AbstractType
@@ -20,10 +22,14 @@ class ResetPasswordType extends AbstractType
         $builder
             ->add('username',TextType::class,[
                 'label'=> 'reset.confirm.username',
-                'mapped' => false
             ])
             ->add('password',PasswordType::class,[
-                'label' => 'reset.password'
+                'label' => 'reset.password',
+                'constraints' => [
+                    new NotBlank(),
+                    new Regex('/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[#-+!*$@%_])([#-+!*$@%_\w]{8,100})$/',
+                        'Le mot de passe doit contenir au moins 1 chiffre, une lettre minuscule, majuscule, un caractère spécial et 8 caractères minimum !')
+                ],
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
@@ -41,13 +47,12 @@ class ResetPasswordType extends AbstractType
                     ],
                 ]
             );
-        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+
         ]);
     }
 }
