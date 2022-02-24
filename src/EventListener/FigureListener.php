@@ -9,7 +9,7 @@ class FigureListener
 {
     // the listener methods receive an argument which gives you access to
     // both the entity object of the event and the entity manager itself
-    public function postPersist(LifecycleEventArgs $args): void
+    public function prePersist(LifecycleEventArgs $args): void
     {
         $entity = $args->getObject();
 
@@ -21,7 +21,9 @@ class FigureListener
 
         $entityManager = $args->getObjectManager();
 
-        $entity->setName();
+        if (true === property_exists($entity, 'user_id')) {
+            $entity->setUser();
+        }
 
     }
 }

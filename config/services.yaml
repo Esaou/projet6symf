@@ -35,3 +35,7 @@ services:
         arguments:
             $nbDisplay: 15
             $nbAdd: 5
+
+  #App\EventListener\FigureListener:
+        #tag:
+            #- { name: doctrine.event_listener, event: prePersist }

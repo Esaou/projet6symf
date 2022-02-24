@@ -19,7 +19,6 @@ class MessageType extends AbstractType
             ->add(
                 'content', TextareaType::class, [
                 'label' => 'showFigure.message',
-                'empty_data'=> 'Votre message ici ...'
                 ]
             )
             ->add(

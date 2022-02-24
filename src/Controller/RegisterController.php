@@ -228,7 +228,7 @@ class RegisterController extends AbstractController
                 return $this->redirectToRoute('forgotten_password');
             }
 
-            $url = $this->generateUrl('reset_password',['token'=>$userEntity->getSlug()],UrlGeneratorInterface::ABSOLUTE_URL);
+            $url = $this->generateUrl('reset_password',['slug'=>$userEntity->getSlug()],UrlGeneratorInterface::ABSOLUTE_URL);
 
             $url = $this->signer->sign($url);
 
