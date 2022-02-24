@@ -21,9 +21,7 @@ class FigureListener
 
         $entityManager = $args->getObjectManager();
 
-        if (true === property_exists($entity, 'user_id')) {
-            $entity->setUser();
-        }
+
 
     }
 }

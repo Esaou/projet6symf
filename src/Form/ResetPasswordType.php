@@ -25,11 +25,6 @@ class ResetPasswordType extends AbstractType
             ])
             ->add('password',PasswordType::class,[
                 'label' => 'reset.password',
-                'constraints' => [
-                    new NotBlank(),
-                    new Regex('/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[#-+!*$@%_])([#-+!*$@%_\w]{8,100})$/',
-                        'Le mot de passe doit contenir au moins 1 chiffre, une lettre minuscule, majuscule, un caractère spécial et 8 caractères minimum !')
-                ],
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
@@ -38,6 +33,11 @@ class ResetPasswordType extends AbstractType
                 'required' => true,
                 'first_options'  => ['label' => 'reset.password'],
                 'second_options' => ['label' => 'reset.confirm.password'],
+                'constraints' => [
+                    new NotBlank(),
+                    new Regex('/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[#-+!*$@%_])([#-+!*$@%_\w]{8,100})$/',
+                        'Le mot de passe doit contenir au moins 1 chiffre, une lettre minuscule, majuscule, un caractère spécial et 8 caractères minimum !')
+                ],
             ])
             ->add(
                 'submit', SubmitType::class, [

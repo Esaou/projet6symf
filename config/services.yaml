@@ -36,6 +36,6 @@ services:
             $nbDisplay: 15
             $nbAdd: 5
 
-  #App\EventListener\FigureListener:
-        #tag:
-            #- { name: doctrine.event_listener, event: prePersist }
+    App\EventListener\FigureListener:
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
