@@ -10,51 +10,49 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ResetPasswordType extends AbstractType
 {
 
-    private TranslatorInterface $translator;
-
-    public function __construct(TranslatorInterface $translator)
-    {
-        $this->translator = $translator;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('username',TextType::class,[
-                'label'=> $this->translator->trans('reset.confirm.username'),
-                'mapped' => false
+                'label'=> 'reset.confirm.username',
             ])
             ->add('password',PasswordType::class,[
-                'label' => $this->translator->trans('reset.password')
+                'label' => 'reset.password',
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'invalid_message' => 'Les mots de passe doivent être identiques.',
+                'invalid_message' => 'validator.confirm.password',
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => true,
-                'first_options'  => ['label' => $this->translator->trans('reset.password')],
-                'second_options' => ['label' => $this->translator->trans('reset.confirm.password')],
+                'first_options'  => ['label' => 'reset.password'],
+                'second_options' => ['label' => 'reset.confirm.password'],
+                'constraints' => [
+                    new NotBlank(),
+                    new Regex('/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[#-+!*$@%_])([#-+!*$@%_\w]{8,100})$/',
+                        'Le mot de passe doit contenir au moins 1 chiffre, une lettre minuscule, majuscule, un caractère spécial et 8 caractères minimum !')
+                ],
             ])
             ->add(
                 'submit', SubmitType::class, [
-                    'label' => $this->translator->trans('reset.send'),
+                    'label' => 'reset.send',
                     'attr' => [
                         'class' => 'forgottenPasswordPlain'
                     ],
                 ]
             );
-        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+
         ]);
     }
 }

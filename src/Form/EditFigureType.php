@@ -13,19 +13,12 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\All;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class EditFigureType extends AbstractType
 {
-
-    private TranslatorInterface $translator;
-
-    public function __construct(TranslatorInterface $translator)
-    {
-        $this->translator = $translator;
-    }
-
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
@@ -36,7 +29,7 @@ class EditFigureType extends AbstractType
         $builder
             ->add(
                 'name', TextType::class, [
-                    'label' => $this->translator->trans('editFigure.name'),
+                    'label' =>'editFigure.name',
                     'row_attr' => [
                         'class' => 'col-md-6'
                     ],
@@ -44,7 +37,7 @@ class EditFigureType extends AbstractType
             )
             ->add(
                 'category', EntityType::class, [
-                    'label' => $this->translator->trans('editFigure.category'),
+                    'label' => 'editFigure.category',
                     'class' => Category::class,
                     'row_attr' => [
                         'class' => 'col-md-6'
@@ -53,7 +46,7 @@ class EditFigureType extends AbstractType
             )
             ->add(
                 'description', TextareaType::class, [
-                    'label' => $this->translator->trans('editFigure.description'),
+                    'label' => 'editFigure.description',
                     'row_attr' => [
                         'class' => 'col-md-12'
                     ],
@@ -64,10 +57,17 @@ class EditFigureType extends AbstractType
             )
             ->add(
                 'images', FileType::class, [
-                    'label' => $this->translator->trans('editFigure.images'),
+                    'label' => 'editFigure.images',
                     'mapped' => false,
                     'multiple' => true,
                     'required' => false,
+                    'constraints' => [
+                        new All([
+                            new File([
+                                "maxSize" => "5M",
+                            ])
+                        ])
+                    ],
                     'row_attr' => [
                         'class' => 'col-md-6'
                     ]
@@ -75,7 +75,7 @@ class EditFigureType extends AbstractType
             )
             ->add(
                 'videos', FileType::class, [
-                    'label' => $this->translator->trans('editFigure.videos'),
+                    'label' => 'editFigure.videos',
                     'mapped' => false,
                     'multiple' => true,
                     'required' => false,
@@ -86,7 +86,7 @@ class EditFigureType extends AbstractType
             )
             ->add(
                 'submit', SubmitType::class, [
-                    'label' => $this->translator->trans('editFigure.edit'),
+                    'label' => 'editFigure.edit',
                     'attr' => [
                         'class' => 'submitUser mt-3',
 
@@ -95,7 +95,7 @@ class EditFigureType extends AbstractType
             )
             ->add(
                 'delete', ButtonType::class, [
-                    'label' => $this->translator->trans('editFigure.delete'),
+                    'label' => 'editFigure.delete',
                     'attr' => [
                         'class' => 'deleteFigure ml-2 mt-3',
                         'data-toggle'=>'modal',

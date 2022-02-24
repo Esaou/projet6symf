@@ -12,13 +12,13 @@
 
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-                        <li class="centrageMenu"><a href="{{ path('home') }}" class="subtitle">{{ 'nav.home'|trans }}</a></li>
+                        <li class="centrageMenu"><a href="{{ path('home') }}" class="subtitle">{{ 'nav.home'|trans({},'messages') }}</a></li>
                         {% if app.user %}
-                            <li class="centrageMenu"><a href="{{ path('add_figure') }}" class="subtitle">{{ 'nav.addFigure'|trans }}</a></li>
-                            <li class="centrageMenu"><a href="{{ path('app_logout') }}" class="subtitle" style="border-right: none;">{{ 'nav.logout'|trans }}</a></li>
+                            <li class="centrageMenu"><a href="{{ path('add_figure') }}" class="subtitle">{{ 'nav.addFigure'|trans({},'messages') }}</a></li>
+                            <li class="centrageMenu"><a href="{{ path('app_logout') }}" class="subtitle" style="border-right: none;">{{ 'nav.logout'|trans({},'messages') }}</a></li>
                         {% else %}
-                            <li class="centrageMenu"><a href="{{ path('app_login') }}" class="subtitle">{{ 'nav.login'|trans }}</a></li>
-                            <li class="centrageMenu"><a href="{{ path('register') }}" class="subtitle" style="border-right: none;">{{ 'nav.register'|trans }}</a></li>
+                            <li class="centrageMenu"><a href="{{ path('app_login') }}" class="subtitle">{{ 'nav.login'|trans({},'messages') }}</a></li>
+                            <li class="centrageMenu"><a href="{{ path('register') }}" class="subtitle" style="border-right: none;">{{ 'nav.register'|trans({},'messages') }}</a></li>
                         {% endif %}
 
                     </ul>
@@ -44,13 +44,13 @@
             <div class="pb-0 pr-4 pl-4 pt-0" style="background-color: white;border-bottom: 1px solid rgb(200,200,200)">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 p-4 pt-0">
 
-                    <li class="nav-item"><a href="{{ path('home') }}" class="nav-link">{{ 'nav.home'|trans }}</a></li>
+                    <li class="nav-item"><a href="{{ path('home') }}" class="nav-link">{{ 'nav.home'|trans({},'messages') }}</a></li>
                     {% if app.user %}
-                        <li class="nav-item"><a href="{{ path('add_figure') }}" class="nav-link">{{ 'nav.addFigure'|trans }}</a></li>
-                        <li class="nav-item"><a href="{{ path('app_logout') }}" class="nav-link">{{ 'nav.logout'|trans }}</a></li>
+                        <li class="nav-item"><a href="{{ path('add_figure') }}" class="nav-link">{{ 'nav.addFigure'|trans({},'messages') }}</a></li>
+                        <li class="nav-item"><a href="{{ path('app_logout') }}" class="nav-link">{{ 'nav.logout'|trans({},'messages') }}</a></li>
                     {% else %}
-                        <li class="nav-item"><a href="{{ path('app_login') }}" class="nav-link">{{ 'nav.login'|trans }}</a></li>
-                        <li class="nav-item"><a href="{{ path('register') }}" class="nav-link">{{ 'nav.register'|trans }}</a></li>
+                        <li class="nav-item"><a href="{{ path('app_login') }}" class="nav-link">{{ 'nav.login'|trans({},'messages') }}</a></li>
+                        <li class="nav-item"><a href="{{ path('register') }}" class="nav-link">{{ 'nav.register'|trans({},'messages') }}</a></li>
                     {% endif %}
 
                 </ul>

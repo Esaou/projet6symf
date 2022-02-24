@@ -8,7 +8,7 @@
         <img src="{{ asset('images/home.jpg') }}" alt="home">
         <div class="overlay"></div>
         <div class="blocAccroche">
-            <p class="accroche">{{ 'home.accroche'|trans }}</p>
+            <p class="accroche">{{ 'home.accroche'|trans({},'messages') }}</p>
         </div>
         <a href="#figures"><i class="fas fa-arrow-circle-down arrowHome"></i></a>
     </div>
@@ -17,8 +17,7 @@
         <div class="card mb-5">
             <a href="{{ path('figure',{'slug':figure.slug}) }}" style="text-decoration: none;z-index: 500;">
                 <div class="card-image">
-                    {% set imageDisplay = include('_partial/_imageDisplay/_imageDisplay.html.twig') %}
-                    <img src="{{ imageDisplay }}" />
+                    {% include '_partial/_imageDisplay/_imageDisplay.html.twig' with {'item':figure} %}
                     <div class="overlayCard"></div>
                 </div>
                 <div class="card-body">

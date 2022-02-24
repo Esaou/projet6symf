@@ -10,10 +10,9 @@ use App\Entity\Video;
 use App\Form\AddFigureType;
 use App\Form\EditFigureType;
 use App\Form\MessageType;
-use App\Repository\FigureRepository;
-use App\Repository\ImageRepository;
 use App\Service\FileUpload;
 use App\Service\Paginator;
+use App\Service\SlugUnicity;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -30,7 +29,7 @@ class FigureController extends AbstractController
 
     private SluggerInterface $slugger;
 
-    public function __construct(TranslatorInterface $translator,SluggerInterface $slugger)
+    public function __construct(TranslatorInterface $translator, SluggerInterface $slugger)
     {
         $this->slugger = $slugger;
         $this->translator = $translator;
@@ -69,6 +68,8 @@ class FigureController extends AbstractController
             $manager->flush();
 
             $this->addFlash('success', $this->translator->trans('showFigure.confirmPost'));
+
+            return $this->redirectToRoute('figure', ['slug' => $slug, '_fragment'=>'messages']);
         }
 
         return $this->render(
@@ -111,7 +112,7 @@ class FigureController extends AbstractController
      * @param FileUpload $fileUpload
      * @param Request $request
      * @param EntityManagerInterface $manager
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @return RedirectResponse|Response
      */
     #[Route('/user/figure/add', name: 'add_figure')]
     public function addFigure(FileUpload $fileUpload,Request $request,EntityManagerInterface $manager)
@@ -134,7 +135,8 @@ class FigureController extends AbstractController
              */
             $figureEntity = $form->getData();
 
-            $slug = $this->slugger->slug($figureEntity->getName(), '_');
+            $slug = $this->slugger->slug($figureEntity->getName());
+
             $figureEntity
                 ->setCreatedAt(new \DateTimeImmutable())
                 ->setUser($user)
@@ -146,6 +148,13 @@ class FigureController extends AbstractController
                 foreach ($form->get('images')->getData() as $image) {
 
                     $path = $fileUpload->upload($image,'figures');
+
+                    if (is_iterable($path)) {
+                        foreach ($path as $error) {
+                            $this->addFlash('danger',$error);
+                        }
+                        return $this->redirectToRoute('add_figure');
+                    }
 
                     $image = new Image();
                     $image
@@ -212,7 +221,7 @@ class FigureController extends AbstractController
              * @var Figure $figureEntity
              */
             $figureEntity = $form->getData();
-            $slug = $this->slugger->slug($figureEntity->getName(), '_');
+            $slug = $this->slugger->slug($figureEntity->getName());
             $figureEntity
                 ->setUser($user)
                 ->setSlug($slug)

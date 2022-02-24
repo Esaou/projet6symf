@@ -8,8 +8,7 @@
     </div>
     <div class="container mt-md-5 mb-md-5 blocShow">
         <div class="imgBlocShow">
-            {% set imageDisplay = include('_partial/_imageDisplay/_imageDisplay.html.twig') %}
-            <img src="{{ imageDisplay }}" alt="{{ figure.name }}" class="imgShow">
+            {% include '_partial/_imageDisplay/_imageDisplay.html.twig' with {'item':figure} %}
             <div class="nameShow">
                 <h5>{{ figure.name }}</h5>
             </div>
@@ -25,7 +24,7 @@
         {% if figure.images is not empty or figure.videos is not empty %}
         <div class="btnMedias">
             <button type="button" class="btn btn-primary" id="showMedias">
-                Voir les médias
+                {{ 'medias'|trans({},'messages') }}
             </button>
         </div>
         <div class="imagesList">
@@ -33,9 +32,7 @@
                     <img src="{{ asset(figuresPath ~ image.filename) }}" alt="{{ figure.name }}" class="imgListShow">
             {% endfor %}
             {% for video in figure.videos %}
-            <iframe class="videoListShow"
-                    src="{{ video.url }}">
-            </iframe>
+                {{ video.url|raw }}
             {% endfor %}
         </div>
         {% endif %}
@@ -44,19 +41,19 @@
                 <p>{{ figure.description|raw }}</p>
             </div>
             <div class="text-center mt-4 blocSpan">
-                <span class="badgePersoGreen">{{ 'showFigure.add'|trans }} {{ figure.createdAt|date('d/m/Y', "Europe/Paris") }} à {{ figure.createdAt|date('H', "Europe/Paris") }}h {{ figure.createdAt|date('i', "Europe/Paris") }}min {{ figure.createdAt|date('s', "Europe/Paris") }}s</span>
+               <span class="badgePersoGreen">{{ 'showFigure.add'|trans({'%date%':figure.createdAt|date('d/m/Y', "Europe/Paris"),'%heure%':figure.createdAt|date('H', "Europe/Paris"),'%minutes%':figure.createdAt|date('i', "Europe/Paris"),'%seconde%':figure.createdAt|date('s', "Europe/Paris")},'messages') }}</span>
                 {% if figure.updatedAt is not null %}
-                <span class="badgePerso">{{ 'showFigure.edit'|trans }} {{ figure.updatedAt|date('d/m/Y', "Europe/Paris") }} à {{ figure.updatedAt|date('H', "Europe/Paris") }}h {{ figure.updatedAt|date('i', "Europe/Paris") }}min {{ figure.updatedAt|date('s', "Europe/Paris") }}s</span>
+                <span class="badgePerso">{{ 'showFigure.edit'|trans({'%date%':figure.updatedAt|date('d/m/Y', "Europe/Paris"),'%heure%':figure.updatedAt|date('H', "Europe/Paris"),'%minutes%':figure.updatedAt|date('i', "Europe/Paris"),'%seconde%':figure.updatedAt|date('s', "Europe/Paris")},'messages') }}</span>
                 {% endif %}
-                <span class="badgePersoDanger">{{ 'showFigure.category'|trans }} : {{ figure.category.name }}</span>
+                <span class="badgePersoDanger">{{ 'showFigure.category'|trans({},'messages') }} : {{ figure.category.name }}</span>
             </div>
         </div>
         {% if app.user %}
-        <div class="p-5" style="padding-bottom: 0px!important;">
+        <div class="p-5" style="padding-bottom: 0px!important;" id="messages">
             {{ form(formMessage) }}
         </div>
         {% endif %}
-        <div class="p-5" id="messages">
+        <div class="p-5">
             {% for message in paginator.getResults() %}
                 <div class="blocShowOneComment mb-3 pt-4">
                     <div>

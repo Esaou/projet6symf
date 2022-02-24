@@ -9,6 +9,8 @@ parameters:
     figuresPath: 'images/figures/'
     avatarDefault: 'images/avatars/default.png'
     figureDefault: 'images/figures/defaultFigure.jpg'
+    timerValidationLink: '2'
+    locale: 'fr'
 
 services:
     # default configuration for services in *this* file
@@ -33,3 +35,7 @@ services:
         arguments:
             $nbDisplay: 15
             $nbAdd: 5
+
+    App\EventListener\FigureListener:
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }

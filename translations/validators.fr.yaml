@@ -1,0 +1,8 @@
+validator:
+  password: "Mot de passe"
+  repeat: 'Confirmation de mot de passe'
+  confirm:
+    password: "Les mots de passe doivent être identiques."
+  slug: 'Le slug est déjà utilisé, entrez un autre nom de figure.'
+  image.size: 'La taille du fichier pour le champs Image(s) ne peut pas être supérieur à 5 Mo.'
+  image.mimetype: 'Le type du fichier pour le champs Image(s) ne peut être que jpg, jpeg ou png.'

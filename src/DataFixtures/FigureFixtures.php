@@ -122,7 +122,7 @@ class FigureFixtures extends Fixture implements DependentFixtureInterface
     {
         for ($f=0;$f < $number;$f++) {
 
-            $slug = $this->slugger->slug($this->figures[$f]['name'], '_');
+            $slug = $this->slugger->slug($this->figures[$f]['name']);
 
             /**
  * @var User $user 

@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Figure;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
  * @method Figure|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,37 +15,28 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class FigureRepository extends ServiceEntityRepository
 {
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Figure::class);
     }
 
-    // /**
-    //  * @return Figure[] Returns an array of Figure objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getFigureBySlug(Figure $figure)
     {
-        return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('f.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+         $query = $this->createQueryBuilder('figure')
+            ->where('figure.slug in (:slug)')
+            ->setParameter('slug', $figure->getSlug());
 
-    /*
-    public function findOneBySomeField($value): ?Figure
-    {
-        return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+         if (null !== $figure->getId()) {
+             $query = $query
+                 ->andWhere('figure.id in (:id)')
+                 ->setParameter('id', $figure->getId());
+         }
+
+         $query = $query
+             ->getQuery()
+             ->getSingleResult();
+
+         return $query;
     }
-    */
 }

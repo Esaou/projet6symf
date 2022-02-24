@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ 'register.register'|trans }}{% endblock %}
+{% block title %}{{ 'register.register'|trans({},'messages') }}{% endblock %}
 
 {% block body %}
     <div class="container-fluid pt-5 pb-5 blocFormRegister">
-        <h5 class="text-center pb-4">{{ 'reset.send'|trans }}</h5>
+        <h5 class="text-center pb-4">{{ 'reset.send'|trans({},'messages') }}</h5>
         <div class="form-group formRegister">
             {{ form(form) }}
         </div>
