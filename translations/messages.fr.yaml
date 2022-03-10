@@ -90,7 +90,7 @@ editFigure:
   flashUpdate: 'Figure modifiée avec succès'
   flashSuccess: 'Figure ajoutée avec succès'
   images: 'Image(s)'
-  videos: 'Vidéo(s)'
+  videos: 'Nouvelle balise vidéo'
   delete: 'Supprimer cette figure'
 
 error:

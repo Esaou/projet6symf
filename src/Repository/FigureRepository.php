@@ -16,27 +16,33 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class FigureRepository extends ServiceEntityRepository
 {
 
-    public function __construct(ManagerRegistry $registry)
+    private SluggerInterface $slugger;
+
+    public function __construct(ManagerRegistry $registry, SluggerInterface $slugger)
     {
         parent::__construct($registry, Figure::class);
+        $this->slugger = $slugger;
     }
 
     public function getFigureBySlug(Figure $figure)
     {
-         $query = $this->createQueryBuilder('figure')
-            ->where('figure.slug in (:slug)')
-            ->setParameter('slug', $figure->getSlug());
+        $slug = $this->slugger->slug($figure->getName());
 
-         if (null !== $figure->getId()) {
-             $query = $query
-                 ->andWhere('figure.id in (:id)')
-                 ->setParameter('id', $figure->getId());
-         }
+        $query = $this->createQueryBuilder('figure')
+         ->select('count(figure.id)')
+         ->where('figure.slug in (:slug)')
+         ->setParameter('slug', $slug);
 
+        if (null !== $figure->getId()) {
          $query = $query
-             ->getQuery()
-             ->getSingleResult();
+             ->andWhere('figure.id != :id')
+             ->setParameter('id', $figure->getId());
+        }
 
-         return $query;
+        $count = $query
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return $count;
     }
 }

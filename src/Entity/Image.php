@@ -20,6 +20,12 @@ class Image
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      max = 30,
+     *      maxMessage = "Le fichier ne peut pas contenir plus de {{ limit }} caractères."
+     * )
+     *
      */
     private $filename;
 

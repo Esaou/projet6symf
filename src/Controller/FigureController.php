@@ -124,23 +124,13 @@ class FigureController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             /**
-            *
-             *
-             * @var User $user
-            */
-            $user = $this->getUser();
-
-            /**
              * @var Figure $figureEntity
              */
             $figureEntity = $form->getData();
 
-            $slug = $this->slugger->slug($figureEntity->getName());
-
-            $figureEntity
-                ->setCreatedAt(new \DateTimeImmutable())
-                ->setUser($user)
-                ->setSlug($slug);
+            foreach ($figureEntity->getVideos() as $video) {
+                $manager->persist($video);
+            }
 
             $manager->persist($figureEntity);
 
@@ -209,24 +199,14 @@ class FigureController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
-            /**
-             *
-             *
-             * @var User $user
-             */
-            $user = $this->getUser();
-
             /**
              * @var Figure $figureEntity
              */
             $figureEntity = $form->getData();
-            $slug = $this->slugger->slug($figureEntity->getName());
-            $figureEntity
-                ->setUser($user)
-                ->setSlug($slug)
-                ->setUpdatedAt(new \DateTimeImmutable());
 
+            foreach ($figureEntity->getVideos() as $video) {
+                $manager->persist($video);
+            }
 
             foreach ($form->get('images')->getData() as $image) {
 

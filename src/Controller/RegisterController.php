@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Event\MailEvent;
 use App\Form\ForgottenPasswordType;
 use App\Form\RegisterType;
 use App\Form\ResetPasswordType;
@@ -24,6 +25,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Contracts\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RegisterController extends AbstractController
@@ -35,11 +38,14 @@ class RegisterController extends AbstractController
 
     private UriSigner $signer;
 
-    public function __construct(TranslatorInterface $translator, SluggerInterface $slugger, UriSigner $signer)
+    private EventDispatcherInterface $dispatcher;
+
+    public function __construct(TranslatorInterface $translator, SluggerInterface $slugger, UriSigner $signer, EventDispatcherInterface $dispatcher)
     {
         $this->slugger = $slugger;
         $this->translator = $translator;
         $this->signer = $signer;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -98,17 +104,11 @@ class RegisterController extends AbstractController
             $manager->persist($userEntity);
             $manager->flush();
 
-            $url = $this->generateUrl('user_confirm',['token'=>$userEntity->getToken()],UrlGeneratorInterface::ABSOLUTE_URL);
+            /** @var Event $isMailSend */
+            $isMailSend = $this->dispatcher->dispatch(new MailEvent($userEntity));
 
-            $url = $this->signer->sign($url);
-
-            $result = $mailer->mail('contact@snowtricks.com', $userEntity->getEmail(), 'Confirmation de compte', 'email/confirm.html.twig', ['user'=>$userEntity,'url'=>$url]);
-
-            if ($result) {
-                $this->addFlash('success', $this->translator->trans('register.flashSuccess'));
+            if ($isMailSend->isPropagationStopped()) {
                 return $this->redirectToRoute('home');
-            } else {
-                $this->addFlash('danger',$this->translator->trans('register.flashDanger'));
             }
         }
 
