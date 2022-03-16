@@ -38,6 +38,7 @@ class FigureListener
             ->setUser($user)
             ->setSlug($slug)
             ->setCreatedAt(new \DateTimeImmutable());
+
     }
 
     public function preUpdate(Figure $entity, LifecycleEventArgs $args): void

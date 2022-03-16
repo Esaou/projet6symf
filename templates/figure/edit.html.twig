@@ -53,7 +53,7 @@
         {% endif %}
         <div class="p-5 pt-2 descriptionShow">
             <div>
-                <p>{{ figure.description|raw }}</p>
+                {{ figure.description|raw }}
             </div>
             <div class="text-center mt-4 blocSpan">
                 <span class="badgePersoGreen">{{ 'showFigure.add'|trans({'%date%':figure.createdAt|date('d/m/Y', "Europe/Paris"),'%heure%':figure.createdAt|date('H', "Europe/Paris"),'%minutes%':figure.createdAt|date('i', "Europe/Paris"),'%seconde%':figure.createdAt|date('s', "Europe/Paris")},'messages') }}</span>

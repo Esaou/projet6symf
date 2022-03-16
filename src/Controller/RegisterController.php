@@ -210,7 +210,7 @@ class RegisterController extends AbstractController
     }
 
     #[Route('/password/forgotten', name: 'forgotten_password')]
-    public function forgottenPassword(Request $request,UserRepository $userRepository,Mailer $mailer): RedirectResponse|Response
+    public function forgottenPassword(Request $request, UserRepository $userRepository, Mailer $mailer, EntityManagerInterface $manager): RedirectResponse|Response
     {
 
         $form = $this->createForm(ForgottenPasswordType::class);
@@ -228,7 +228,13 @@ class RegisterController extends AbstractController
                 return $this->redirectToRoute('forgotten_password');
             }
 
-            $url = $this->generateUrl('reset_password',['slug'=>$userEntity->getSlug()],UrlGeneratorInterface::ABSOLUTE_URL);
+            $tokenReset = uniqid();
+            $userEntity->setTokenReset($tokenReset);
+
+            $manager->persist($userEntity);
+            $manager->flush();
+
+            $url = $this->generateUrl('reset_password',['slug'=>$userEntity->getSlug(),'tokenReset'=>$tokenReset],UrlGeneratorInterface::ABSOLUTE_URL);
 
             $url = $this->signer->sign($url);
 
@@ -251,8 +257,8 @@ class RegisterController extends AbstractController
         );
     }
 
-    #[Route('/reset/{slug}', name: 'reset_password')]
-    public function resetPassword(EntityManagerInterface $manager,UserPasswordHasherInterface $passwordHasher, Request $request,string $slug): RedirectResponse|Response
+    #[Route('/reset/{slug}/{tokenReset}', name: 'reset_password')]
+    public function resetPassword(EntityManagerInterface $manager,UserPasswordHasherInterface $passwordHasher, Request $request,string $slug, string $tokenReset): RedirectResponse|Response
     {
         if (!$this->signer->checkRequest($request)) {
             $this->addFlash('danger', $this->translator->trans('register.url.invalid.reset'));
@@ -263,6 +269,15 @@ class RegisterController extends AbstractController
 
         /** @var User $user */
         $user = $userRepository->findOneBy(['slug'=>$slug]);
+
+        if ($tokenReset !== $user->getTokenReset()) {
+            $this->addFlash('danger', $this->translator->trans('register.token.invalid.reset'));
+            return $this->redirectToRoute('home');
+        }
+
+        $user->setTokenReset(null);
+        $manager->persist($user);
+        $manager->flush();
 
         if ($user === null) {
             return $this->redirectToRoute('home');

@@ -26,6 +26,7 @@ showFigure:
 register:
   url.invalid: 'Url de validation de compte invalide'
   url.invalid.reset: 'Url de réinitialisation invalide'
+  token.invalid.reset: 'Token de réinitialisation invalide'
   valid.account: 'Compte validé avec succès'
   token.invalid: 'Token de validation invalide'
   token.perim: 'Token de validation périmé'

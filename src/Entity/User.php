@@ -105,6 +105,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private \DateTimeImmutable $createdAt;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $tokenReset;
+
     public function __construct()
     {
         $this->messages = new ArrayCollection();
@@ -318,6 +323,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getTokenReset(): ?string
+    {
+        return $this->tokenReset;
+    }
+
+    public function setTokenReset(?string $tokenReset): self
+    {
+        $this->tokenReset = $tokenReset;
 
         return $this;
     }

@@ -8,6 +8,7 @@
 - Installer composer.
 - Installer npm.
 - Vérifiez que PHP 8 est installé et configuré.
+- Installer mailhog pour la fonctionnalité de mailing.
 
 ### **Installation**
 
