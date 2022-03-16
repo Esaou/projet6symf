@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\VideoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=VideoRepository::class)
@@ -15,10 +16,12 @@ class Video
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private int $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Url()
+     *
      */
     private string $url;
 
@@ -27,6 +30,10 @@ class Video
      * @ORM\JoinColumn(nullable=false)
      */
     private Figure $figure;
+
+    public function __construct() {
+        $this->id = null;
+    }
 
     public function getId(): ?int
     {

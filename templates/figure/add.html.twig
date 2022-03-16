@@ -5,7 +5,32 @@
 {% block body %}
 
     <div class="container pt-5 pb-5">
-        {{ form(form) }}
+        {{ form_start(form,{'attr': {'class': 'd-flex row'}}) }}
+        <div class="form-group col-md-6">
+            {{ form_row(form.name) }}
+        </div>
+        <div class="form-group col-md-6">
+            {{ form_row(form.category) }}
+        </div>
+        <div class="form-group col-md-12">
+            {{ form_row(form.description) }}
+        </div>
+        <div class="form-group col-md-12">
+            {{ form_row(form.images) }}
+        </div>
+        <div class="form-group col-md-12">
+            <div class="videos w-100" style="list-style-type: none"
+                 data-index="{{ form.videos|length > 0 ? form.videos|last.vars.name + 1 : 0 }}"
+                 data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}"
+            ></div>
+            <div class="d-flex w-100 justify-content-start align-items-center">
+                <button type="button" class="btn btn-primary add_item_link" data-collection-holder-class="videos"><i class="fa-solid fa-plus" style="margin-right: 7px;"></i> Ajouter une video</button>
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            {{ form_row(form.submit) }}
+        </div>
+        {{ form_end(form) }}
     </div>
 
 {% endblock %}

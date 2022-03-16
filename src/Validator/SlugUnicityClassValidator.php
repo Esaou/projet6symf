@@ -13,13 +13,9 @@ class SlugUnicityClassValidator extends ConstraintValidator
 {
     private FigureRepository $figureRepository;
 
-    private SluggerInterface $slugger;
-
-    public function __construct(FigureRepository $figureRepository,SluggerInterface $slugger)
+    public function __construct(FigureRepository $figureRepository)
     {
         $this->figureRepository = $figureRepository;
-        $this->slugger = $slugger;
-
     }
 
     public function validate($value, Constraint $constraint)
@@ -39,22 +35,13 @@ class SlugUnicityClassValidator extends ConstraintValidator
             // ...
         }
 
-        /** @var Figure $figureExist */
-        $figureExist = $this->figureRepository->findOneBy(['slug' => $value->getSlug()]);
+        $nbFigure = $this->figureRepository->getFigureBySlug($value);
 
-        dd($figureExist, $value->getId());
-
-        if (null !== $figureExist) {
-
-            if (null !== $value->getId() && $value->getId() !== $figureExist->getId()) {
-                $this->context->buildViolation($constraint->message)
-                    ->setParameter('{{ string }}', $value)
-                    ->atPath('name')
-                    ->addViolation();
-            } else {
-
-            }
-
+        if ($nbFigure > 0) {
+            $this->context->buildViolation($constraint->message)
+                ->setParameter('{{ string }}', $value)
+                ->atPath('name')
+                ->addViolation();
         }
     }
 }

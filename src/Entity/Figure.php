@@ -69,12 +69,13 @@ class Figure
 
     /**
      * @ORM\OneToMany(targetEntity=Image::class, mappedBy="figure", orphanRemoval=true)
-     *
+     * @Assert\Valid()
      */
     private $images;
 
     /**
      * @ORM\OneToMany(targetEntity=Video::class, mappedBy="figure", orphanRemoval=true)
+     * @Assert\Valid()
      */
     private $videos;
 

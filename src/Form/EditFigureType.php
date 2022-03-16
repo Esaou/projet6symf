@@ -7,6 +7,7 @@ use App\Entity\Figure;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -25,13 +26,12 @@ class EditFigureType extends AbstractType
         /** @var Figure $data */
         $data = $builder->getData();
 
-
         $builder
             ->add(
                 'name', TextType::class, [
                     'label' =>'editFigure.name',
                     'row_attr' => [
-                        'class' => 'col-md-6'
+                        'class' => 'w-100'
                     ],
                 ]
             )
@@ -40,7 +40,7 @@ class EditFigureType extends AbstractType
                     'label' => 'editFigure.category',
                     'class' => Category::class,
                     'row_attr' => [
-                        'class' => 'col-md-6'
+                        'class' => 'w-100'
                     ],
                 ]
             )
@@ -48,7 +48,7 @@ class EditFigureType extends AbstractType
                 'description', TextareaType::class, [
                     'label' => 'editFigure.description',
                     'row_attr' => [
-                        'class' => 'col-md-12'
+                        'class' => 'w-100'
                     ],
                     'attr' => [
                         'class' => 'tinymce'
@@ -69,21 +69,20 @@ class EditFigureType extends AbstractType
                         ])
                     ],
                     'row_attr' => [
-                        'class' => 'col-md-6'
+                        'class' => 'w-100'
                     ]
                 ]
             )
-            ->add(
-                'videos', FileType::class, [
-                    'label' => 'editFigure.videos',
-                    'mapped' => false,
-                    'multiple' => true,
-                    'required' => false,
-                    'row_attr' => [
-                        'class' => 'col-md-6'
-                    ]
+            ->add('videos', CollectionType::class, [
+                'entry_type' => VideoType::class,
+                'label' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'row_attr' => [
+                    'class' => 'd-none'
                 ]
-            )
+            ])
             ->add(
                 'submit', SubmitType::class, [
                     'label' => 'editFigure.edit',

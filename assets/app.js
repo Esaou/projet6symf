@@ -32,4 +32,5 @@ import '/assets/js/ScrollTop.js'
 import '/assets/js/FlashTimeout.js'
 import '/assets/js/ShowMedia.js'
 import '/assets/js/Tinymce.js'
+import '/assets/js/collectionTypeField'
 
