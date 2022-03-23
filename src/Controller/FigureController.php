@@ -118,7 +118,7 @@ class FigureController extends AbstractController
     public function addFigure(FileUpload $fileUpload,Request $request,EntityManagerInterface $manager)
     {
 
-        $form = $this->createForm(AddFigureType::class);
+        $form = $this->createForm(EditFigureType::class);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -192,12 +192,14 @@ class FigureController extends AbstractController
         $form = $this->createForm(
             EditFigureType::class, $figure, [
                 'attr' => [
-                    'type' => $type
-                ]
+                    'type' => $type,
+                ],
+                'mode' => 'edit'
             ]
         );
 
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             /**
              * @var Figure $figureEntity

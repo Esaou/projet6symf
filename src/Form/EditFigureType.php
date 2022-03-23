@@ -85,32 +85,32 @@ class EditFigureType extends AbstractType
             ])
             ->add(
                 'submit', SubmitType::class, [
-                    'label' => 'editFigure.edit',
+                    'label' => 'edit' === $options['mode'] ? 'editFigure.edit' : 'editFigure.add',
                     'attr' => [
                         'class' => 'submitUser mt-3',
-
-                    ]
-                ]
-            )
-            ->add(
-                'delete', ButtonType::class, [
-                    'label' => 'editFigure.delete',
-                    'attr' => [
-                        'class' => 'deleteFigure ml-2 mt-3',
-                        'data-toggle'=>'modal',
-                        'data-target' => '#delete'.$data->getId()
-
-
                     ]
                 ]
             );
 
+            if ('edit' === $options['mode']) {
+                $builder->add(
+                    'delete', ButtonType::class, [
+                        'label' => 'editFigure.delete',
+                        'attr' => [
+                            'class' => 'deleteFigure ml-2 mt-3',
+                            'data-toggle'=>'modal',
+                            'data-target' => '#delete'.$data->getId()
+                        ]
+                    ]
+                );
+            }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Figure::class,
+            'mode' => 'add'
         ]);
     }
 }

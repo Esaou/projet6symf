@@ -20,7 +20,6 @@ class Video
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\Url()
      *
      */
     private string $url;

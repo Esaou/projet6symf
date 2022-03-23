@@ -113,7 +113,7 @@ class FigureFixtures extends Fixture implements DependentFixtureInterface
 
         // Generate 15 figures
 
-        $this->generateFigures(20);
+        $this->generateFigures(10);
 
         $manager->flush();
     }

@@ -39,7 +39,7 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
 
         // Create 70 messages
 
-        $this->generateMessages(300);
+        $this->generateMessages(150);
 
         $manager->flush();
     }
@@ -57,7 +57,7 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
             /**
  * @var Figure $figure 
 */
-            $figure = $this->getReference("figure".mt_rand(0, 19));
+            $figure = $this->getReference("figure".mt_rand(0, 9));
 
             $message = new Message();
             $message
