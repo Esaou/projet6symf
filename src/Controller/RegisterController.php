@@ -275,10 +275,6 @@ class RegisterController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        $user->setTokenReset(null);
-        $manager->persist($user);
-        $manager->flush();
-
         if ($user === null) {
             return $this->redirectToRoute('home');
         }
@@ -296,6 +292,7 @@ class RegisterController extends AbstractController
             if ($user->getUsername() === $form->get('username')->getData()) {
                 $password = $passwordHasher->hashPassword($user, $form->get('password')->getData());
                 $user->setPassword($password);
+                $user->setTokenReset(null);
                 $manager->persist($user);
                 $manager->flush();
                 $this->addFlash('success',$this->translator->trans('forgotten.flashSuccessReset'));

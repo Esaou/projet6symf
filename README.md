@@ -14,4 +14,11 @@
 
 - Cloner le repository
 - Lancer la commande " composer install " à la racine du projet.
-- Lancer la commande " npm install " à la racine du projet.
+- Lancer la commande " npm run build".
+- Créer une base de donnée " projet6 " dans votre gestionnaire de base de données.
+- Importez-y le fichier bdd.sql situé à la racine du projet.
+
+### **Identifiants**
+
+- Email : eric.test@test.com
+- Mot de passe : Motdepassergpb1!
