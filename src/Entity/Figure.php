@@ -25,7 +25,7 @@ class Figure
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private int $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
@@ -99,6 +99,7 @@ class Figure
 
     public function __construct()
     {
+        $this->id = null;
         $this->images = new ArrayCollection();
         $this->videos = new ArrayCollection();
         $this->messages = new ArrayCollection();

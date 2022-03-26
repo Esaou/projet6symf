@@ -65,9 +65,13 @@ class VideoFixtures extends Fixture  implements DependentFixtureInterface
                 $figure = $this->getReference("figure".$v);
             }
 
+            $url = null;
+
             if ($v >= 20) {
                 $url = $this->videos[mt_rand(0, 19)];
-            } else {
+            }
+
+            if ($v < 20){
                 $url = $this->videos[$v];
             }
 

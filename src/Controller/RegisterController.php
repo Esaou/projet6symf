@@ -47,16 +47,13 @@ class RegisterController extends AbstractController
     /**
      * @param FileUpload $fileUpload
      * @param UserPasswordHasherInterface $passwordHasher
-     * @param Mailer $mailer
      * @param Request $request
      * @param EntityManagerInterface $manager
      * @return Response
-     * @throws TransportExceptionInterface
      */
     #[Route('/register', name: 'register')]
-    public function register(FileUpload $fileUpload,UserPasswordHasherInterface $passwordHasher,Mailer $mailer,Request $request,EntityManagerInterface $manager): Response
+    public function register(FileUpload $fileUpload, UserPasswordHasherInterface $passwordHasher, Request $request, EntityManagerInterface $manager): Response
     {
-
         if ($this->getUser()) {
             return $this->redirectToRoute('home');
         }
@@ -149,7 +146,9 @@ class RegisterController extends AbstractController
 
                 if ($result) {
                     $this->addFlash('success', $this->translator->trans('register.mailSendSuccess'));
-                } else {
+                }
+
+                if (!$result) {
                     $this->addFlash('danger',$this->translator->trans('register.flashDanger'));
                 }
             }
