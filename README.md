@@ -18,7 +18,7 @@
 - Lancer la commande " npm run build".
 - Lancer la commande " php bin/console d:d:c " pour créer la base de données.
 - Lancer la commande " php bin/console make:migration ".
-- Lancer la commande " php bin/console d:m:m ".
+- Lancer la commande " php bin/console doctrine:migrations:migrate ".
 - Commentez la ligne 37 à 40 du fichier FigureListener.php pour permettre le chargement des fixtures.
 - Lancer la commande " php bin/console d:f:l " pour alimenter la base de données.
 - Décommentez la ligne 37 à 40 du fichier FigureListener.php.

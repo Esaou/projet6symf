@@ -7,3 +7,17 @@ validator:
   image.size: 'La taille du fichier pour le champs Image(s) ne peut pas être supérieur à 5 Mo.'
   image.mimetype: 'Le type du fichier pour le champs Image(s) ne peut être que jpg, jpeg ou png.'
   image.high: "La largeur et la hauteur du fichier du champs Image(s) ne peuvent pas être supérieurs à 2000px."
+  category.exist: "Cette catégorie existe déjà."
+  figure.exist: "Cette figure exite déjà."
+  notblank: "Ce champ ne peut pas être vide."
+  figure.name.length.min : "Le nom de la figure doit contenir au moins 2 caractères."
+  figure.name.length.max : "Le nom de la figure doit contenir au maximum 200 caractères."
+  figure.description.length.min: "La description de la figure doit contenir au moins 20 caractères."
+  figure.description.length.max: "La description de la figure doit contenir au maximum 5000 caractères."
+  notblank.category : "Séléctionnez une catégorie."
+  image.filename.length : "Le fichier ne peut pas contenir plus de 255 caractères."
+  message.content.length.max: "Le message doit contenir au maximum 50000 caractères."
+  message.content.length.min: "Le message doit contenir au moins 2 caractères."
+  reset.password : "Le mot de passe doit contenir au moins 1 chiffre, une lettre minuscule, majuscule, un caractère spécial et 8 caractères minimum !"
+  register.image.type: "Le fichier peut avoir le format .jpeg, .png, .gif."
+  image.format: "Un des fichiers importés n'est pas au format"
