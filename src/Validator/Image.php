@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class Image extends Constraint
 {
-    public string $message = "Un des fichiers importés n'est pas au format";
+    public string $message = "validator.image.format";
     public string $mode = 'strict'; // If the constraint has configuration options, define them as public properties
 
     public function validatedBy()

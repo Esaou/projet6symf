@@ -23,7 +23,7 @@ class Image
      * @Assert\NotBlank()
      * @Assert\Length(
      *      max = 255,
-     *      maxMessage = "Le fichier ne peut pas contenir plus de {{ limit }} caractères."
+     *      maxMessage = "validator.image.filename.length"
      * )
      *
      */

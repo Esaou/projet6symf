@@ -14,7 +14,7 @@ use App\Validator as FigureAssert;
  * @ORM\Entity(repositoryClass=FigureRepository::class)
  * @UniqueEntity(
  *     fields={"name"},
- *     message="Cette figure exite déjà."
+ *     message="validator.figure.exist"
  * )
  * @FigureAssert\SlugUnicityClass(mode="strict")
  */
@@ -29,24 +29,24 @@ class Figure
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Assert\NotBlank(message="Ce champ ne peut pas être vide.")
+     * @Assert\NotBlank(message="validator.notblank")
      * @Assert\Length(
      *      min = 2,
      *      max = 200,
-     *      minMessage = "Le nom de la figure doit contenir au moins {{ limit }} caractères.",
-     *      maxMessage = "Le nom de la figure doit contenir au maximum {{ limit }} caractères."
+     *      minMessage = "validator.figure.name.length.min",
+     *      maxMessage = "figure.name.length.max"
      * )
      */
     private string $name;
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\NotBlank(message="Ce champ ne peut pas être vide.")
+     * @Assert\NotBlank(message="validator.notblank")
      * @Assert\Length(
      *      min = 20,
      *      max = 5000,
-     *      minMessage = "La description de la figure doit contenir au moins {{ limit }} caractères.",
-     *      maxMessage = "La description de la figure doit contenir au maximum {{ limit }} caractères."
+     *      minMessage = "figure.description.length.min",
+     *      maxMessage = "figure.description.length.max"
      * )
      */
     private string $description;
@@ -93,7 +93,7 @@ class Figure
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="figures")
      * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotBlank(message="Séléctionnez une catégorie.")
+     * @Assert\NotBlank(message="notblank.category")
      */
     private Category|null $category;
 

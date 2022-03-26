@@ -24,8 +24,8 @@ class Message
      * @Assert\Length(
      *      min = 2,
      *      max = 5000,
-     *      minMessage = "Le message doit contenir au moins {{ limit }} caractères.",
-     *      maxMessage = "Le message doit contenir au maximum {{ limit }} caractères."
+     *      minMessage = "message.content.length.min",
+     *      maxMessage = "message.content.length.max"
      * )
      */
     private string $content;

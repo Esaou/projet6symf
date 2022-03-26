@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
  * @UniqueEntity(
  *     fields={"name"},
- *     message="Cette catégorie existe déjà."
+ *     message="validator.category.exist"
  * )
  */
 class Category

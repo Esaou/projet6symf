@@ -51,7 +51,7 @@ class RegisterType extends AbstractType
                                 'image/gif',
                                 'image/png'
                             ],
-                            'mimeTypesMessage' => 'Le fichier peut avoir le format .jpeg, .png, .gif.',
+                            'mimeTypesMessage' => "validator.register.image.type",
                         ])
                     ],
                 ]

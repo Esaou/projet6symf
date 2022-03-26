@@ -119,6 +119,11 @@ class FigureController extends AbstractController
         $form = $this->createForm(EditFigureType::class);
 
         $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            dd($form->getErrors());
+        }
+
         if ($form->isSubmitted() && $form->isValid()) {
 
             /**

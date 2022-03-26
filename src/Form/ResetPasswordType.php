@@ -36,7 +36,7 @@ class ResetPasswordType extends AbstractType
                 'constraints' => [
                     new NotBlank(),
                     new Regex('/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[#-+!*$@%_])([#-+!*$@%_\w]{8,100})$/',
-                        'Le mot de passe doit contenir au moins 1 chiffre, une lettre minuscule, majuscule, un caractère spécial et 8 caractères minimum !')
+                        "validator.reset.password")
                 ],
             ])
             ->add(
