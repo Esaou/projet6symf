@@ -16,7 +16,7 @@ class Image
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -27,18 +27,18 @@ class Image
      * )
      *
      */
-    private $filename;
+    private string $filename;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $main;
+    private bool $main;
 
     /**
      * @ORM\ManyToOne(targetEntity=Figure::class, inversedBy="images")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $figure;
+    private Figure|null $figure;
 
     public function getId(): ?int
     {

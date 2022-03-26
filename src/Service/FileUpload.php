@@ -20,6 +20,10 @@ class FileUpload
         $this->validator = $validator;
     }
 
+    /**
+     * @param UploadedFile $file
+     * @return bool|array<string>
+     */
     public function isValid(UploadedFile $file): bool|array
     {
 
@@ -42,7 +46,7 @@ class FileUpload
     /**
      * @param UploadedFile $file
      * @param string $target
-     * @return string|array
+     * @return string|array<string>
      */
     public function upload(UploadedFile $file, string $target): string|array
     {
@@ -70,6 +74,6 @@ class FileUpload
 
         $file->move($pathDirectory, $file_name);
 
-        return $image;
+        return (string)$image;
     }
 }

@@ -10,7 +10,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class VideoFixtures extends Fixture  implements DependentFixtureInterface
 {
-
+    /** @var array|string[]  */
     private array $videos = [
         '<iframe width="560" height="315" src="https://www.youtube.com/embed/P-HnC7Ej9mw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
         '<iframe width="560" height="315" src="https://www.youtube.com/embed/ohPRqA3Rstk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
@@ -48,7 +48,7 @@ class VideoFixtures extends Fixture  implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function generateVideos(int $number)
+    public function generateVideos(int $number): void
     {
 
         for ($v=0;$v < $number;$v++) {

@@ -9,8 +9,8 @@ use Symfony\Component\Validator\Constraint;
  */
 class SlugUnicityClass extends Constraint
 {
-    public $message = 'validator.slug';
-    public $mode = 'strict'; // If the constraint has configuration options, define them as public properties
+    public string $message = 'validator.slug';
+    public string $mode = 'strict'; // If the constraint has configuration options, define them as public properties
 
     public function validatedBy()
     {

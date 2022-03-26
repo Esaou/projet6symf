@@ -16,7 +16,7 @@ class Message
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="text")
@@ -28,24 +28,24 @@ class Message
      *      maxMessage = "Le message doit contenir au maximum {{ limit }} caractères."
      * )
      */
-    private $content;
+    private string $content;
 
     /**
      * @ORM\Column(type="datetime_immutable")
      */
-    private $createdAt;
+    private \DateTimeImmutable $createdAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="messages")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private User|null $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Figure::class, inversedBy="messages")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $figure;
+    private Figure|null $figure;
 
     public function getId(): ?int
     {

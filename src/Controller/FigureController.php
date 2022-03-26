@@ -15,6 +15,7 @@ use App\Service\Paginator;
 use App\Service\SlugUnicity;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,11 +28,8 @@ class FigureController extends AbstractController
 
     private TranslatorInterface $translator;
 
-    private SluggerInterface $slugger;
-
-    public function __construct(TranslatorInterface $translator, SluggerInterface $slugger)
+    public function __construct(TranslatorInterface $translator)
     {
-        $this->slugger = $slugger;
         $this->translator = $translator;
     }
 
@@ -134,9 +132,10 @@ class FigureController extends AbstractController
 
             $manager->persist($figureEntity);
 
-            if (!empty($form->get('images')->getData())) {
+            if (is_iterable($form->get('images')->getData()) && !empty($form->get('images')->getData())) {
                 foreach ($form->get('images')->getData() as $image) {
 
+                    /** @var UploadedFile $image */
                     $path = $fileUpload->upload($image,'figures');
 
                     if (is_iterable($path)) {
@@ -210,17 +209,20 @@ class FigureController extends AbstractController
                 $manager->persist($video);
             }
 
-            foreach ($form->get('images')->getData() as $image) {
+            if (is_iterable($form->get('images')->getData())) {
+                foreach ($form->get('images')->getData() as $image) {
 
-                $path = $fileUpload->upload($image,'figures');
+                    /** @var UploadedFile $image */
+                    $path = $fileUpload->upload($image,'figures');
 
-                $image = new Image();
-                $image
-                    ->setFilename($path)
-                    ->setMain(false)
-                    ->setFigure($figureEntity);
+                    $image = new Image();
+                    $image
+                        ->setFilename((string)$path)
+                        ->setMain(false)
+                        ->setFigure($figureEntity);
 
-                $manager->persist($image);
+                    $manager->persist($image);
+                }
             }
 
             $manager->persist($figureEntity);
@@ -245,8 +247,13 @@ class FigureController extends AbstractController
 
         $imageRepository = $manager->getRepository(Image::class);
 
-        $param = $image->getFigure()->getSlug();
-        $figure = $image->getFigure();
+        $figure = null;
+        $param = null;
+
+        if (null !== $image->getFigure()) {
+            $param = $image->getFigure()->getSlug();
+            $figure = $image->getFigure();
+        }
 
         if ($image !== null) {
 
@@ -254,15 +261,13 @@ class FigureController extends AbstractController
             $this->addFlash('danger', $this->translator->trans('figure.image.delete'));
 
             if ($image->getMain() === true) {
+                /** @var Image $newMain */
                 $newMain = current($imageRepository->findBy(['figure'=>$figure]));
                 $newMain->setMain(true);
                 $manager->persist($newMain);
             }
 
             $manager->flush();
-
-        } else {
-            $this->addFlash('danger', $this->translator->trans('figure.image.notfound'));
 
         }
 
@@ -273,20 +278,19 @@ class FigureController extends AbstractController
     #[Route('/user/video/{video}/delete', name: 'delete_video')]
     public function deleteVideo(EntityManagerInterface $manager,Video $video): RedirectResponse
     {
+        $param = null;
 
-        $param = $video->getFigure()->getSlug();
+        if (null !== $video->getFigure()) {
+            $param = $video->getFigure()->getSlug();
+        }
 
         if ($video !== null) {
             $manager->remove($video);
             $manager->flush();
             $this->addFlash('danger', $this->translator->trans('figure.video.delete'));
-        } else {
-            $this->addFlash('danger', $this->translator->trans('figure.video.notfound'));
-
         }
 
         return $this->redirectToRoute('edit_figure',['slug'=>$param]);
-
     }
 
     #[Route('/user/image/{image}/main', name: 'main_image')]
@@ -294,7 +298,11 @@ class FigureController extends AbstractController
     {
         $imageRepository = $manager->getRepository(Image::class);
 
-        $param = $image->getFigure()->getSlug();
+        $param = null;
+
+        if (null !== $image->getFigure()) {
+            $param = $image->getFigure()->getSlug();
+        }
 
         $images = $imageRepository->findBy(['figure'=>$image->getFigure()->getId()]);
 
@@ -312,13 +320,9 @@ class FigureController extends AbstractController
             $manager->persist($image);
             $manager->flush();
             $this->addFlash('update', $this->translator->trans('figure.image.main.success'));
-        } else {
-            $this->addFlash('danger', $this->translator->trans('figure.image.notfound'));
-
         }
 
         return $this->redirectToRoute('edit_figure',['slug'=>$param]);
-
     }
 
 }

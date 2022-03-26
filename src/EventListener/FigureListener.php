@@ -32,7 +32,7 @@ class FigureListener
             return;
         }
 
-        $slug = $this->slugger->slug($entity->getName());
+        $slug = $this->slugger->slug((string)$entity->getName());
 
         $entity
             ->setUser($user)
@@ -51,7 +51,7 @@ class FigureListener
             return;
         }
 
-        $slug = $this->slugger->slug($entity->getName());
+        $slug = $this->slugger->slug((string)$entity->getName());
 
         $entity
             ->setUser($user)

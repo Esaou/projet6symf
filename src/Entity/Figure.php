@@ -25,7 +25,7 @@ class Figure
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
@@ -37,7 +37,7 @@ class Figure
      *      maxMessage = "Le nom de la figure doit contenir au maximum {{ limit }} caractères."
      * )
      */
-    private $name;
+    private string $name;
 
     /**
      * @ORM\Column(type="text")
@@ -49,53 +49,53 @@ class Figure
      *      maxMessage = "La description de la figure doit contenir au maximum {{ limit }} caractères."
      * )
      */
-    private $description;
+    private string $description;
 
     /**
      * @ORM\Column(type="string", length=255,unique=true)
      *
      */
-    private $slug;
+    private string $slug;
 
     /**
      * @ORM\Column(type="datetime_immutable")
      */
-    private $createdAt;
+    private \DateTimeImmutable $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
      */
-    private $updatedAt;
+    private \DateTimeImmutable|null $updatedAt;
 
     /**
      * @ORM\OneToMany(targetEntity=Image::class, mappedBy="figure", orphanRemoval=true)
      * @Assert\Valid()
      */
-    private $images;
+    private Collection $images;
 
     /**
      * @ORM\OneToMany(targetEntity=Video::class, mappedBy="figure", orphanRemoval=true)
      * @Assert\Valid()
      */
-    private $videos;
+    private Collection $videos;
 
     /**
      * @ORM\OneToMany(targetEntity=Message::class, mappedBy="figure", orphanRemoval=true)
      */
-    private $messages;
+    private Collection $messages;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="figures")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private User|null $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="figures")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank(message="Séléctionnez une catégorie.")
      */
-    private $category;
+    private Category|null $category;
 
     public function __construct()
     {
@@ -285,8 +285,7 @@ class Figure
 
     public function __toString(): string
     {
-
-        if ($this->name === null) {
+        if ($this->name == null) {
             return '';
         }
 

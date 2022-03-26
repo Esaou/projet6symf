@@ -13,6 +13,7 @@ class ImageFixtures extends Fixture  implements DependentFixtureInterface
 {
     private ObjectManager $manager;
 
+    /** @var array|string[] $images */
     private array $images = [
         '180.jpg',
         '360.jpg',
@@ -68,7 +69,7 @@ class ImageFixtures extends Fixture  implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function generateImages(int $number)
+    public function generateImages(int $number): void
     {
 
         for ($i=0;$i < $number;$i++) {
