@@ -12,7 +12,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class FigureFixtures extends Fixture implements DependentFixtureInterface
 {
-
+    /** @var array|string[][] $figures */
     private array $figures = [
         [
           'name' => 'Rotation 180',
@@ -118,7 +118,7 @@ class FigureFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function generateFigures(int $number)
+    public function generateFigures(int $number): void
     {
         for ($f=0;$f < $number;$f++) {
 

@@ -24,9 +24,9 @@ class FigureRepository extends ServiceEntityRepository
         $this->slugger = $slugger;
     }
 
-    public function getFigureBySlug(Figure $figure)
+    public function getFigureBySlug(Figure $figure): mixed
     {
-        $slug = $this->slugger->slug($figure->getName());
+        $slug = $this->slugger->slug((string)$figure->getName());
 
         $query = $this->createQueryBuilder('figure')
          ->select('count(figure.id)')

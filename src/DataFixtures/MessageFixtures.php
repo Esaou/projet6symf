@@ -12,7 +12,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class MessageFixtures extends Fixture implements DependentFixtureInterface
 {
-
+    /** @var array|string[] $messages */
     private array $messages = [
         'Très beau skill !',
         'Très beau saut !',
@@ -44,7 +44,7 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function generateMessages(int $number)
+    public function generateMessages(int $number): void
     {
 
         for ($m=0;$m < $number;$m++) {

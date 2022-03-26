@@ -9,7 +9,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class CategoryFixtures extends Fixture
 {
-
+    /** @var array|string[] $categories */
     private array $categories = [
         'Grabs',
         'Rotation verticale',
@@ -39,7 +39,7 @@ class CategoryFixtures extends Fixture
         $manager->flush();
     }
 
-    public function generateCategories(int $number)
+    public function generateCategories(int $number): void
     {
 
         for ($c=0;$c < $number;$c++) {

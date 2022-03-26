@@ -13,6 +13,7 @@ use Symfony\Component\Uid\Uuid;
 
 class UserFixtures extends Fixture
 {
+    /** @var array|array[] $users */
     private array $users = [
         [
             'username' => 'Esaou',
@@ -53,16 +54,10 @@ class UserFixtures extends Fixture
 
     private ObjectManager $manager;
 
-    private SluggerInterface $slugger;
-
     private UserPasswordHasherInterface $passwordHasher;
 
-    private string $pathToDirectory;
-
-    public function __construct(SluggerInterface $slugger,UserPasswordHasherInterface $passwordHasher)
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
     {
-        $this->pathToDirectory = "/public/images/figures/";
-        $this->slugger = $slugger;
         $this->passwordHasher = $passwordHasher;
     }
 
@@ -79,7 +74,7 @@ class UserFixtures extends Fixture
         $manager->flush();
     }
 
-    public function generateUsers(int $number)
+    public function generateUsers(int $number): void
     {
 
         for ($u=0;$u < $number;$u++) {

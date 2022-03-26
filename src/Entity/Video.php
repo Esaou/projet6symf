@@ -28,7 +28,7 @@ class Video
      * @ORM\ManyToOne(targetEntity=Figure::class, inversedBy="videos")
      * @ORM\JoinColumn(nullable=false)
      */
-    private Figure $figure;
+    private Figure|null $figure;
 
     public function __construct() {
         $this->id = null;
@@ -51,12 +51,12 @@ class Video
         return $this;
     }
 
-    public function getFigure(): Figure
+    public function getFigure(): Figure|null
     {
         return $this->figure;
     }
 
-    public function setFigure(Figure $figure): self
+    public function setFigure(?Figure $figure): self
     {
         $this->figure = $figure;
 

@@ -37,8 +37,8 @@ class MailSubscriber implements EventSubscriberInterface
         $this->requestStack = $requestStack;
     }
 
-    public function sendConfirmationMail(MailEvent $event) {
-
+    public function sendConfirmationMail(MailEvent $event)
+    {
         /** @var User $user */
         $user = $event->getUser();
 
@@ -46,7 +46,7 @@ class MailSubscriber implements EventSubscriberInterface
 
         $url = $this->signer->sign($url);
 
-        $result = $this->mailer->mail(MailEvent::FROM, $user->getEmail(), MailEvent::SUBJECT, MailEvent::TEMPLATE, ['user'=>$user,'url'=>$url]);
+        $result = $this->mailer->mail(MailEvent::FROM, (string)$user->getEmail(), MailEvent::SUBJECT, MailEvent::TEMPLATE, ['user'=>$user,'url'=>$url]);
 
         if (true === $result) {
             $this->requestStack->getSession()->getFlashBag()->add('success', $this->translator->trans('register.flashSuccess'));

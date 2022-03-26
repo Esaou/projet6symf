@@ -22,28 +22,25 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'app_login';
 
-    private  UserRepository $userRepository;
-
     private UrlGeneratorInterface $urlGenerator;
 
-    public function __construct(UserRepository $userRepository,UrlGeneratorInterface $urlGenerator)
+    public function __construct(UrlGeneratorInterface $urlGenerator)
     {
         $this->urlGenerator = $urlGenerator;
-        $this->userRepository = $userRepository;
     }
 
     public function authenticate(Request $request): Passport
     {
 
-        $username = $request->request->get('username', '');
+        $username = (string)$request->request->get('username', '');
 
         $request->getSession()->set(Security::LAST_USERNAME, $username);
 
         return new Passport(
             new UserBadge($username),
-            new PasswordCredentials($request->request->get('password', '')),
+            new PasswordCredentials((string)$request->request->get('password', '')),
             [
-                new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
+                new CsrfTokenBadge('authenticate', (string)$request->request->get('_csrf_token')),
             ]
         );
     }

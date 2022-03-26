@@ -43,7 +43,9 @@ class ImageValidator extends ConstraintValidator
                 ->addViolation();
         }
 
-        if (getimagesize($value)[0] > 2000 || getimagesize($value)[1] > 2000) {
+        $imageSize = getimagesize($value);
+
+        if (is_iterable($imageSize) && ($imageSize[0] > 2000 || $imageSize[1] > 2000)) {
             $this->context->buildViolation('validator.image.high')
                 ->setParameter('{{ string }}', $value)
                 ->addViolation();

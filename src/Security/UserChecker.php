@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use App\Entity\User;
 use App\Entity\User as AppUser;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAccountStatusException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
@@ -9,6 +10,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserChecker implements UserCheckerInterface
 {
+    /**
+     * @param UserInterface $user
+     * @return bool
+     */
     public function checkPreAuth(UserInterface $user): bool
     {
         $valid = true;
@@ -16,6 +21,8 @@ class UserChecker implements UserCheckerInterface
         if (!$user instanceof AppUser) {
             $valid = false;
         }
+
+        /** @var User $user */
 
         if (!$user->getIsValid()) {
             $valid = false;
@@ -25,9 +32,8 @@ class UserChecker implements UserCheckerInterface
         return $valid;
     }
 
-    public function checkPostAuth(UserInterface $user)
+    public function checkPostAuth(UserInterface $user): void
     {
-        // nothing to check here.
-        return;
+
     }
 }

@@ -14,9 +14,14 @@
 
 - Cloner le repository
 - Lancer la commande " composer install " à la racine du projet.
+- Lancer la commande " npm install ".
 - Lancer la commande " npm run build".
-- Créer une base de donnée " projet6 " dans votre gestionnaire de base de données.
-- Importez-y le fichier bdd.sql situé à la racine du projet.
+- Lancer la commande " php bin/console d:d:c " pour créer la base de données.
+- Lancer la commande " php bin/console make:migration ".
+- Lancer la commande " php bin/console d:m:m ".
+- Commentez la ligne 37 à 40 du fichier FigureListener.php pour permettre le chargement des fixtures.
+- Lancer la commande " php bin/console d:f:l " pour alimenter la base de données.
+- Décommentez la ligne 37 à 40 du fichier FigureListener.php.
 
 ### **Identifiants**
 

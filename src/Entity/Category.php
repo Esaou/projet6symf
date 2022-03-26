@@ -23,24 +23,24 @@ class Category
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\NotBlank
      */
-    private $name;
+    private string $name;
 
     /**
      * @ORM\Column(type="string", length=255,unique=true)
      * @Assert\NotBlank
      */
-    private $slug;
+    private string $slug;
 
     /**
      * @ORM\OneToMany(targetEntity=Figure::class, mappedBy="category")
      */
-    private $figures;
+    private Collection $figures;
 
     public function __construct()
     {

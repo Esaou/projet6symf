@@ -31,18 +31,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RegisterController extends AbstractController
 {
-
-    private SluggerInterface $slugger;
-
     private TranslatorInterface $translator;
 
     private UriSigner $signer;
 
     private EventDispatcherInterface $dispatcher;
 
-    public function __construct(TranslatorInterface $translator, SluggerInterface $slugger, UriSigner $signer, EventDispatcherInterface $dispatcher)
+    public function __construct(TranslatorInterface $translator, UriSigner $signer, EventDispatcherInterface $dispatcher)
     {
-        $this->slugger = $slugger;
         $this->translator = $translator;
         $this->signer = $signer;
         $this->dispatcher = $dispatcher;
@@ -88,7 +84,7 @@ class RegisterController extends AbstractController
             $path = null;
 
             if ($avatar !== null) {
-                $path = $fileUpload->upload($avatar,'avatars');
+                $path = (string)$fileUpload->upload($avatar,'avatars');
             }
 
             $token = uniqid();
@@ -149,15 +145,13 @@ class RegisterController extends AbstractController
                 $manager->persist($userEntity);
                 $manager->flush();
 
-                $result = $mailer->mail('contact@snowtricks.com', $userEntity->getEmail(), 'Confirmation de compte', 'email/confirm.html.twig', ['user'=>$userEntity]);
+                $result = $mailer->mail('contact@snowtricks.com', (string)$userEntity->getEmail(), 'Confirmation de compte', 'email/confirm.html.twig', ['user'=>$userEntity]);
 
                 if ($result) {
                     $this->addFlash('success', $this->translator->trans('register.mailSendSuccess'));
                 } else {
                     $this->addFlash('danger',$this->translator->trans('register.flashDanger'));
                 }
-            } else {
-                $this->addFlash('danger', $this->translator->trans('register.mailSendError'));
             }
         }
 
@@ -238,7 +232,7 @@ class RegisterController extends AbstractController
 
             $url = $this->signer->sign($url);
 
-            $result = $mailer->mail('contact@snowtricks.com', $userEntity->getEmail(), 'Reinitialisation de mot de passe', 'email/reset.html.twig', ['user'=>$userEntity,'url'=>$url]);
+            $result = $mailer->mail('contact@snowtricks.com', (string)$userEntity->getEmail(), 'Reinitialisation de mot de passe', 'email/reset.html.twig', ['user'=>$userEntity,'url'=>$url]);
 
             if ($result) {
                 $this->addFlash('success', $this->translator->trans('forgotten.flashSuccess'));
@@ -289,8 +283,10 @@ class RegisterController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            if ($user->getUsername() === $form->get('username')->getData()) {
-                $password = $passwordHasher->hashPassword($user, $form->get('password')->getData());
+            $pass = (string)$form->get('password')->getData();
+
+            if ($user->getUsername() === $pass) {
+                $password = $passwordHasher->hashPassword($user, $pass);
                 $user->setPassword($password);
                 $user->setTokenReset(null);
                 $manager->persist($user);
